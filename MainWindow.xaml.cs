@@ -25,6 +25,10 @@ namespace App3
         private Point _dragStartPoint;
         private ResizeDirection _resizeDirection;
         private string _currentTool;
+        private Point _lastPoint;
+        private Path _currentPath;
+        private List<Line> _linesList = new List<Line>();
+        private int _deleteIndex = -1;
 
         public MainWindow()
         {
@@ -127,6 +131,9 @@ namespace App3
                             _strokeThickness
                         );
                         break;
+                    case "Brush":
+                        _lastPoint = e.GetCurrentPoint(DrawingCanvas).Position;
+                        break;
                     default:
                         _currentFigure = null;
                         break;
@@ -145,7 +152,16 @@ namespace App3
         {
             foreach (var element in DrawingCanvas.Children)
             {
-                if (element is Shape shape)
+                if(element is Path path)
+                {
+                    path.Data.Bounds.Contains(point);
+
+                    if (path.Data.Bounds.Contains(point))
+                    {
+                        return path;
+                    }
+                }
+                else if (element is Shape shape)
                 {
                     Rect bounds = new Rect(
                         Canvas.GetLeft(shape),
@@ -159,6 +175,7 @@ namespace App3
                         return shape;
                     }
                 }
+                
             }
             return null;
         }
@@ -168,30 +185,54 @@ namespace App3
         {
             var currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
 
-            if (_isDrawing && _currentFigure != null)
+            if (_isDrawing)
             {
-                // Draw a new figure dynamically
-                double width = Math.Abs(currentPoint.X - _startPoint.X);
-                double height = Math.Abs(currentPoint.Y - _startPoint.Y);
-
-                if (_currentFigure is RectangleFigure rectangleFigure)
+                if (_currentFigure != null)
                 {
-                    rectangleFigure.X = Math.Min(_startPoint.X, currentPoint.X);
-                    rectangleFigure.Y = Math.Min(_startPoint.Y, currentPoint.Y);
-                    rectangleFigure.Width = width;
-                    rectangleFigure.Height = height;
-                }
-                else if (_currentFigure is CircleFigure circleFigure)
-                {
-                    double diameter = Math.Max(width, height);
-                    circleFigure.X = _startPoint.X - diameter / 2;
-                    circleFigure.Y = _startPoint.Y - diameter / 2;
-                    circleFigure.Width = diameter;
-                    circleFigure.Height = diameter;
-                }
+                    // Draw a new figure dynamically
+                    double width = Math.Abs(currentPoint.X - _startPoint.X);
+                    double height = Math.Abs(currentPoint.Y - _startPoint.Y);
 
-                // Redraw the current figure
-                UpdateFigureOnCanvas();
+                    if (_currentFigure is RectangleFigure rectangleFigure)
+                    {
+                        rectangleFigure.X = Math.Min(_startPoint.X, currentPoint.X);
+                        rectangleFigure.Y = Math.Min(_startPoint.Y, currentPoint.Y);
+                        rectangleFigure.Width = width;
+                        rectangleFigure.Height = height;
+                    }
+                    else if (_currentFigure is CircleFigure circleFigure)
+                    {
+                        double diameter = Math.Max(width, height);
+                        circleFigure.X = _startPoint.X - diameter / 2;
+                        circleFigure.Y = _startPoint.Y - diameter / 2;
+                        circleFigure.Width = diameter;
+                        circleFigure.Height = diameter;
+                    }
+
+                    // Redraw the current figure
+                    UpdateFigureOnCanvas();
+                }
+                else if (_currentTool == "Brush")
+                {
+                    currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
+
+                    var line = new Line
+                    {
+                        X1 = _lastPoint.X,
+                        Y1 = _lastPoint.Y,
+                        X2 = currentPoint.X,
+                        Y2 = currentPoint.Y,
+                        Stroke = _brushColor,
+                        StrokeThickness = 2
+                    };
+                    DrawingCanvas.Children.Add(line);
+                    _linesList.Add(line);
+
+                    if(_deleteIndex == -1)
+                        _deleteIndex = DrawingCanvas.Children.Count - 1;
+
+                    _lastPoint = currentPoint;
+                }
             }
             else if (_selectedElement != null)
             {
@@ -236,7 +277,51 @@ namespace App3
                 {
                     _drawnElements.Add(DrawingCanvas.Children.Last());
                 }
-                _currentFigure = null;
+                if (_currentTool == "Brush")
+                {
+                    _currentFigure = null;
+                    if (_linesList.Count == 0) return;
+
+                    PathFigure pathFigure = new PathFigure();
+
+                    // Add segments to the PathFigure based on the list of lines
+                    for (int i = 0; i < _linesList.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            // Set the start point of the PathFigure to the first line's start point
+                            pathFigure.StartPoint = new Point(_linesList[i].X1, _linesList[i].Y1);
+                        }
+
+                        // Create a LineSegment and set its Point property
+                        LineSegment lineSegment = new LineSegment();
+                        lineSegment.Point = new Point(_linesList[i].X2, _linesList[i].Y2);
+
+                        // Add the LineSegment to the PathFigure
+                        pathFigure.Segments.Add(lineSegment);
+
+                    }
+                    _linesList.Clear();
+
+                    while(DrawingCanvas.Children.Count > _deleteIndex)
+                    {
+                        DrawingCanvas.Children.RemoveAt(_deleteIndex);
+                    }
+
+                    _deleteIndex = -1;
+
+                    Path path = new Path
+                    {
+                        Stroke = _brushColor,
+                        StrokeThickness = 2,
+                        Data = new PathGeometry() // Initialize with empty geometry
+                    };
+                    PathGeometry pathGeometry = new PathGeometry();
+                    pathGeometry.Figures.Add(pathFigure);
+
+                    path.Data = pathGeometry;
+                    DrawingCanvas.Children.Add(path);
+                }
             }
             else if (_selectedElement != null)
             {
@@ -344,16 +429,26 @@ namespace App3
         // Move an element
         private void MoveElement(UIElement element, Point currentPoint)
         {
+            double deltaX = currentPoint.X - _dragStartPoint.X;
+            double deltaY = currentPoint.Y - _dragStartPoint.Y;
             if (element is Shape shape)
             {
-                double deltaX = currentPoint.X - _dragStartPoint.X;
-                double deltaY = currentPoint.Y - _dragStartPoint.Y;
-
-                Canvas.SetLeft(shape, Canvas.GetLeft(shape) + deltaX);
-                Canvas.SetTop(shape, Canvas.GetTop(shape) + deltaY);
-
-                _dragStartPoint = currentPoint;
+                if (shape != null)
+                {
+                    Canvas.SetLeft(shape, Canvas.GetLeft(shape) + deltaX);
+                    Canvas.SetTop(shape, Canvas.GetTop(shape) + deltaY);
+                }
             }
+            else if (element is Path path)
+            {
+                if (path != null)
+                {
+                    Canvas.SetLeft(path, Canvas.GetLeft(path) + deltaX);
+                    Canvas.SetTop(path, Canvas.GetTop(path) + deltaY);
+                }
+
+            }
+            _dragStartPoint = currentPoint;
         }
 
         // Enum for shape types
@@ -430,7 +525,7 @@ namespace App3
 
         private void SelectSnowman(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
