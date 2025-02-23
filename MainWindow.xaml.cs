@@ -1,531 +1,533 @@
-using GraphicsLibrary;
-using Microsoft.UI;
+
+#region v3
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using Windows.UI;
+using GraphicsLibrary;
+using Microsoft.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Foundation;
-using static App3.MainWindow;
 
 namespace App3
 {
     public sealed partial class MainWindow : Window
     {
-        private List<UIElement> _drawnElements = new List<UIElement>();
-        private bool _isDrawing = false;
-        private UIElement _selectedElement = null; // Selected figure
-        private Figure _currentFigure;
-        private Point _startPoint;
-        private SolidColorBrush _brushColor = new SolidColorBrush(Colors.Black);
-        private double _strokeThickness = 2;
-        private Point _dragStartPoint;
-        private ResizeDirection _resizeDirection;
-        private string _currentTool;
-        private Point _lastPoint;
-        private Path _currentPath;
-        private List<Line> _linesList = new List<Line>();
-        private int _deleteIndex = -1;
+        private Tool selectedTool = Tool.Brush;
+        private Polyline currentStroke;
+        private bool isDrawing = false;
+        private Point startPoint;
+        private Figure previewFigure;
+        private Canvas previewLayer;
+
+        private bool isDragging = false;
+        private Point lastPointerPosition;
+        private UIElement selectedElement;
+
+        private enum Tool
+        {
+            Brush,
+            Rectangle,
+            Circle
+        }
 
         public MainWindow()
         {
             this.InitializeComponent();
+            previewLayer = new Canvas();
+            DrawingCanvas.Children.Add(previewLayer);
         }
 
-        private void SelectBrush(object sender, RoutedEventArgs e)
-        {
-            // Set the current tool to brush
-            _currentTool = "Brush";
-        }
+        private void SelectBrush(object sender, RoutedEventArgs e) => selectedTool = Tool.Brush;
 
-        private void ToggleTheme_Click(object sender, RoutedEventArgs e)
-        {
-            // Toggle theme logic can be implemented here
-        }
+        private void SelectRectangle(object sender, RoutedEventArgs e) => selectedTool = Tool.Rectangle;
 
-        private void NewFile_Click(object sender, RoutedEventArgs e)
-        {
-            // Logic for creating a new file
-        }
+        private void SelectCircle(object sender, RoutedEventArgs e) => selectedTool = Tool.Circle;
 
-        private void OpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            // Logic for opening a file
-        }
-
-        private void SaveFile_Click(object sender, RoutedEventArgs e)
-        {
-            // Logic for saving a file
-        }
-
-        // Clear the canvas
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
             DrawingCanvas.Children.Clear();
-            _drawnElements.Clear();
-            _selectedElement = null;
+            previewLayer = new Canvas();
+            DrawingCanvas.Children.Add(previewLayer);
         }
 
-        // Select Rectangle tool
-        private void SelectRectangle(object sender, RoutedEventArgs e)
-        {
-            _currentTool = "Rectangle";
-            _currentFigure = null; // Reset current figure
-        }
-
-        // Select Circle tool
-        private void SelectCircle(object sender, RoutedEventArgs e)
-        {
-            _currentTool = "Circle";
-            _currentFigure = null; // Reset current figure
-        }
-
-        // Handle pointer press (start drawing or selecting)
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var point = e.GetCurrentPoint(DrawingCanvas).Position;
+            startPoint = point;
+            isDrawing = true;
 
-            if (_isDrawing)
+            selectedElement = e.OriginalSource as UIElement; // Проверяем, нажали ли на фигуру
+            if (selectedElement != null && selectedElement is Shape)
             {
-                return; // If already drawing, ignore
+                isDragging = true;
+                lastPointerPosition = point;
+                return;
             }
 
-            // Check if there's a figure under the cursor
-            _selectedElement = FindElementAtPoint(point);
-
-            if (_selectedElement != null)
+            if (selectedTool == Tool.Brush)
             {
-                // If clicked on a selected figure, start drag-and-drop
-                _dragStartPoint = point;
-                _resizeDirection = DetermineResizeDirection(_selectedElement, point);
-            }
-            else
-            {
-                // If nothing is selected, start drawing
-                _isDrawing = true;
-                _startPoint = point;
-
-                switch (_currentTool)
+                currentStroke = new Polyline
                 {
-                    case "Rectangle":
-                        _currentFigure = new RectangleFigure(
-                            _startPoint.X,
-                            _startPoint.Y,
-                            0,
-                            0,
-                            null,
-                            _brushColor,
-                            _strokeThickness
-                        );
-                        break;
-                    case "Circle":
-                        _currentFigure = new CircleFigure(
-                            _startPoint.X,
-                            _startPoint.Y,
-                            0,
-                            null,
-                            _brushColor,
-                            _strokeThickness
-                        );
-                        break;
-                    case "Brush":
-                        _lastPoint = e.GetCurrentPoint(DrawingCanvas).Position;
-                        break;
-                    default:
-                        _currentFigure = null;
-                        break;
-                }
-
-                if (_currentFigure != null)
-                {
-                    _currentFigure.Draw(DrawingCanvas);
-                    _drawnElements.Add(DrawingCanvas.Children.Last());
-                }
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = 2
+                };
+                currentStroke.Points.Add(point);
+                DrawingCanvas.Children.Add(currentStroke);
             }
         }
 
-        // Find element at a given point
-        private UIElement FindElementAtPoint(Point point)
-        {
-            foreach (var element in DrawingCanvas.Children)
-            {
-                if(element is Path path)
-                {
-                    path.Data.Bounds.Contains(point);
-
-                    if (path.Data.Bounds.Contains(point))
-                    {
-                        return path;
-                    }
-                }
-                else if (element is Shape shape)
-                {
-                    Rect bounds = new Rect(
-                        Canvas.GetLeft(shape),
-                        Canvas.GetTop(shape),
-                        shape.Width,
-                        shape.Height
-                    );
-
-                    if (bounds.Contains(point))
-                    {
-                        return shape;
-                    }
-                }
-                
-            }
-            return null;
-        }
-
-        // Handle pointer move (draw, resize, or move)
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
-
-            if (_isDrawing)
+            if (isDragging && selectedElement != null)
             {
-                if (_currentFigure != null)
+                var point = e.GetCurrentPoint(DrawingCanvas).Position;
+                double dx = point.X - lastPointerPosition.X;
+                double dy = point.Y - lastPointerPosition.Y;
+                lastPointerPosition = point;
+
+                if (selectedElement is Shape shape)
                 {
-                    // Draw a new figure dynamically
-                    double width = Math.Abs(currentPoint.X - _startPoint.X);
-                    double height = Math.Abs(currentPoint.Y - _startPoint.Y);
-
-                    if (_currentFigure is RectangleFigure rectangleFigure)
-                    {
-                        rectangleFigure.X = Math.Min(_startPoint.X, currentPoint.X);
-                        rectangleFigure.Y = Math.Min(_startPoint.Y, currentPoint.Y);
-                        rectangleFigure.Width = width;
-                        rectangleFigure.Height = height;
-                    }
-                    else if (_currentFigure is CircleFigure circleFigure)
-                    {
-                        double diameter = Math.Max(width, height);
-                        circleFigure.X = _startPoint.X - diameter / 2;
-                        circleFigure.Y = _startPoint.Y - diameter / 2;
-                        circleFigure.Width = diameter;
-                        circleFigure.Height = diameter;
-                    }
-
-                    // Redraw the current figure
-                    UpdateFigureOnCanvas();
+                    Canvas.SetLeft(shape, Canvas.GetLeft(shape) + dx);
+                    Canvas.SetTop(shape, Canvas.GetTop(shape) + dy);
                 }
-                else if (_currentTool == "Brush")
-                {
-                    currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
-
-                    var line = new Line
-                    {
-                        X1 = _lastPoint.X,
-                        Y1 = _lastPoint.Y,
-                        X2 = currentPoint.X,
-                        Y2 = currentPoint.Y,
-                        Stroke = _brushColor,
-                        StrokeThickness = 2
-                    };
-                    DrawingCanvas.Children.Add(line);
-                    _linesList.Add(line);
-
-                    if(_deleteIndex == -1)
-                        _deleteIndex = DrawingCanvas.Children.Count - 1;
-
-                    _lastPoint = currentPoint;
-                }
+                return;
             }
-            else if (_selectedElement != null)
+
+            if (!isDrawing) return;
+
+            var pointMove = e.GetCurrentPoint(DrawingCanvas).Position;
+
+            if (selectedTool == Tool.Brush && currentStroke != null)
             {
-                // Move or resize the selected figure
-                if (_resizeDirection != ResizeDirection.None)
+                currentStroke.Points.Add(pointMove);
+            }
+            else if (selectedTool == Tool.Rectangle || selectedTool == Tool.Circle)
+            {
+                double x = Math.Min(startPoint.X, pointMove.X);
+                double y = Math.Min(startPoint.Y, pointMove.Y);
+                double width = Math.Abs(pointMove.X - startPoint.X);
+                double height = Math.Abs(pointMove.Y - startPoint.Y);
+
+                if (selectedTool == Tool.Rectangle)
                 {
-                    ResizeElement(_selectedElement, currentPoint);
+                    previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
                 }
-                else
+                else if (selectedTool == Tool.Circle)
                 {
-                    MoveElement(_selectedElement, currentPoint);
+                    previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
                 }
+
+                previewLayer.Children.Clear();
+                previewFigure?.Draw(previewLayer);
             }
         }
 
-        // Update the figure on the canvas
-        private void UpdateFigureOnCanvas()
-        {
-            if (_currentFigure != null)
-            {
-                // Remove the previous figure
-                if (_drawnElements.Count > 0 && _drawnElements[^1] is UIElement lastElement)
-                {
-                    DrawingCanvas.Children.Remove(lastElement);
-                    _drawnElements.RemoveAt(_drawnElements.Count - 1);
-                }
-
-                // Draw the updated figure
-                _currentFigure.Draw(DrawingCanvas);
-                _drawnElements.Add(DrawingCanvas.Children.Last());
-            }
-        }
-
-        // Handle pointer release (finalize drawing or selection)
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_isDrawing)
+            isDrawing = false;
+            isDragging = false;
+            selectedElement = null;
+
+            if (previewFigure != null)
             {
-                // Finalize drawing of the new figure
-                _isDrawing = false;
-                if (_currentFigure != null)
-                {
-                    _drawnElements.Add(DrawingCanvas.Children.Last());
-                }
-                if (_currentTool == "Brush")
-                {
-                    _currentFigure = null;
-                    if (_linesList.Count == 0) return;
-
-                    PathFigure pathFigure = new PathFigure();
-
-                    // Add segments to the PathFigure based on the list of lines
-                    for (int i = 0; i < _linesList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            // Set the start point of the PathFigure to the first line's start point
-                            pathFigure.StartPoint = new Point(_linesList[i].X1, _linesList[i].Y1);
-                        }
-
-                        // Create a LineSegment and set its Point property
-                        LineSegment lineSegment = new LineSegment();
-                        lineSegment.Point = new Point(_linesList[i].X2, _linesList[i].Y2);
-
-                        // Add the LineSegment to the PathFigure
-                        pathFigure.Segments.Add(lineSegment);
-
-                    }
-                    _linesList.Clear();
-
-                    while(DrawingCanvas.Children.Count > _deleteIndex)
-                    {
-                        DrawingCanvas.Children.RemoveAt(_deleteIndex);
-                    }
-
-                    _deleteIndex = -1;
-
-                    Path path = new Path
-                    {
-                        Stroke = _brushColor,
-                        StrokeThickness = 2,
-                        Data = new PathGeometry() // Initialize with empty geometry
-                    };
-                    PathGeometry pathGeometry = new PathGeometry();
-                    pathGeometry.Figures.Add(pathFigure);
-
-                    path.Data = pathGeometry;
-                    DrawingCanvas.Children.Add(path);
-                }
-            }
-            else if (_selectedElement != null)
-            {
-                // Finalize drag-and-drop or resizing
-                _resizeDirection = ResizeDirection.None; // Reset resize direction
-                _selectedElement = null; // Reset selected element
+                previewFigure.Draw(DrawingCanvas);
+                previewFigure = null;
+                previewLayer.Children.Clear();
             }
         }
 
-        // Determine resize direction
-        private ResizeDirection DetermineResizeDirection(UIElement element, Point point)
-        {
-            if (element is Shape shape)
-            {
-                Rect bounds = new Rect(
-                    Canvas.GetLeft(shape),
-                    Canvas.GetTop(shape),
-                    shape.Width,
-                    shape.Height
-                );
-
-                double padding = 10; // Capture area size
-
-                if (point.Y < bounds.Top + padding)
-                {
-                    if (point.X < bounds.Left + padding)
-                        return ResizeDirection.TopLeft;
-                    else if (point.X > bounds.Right - padding)
-                        return ResizeDirection.TopRight;
-                    else
-                        return ResizeDirection.Top;
-                }
-                else if (point.Y > bounds.Bottom - padding)
-                {
-                    if (point.X < bounds.Left + padding)
-                        return ResizeDirection.BottomLeft;
-                    else if (point.X > bounds.Right - padding)
-                        return ResizeDirection.BottomRight;
-                    else
-                        return ResizeDirection.Bottom;
-                }
-                else if (point.X < bounds.Left + padding)
-                {
-                    return ResizeDirection.Left;
-                }
-                else if (point.X > bounds.Right - padding)
-                {
-                    return ResizeDirection.Right;
-                }
-            }
-
-            return ResizeDirection.None;
-        }
-
-        // Resize an element
-        private void ResizeElement(UIElement element, Point currentPoint)
-        {
-            if (element is Shape shape)
-            {
-                double left = Canvas.GetLeft(shape);
-                double top = Canvas.GetTop(shape);
-                double width = shape.Width;
-                double height = shape.Height;
-
-                switch (_resizeDirection)
-                {
-                    case ResizeDirection.TopLeft:
-                        Canvas.SetLeft(shape, Math.Min(left, currentPoint.X));
-                        Canvas.SetTop(shape, Math.Min(top, currentPoint.Y));
-                        shape.Width = Math.Max(width + (left - currentPoint.X), 10);
-                        shape.Height = Math.Max(height + (top - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.Top:
-                        Canvas.SetTop(shape, Math.Min(top, currentPoint.Y));
-                        shape.Height = Math.Max(height + (top - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.TopRight:
-                        Canvas.SetTop(shape, Math.Min(top, currentPoint.Y));
-                        shape.Width = Math.Max(Math.Abs(Canvas.GetLeft(shape) - currentPoint.X), 10);
-                        shape.Height = Math.Max(height + (top - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.Right:
-                        shape.Width = Math.Max(Math.Abs(Canvas.GetLeft(shape) - currentPoint.X), 10);
-                        break;
-                    case ResizeDirection.BottomRight:
-                        shape.Width = Math.Max(Math.Abs(Canvas.GetLeft(shape) - currentPoint.X), 10);
-                        shape.Height = Math.Max(Math.Abs(Canvas.GetTop(shape) - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.Bottom:
-                        shape.Height = Math.Max(Math.Abs(Canvas.GetTop(shape) - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.BottomLeft:
-                        Canvas.SetLeft(shape, Math.Min(left, currentPoint.X));
-                        shape.Width = Math.Max(width + (left - currentPoint.X), 10);
-                        shape.Height = Math.Max(Math.Abs(Canvas.GetTop(shape) - currentPoint.Y), 10);
-                        break;
-                    case ResizeDirection.Left:
-                        Canvas.SetLeft(shape, Math.Min(left, currentPoint.X));
-                        shape.Width = Math.Max(width + (left - currentPoint.X), 10);
-                        break;
-                }
-            }
-        }
-
-        // Move an element
-        private void MoveElement(UIElement element, Point currentPoint)
-        {
-            double deltaX = currentPoint.X - _dragStartPoint.X;
-            double deltaY = currentPoint.Y - _dragStartPoint.Y;
-            if (element is Shape shape)
-            {
-                if (shape != null)
-                {
-                    Canvas.SetLeft(shape, Canvas.GetLeft(shape) + deltaX);
-                    Canvas.SetTop(shape, Canvas.GetTop(shape) + deltaY);
-                }
-            }
-            else if (element is Path path)
-            {
-                if (path != null)
-                {
-                    Canvas.SetLeft(path, Canvas.GetLeft(path) + deltaX);
-                    Canvas.SetTop(path, Canvas.GetTop(path) + deltaY);
-                }
-
-            }
-            _dragStartPoint = currentPoint;
-        }
-
-        // Enum for shape types
-        public enum ShapeType
-        {
-            None,
-            Rectangle,
-            Circle,
-            Snowman
-        }
-
-        // Enum for resize directions
-        public enum ResizeDirection
-        {
-            None,
-            TopLeft,
-            Top,
-            TopRight,
-            Right,
-            BottomRight,
-            Bottom,
-            BottomLeft,
-            Left
-        }
-
-        // Highlight selected element
-        private void HighlightSelectedElement(UIElement element)
-        {
-            if (element is Shape shape)
-            {
-                shape.Stroke = new SolidColorBrush(Colors.Green); // Green border for selected figure
-                shape.StrokeThickness = 4; // Increase border thickness
-            }
-        }
-
-        // Unhighlight selected element
-        private void UnhighlightSelectedElement(UIElement element)
-        {
-            if (element is Shape shape)
-            {
-                shape.Stroke = new SolidColorBrush(Colors.Black); // Restore black border
-                shape.StrokeThickness = 2; // Restore default thickness
-            }
-        }
-
-        // Remove selected element
-        private void RemoveSelectedElement(object sender, RoutedEventArgs e)
-        {
-            if (_selectedElement != null)
-            {
-                DrawingCanvas.Children.Remove(_selectedElement);
-                _drawnElements.Remove(_selectedElement);
-                UnhighlightSelectedElement(_selectedElement);
-                _selectedElement = null;
-            }
-        }
-
-        // Select an element
-        private void SelectElement(UIElement element)
-        {
-            if (_selectedElement != null)
-            {
-                UnhighlightSelectedElement(_selectedElement);
-            }
-
-            _selectedElement = element;
-            HighlightSelectedElement(_selectedElement);
-        }
-
-        private void Canvas_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void SelectSnowman(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
     }
 }
+#endregion
+
+
+#region v1
+
+//using Microsoft.UI.Xaml;
+//using Microsoft.UI.Xaml.Controls;
+//using Microsoft.UI.Xaml.Input;
+//using Microsoft.UI.Xaml.Media;
+//using Microsoft.UI.Xaml.Shapes;
+//using Windows.UI;
+//using GraphicsLibrary;
+//using Microsoft.UI;
+//using System;
+//using Windows.Foundation;
+
+//namespace App3
+//{
+//    public sealed partial class MainWindow : Window
+//    {
+//        private Tool selectedTool = Tool.Brush;
+//        private Polyline currentStroke;
+//        private bool isDrawing = false;
+//        private Point startPoint;
+//        private Figure previewFigure;
+//        private Canvas previewLayer;
+//        private enum Tool
+//        {
+//            Brush,
+//            Rectangle,
+//            Circle
+//        }
+
+//        public MainWindow()
+//        {
+//            this.InitializeComponent();
+//            previewLayer = new Canvas();
+//            DrawingCanvas.Children.Add(previewLayer);
+//        }
+
+//        private void SelectBrush(object sender, RoutedEventArgs e) => selectedTool = Tool.Brush;
+
+//        private void SelectRectangle(object sender, RoutedEventArgs e) => selectedTool = Tool.Rectangle;
+
+//        private void SelectCircle(object sender, RoutedEventArgs e) => selectedTool = Tool.Circle;
+
+//        private void ClearCanvas(object sender, RoutedEventArgs e)
+//        {
+//            DrawingCanvas.Children.Clear();
+//            previewLayer = new Canvas();
+//            DrawingCanvas.Children.Add(previewLayer);
+//        }
+
+//        private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
+//        {
+//            var point = e.GetCurrentPoint(DrawingCanvas).Position;
+//            startPoint = point;
+//            isDrawing = true;
+
+//            if (selectedTool == Tool.Brush)
+//            {
+//                currentStroke = new Polyline
+//                {
+//                    Stroke = new SolidColorBrush(Colors.Black),
+//                    StrokeThickness = 2
+//                };
+//                currentStroke.Points.Add(point);
+//                DrawingCanvas.Children.Add(currentStroke);
+//            }
+//        }
+
+//        private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (!isDrawing) return;
+
+//            var point = e.GetCurrentPoint(DrawingCanvas).Position;
+
+//            if (selectedTool == Tool.Brush && currentStroke != null)
+//            {
+//                currentStroke.Points.Add(point);
+//            }
+//            else if (selectedTool == Tool.Rectangle || selectedTool == Tool.Circle)
+//            {
+//                double x = Math.Min(startPoint.X, point.X);
+//                double y = Math.Min(startPoint.Y, point.Y);
+//                double width = Math.Abs(point.X - startPoint.X);
+//                double height = Math.Abs(point.Y - startPoint.Y);
+
+//                if (selectedTool == Tool.Rectangle)
+//                {
+//                    previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
+//                }
+//                else if (selectedTool == Tool.Circle)
+//                {
+//                    previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
+//                }
+
+//                previewLayer.Children.Clear();
+//                previewFigure?.Draw(previewLayer);
+//            }
+//        }
+
+//        private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (!isDrawing) return;
+//            isDrawing = false;
+
+//            if (previewFigure != null)
+//            {
+//                previewFigure.Draw(DrawingCanvas);
+//                previewFigure = null;
+//                previewLayer.Children.Clear();
+//            }
+
+//            int c = DrawingCanvas.Children.Count;
+//        }
+//    }
+//}
+
+#endregion
+
+#region v2
+
+//using Microsoft.UI.Xaml;
+//using Microsoft.UI.Xaml.Controls;
+//using Microsoft.UI.Xaml.Input;
+//using Microsoft.UI.Xaml.Media;
+//using Microsoft.UI.Xaml.Shapes;
+//using Windows.UI;
+//using GraphicsLibrary;
+//using System;
+//using Windows.Foundation;
+//using Microsoft.UI;
+
+//namespace App3
+//{
+//    public sealed partial class MainWindow : Window
+//    {
+//        private enum Tool { Brush, Rectangle, Circle }
+//        private Tool selectedTool = Tool.Brush;
+//        private Polyline currentStroke;
+//        private bool isDrawing = false;
+//        private Point startPoint;
+//        private Figure previewFigure;
+//        private Canvas previewLayer;
+//        private Figure selectedFigure;
+//        private Rectangle selectionRectangle;
+//        private Canvas resizeHandles;
+
+//        public MainWindow()
+//        {
+//            this.InitializeComponent();
+//            previewLayer = new Canvas();
+//            DrawingCanvas.Children.Add(previewLayer);
+//        }
+
+//        private void SelectBrush(object sender, RoutedEventArgs e)
+//        {
+//            selectedTool = Tool.Brush;
+//        }
+
+//        private void SelectRectangle(object sender, RoutedEventArgs e)
+//        {
+//            selectedTool = Tool.Rectangle;
+//        }
+
+//        private void SelectCircle(object sender, RoutedEventArgs e)
+//        {
+//            selectedTool = Tool.Circle;
+//        }
+
+//        private void ClearCanvas(object sender, RoutedEventArgs e)
+//        {
+//            DrawingCanvas.Children.Clear();
+//            previewLayer = new Canvas();
+//            DrawingCanvas.Children.Add(previewLayer);
+//            selectedFigure = null;
+//            RemoveSelection();
+//        }
+
+//        private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
+//        {
+//            var point = e.GetCurrentPoint(DrawingCanvas).Position;
+//            startPoint = point;
+//            isDrawing = true;
+
+//            if (selectedTool == Tool.Brush)
+//            {
+//                currentStroke = new Polyline
+//                {
+//                    Stroke = new SolidColorBrush(Colors.Black),
+//                    StrokeThickness = 2
+//                };
+//                currentStroke.Points.Add(point);
+//                DrawingCanvas.Children.Add(currentStroke);
+//            }
+//            else
+//            {
+//                CheckFigureSelection(point);
+//            }
+//        }
+
+//        private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (!isDrawing) return;
+
+//            var point = e.GetCurrentPoint(DrawingCanvas).Position;
+
+//            if (selectedTool == Tool.Brush && currentStroke != null)
+//            {
+//                currentStroke.Points.Add(point);
+//            }
+//            else if (selectedTool == Tool.Rectangle || selectedTool == Tool.Circle)
+//            {
+//                double x = Math.Min(startPoint.X, point.X);
+//                double y = Math.Min(startPoint.Y, point.Y);
+//                double width = Math.Abs(point.X - startPoint.X);
+//                double height = Math.Abs(point.Y - startPoint.Y);
+
+//                if (selectedTool == Tool.Rectangle)
+//                {
+//                    previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
+//                }
+//                else if (selectedTool == Tool.Circle)
+//                {
+//                    previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
+//                }
+
+//                previewLayer.Children.Clear();
+//                previewFigure?.Draw(previewLayer);
+//            }
+//        }
+
+//        private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (!isDrawing) return;
+//            isDrawing = false;
+
+//            if (previewFigure != null)
+//            {
+//                previewFigure.Draw(DrawingCanvas);
+//                previewFigure = null;
+//                previewLayer.Children.Clear();
+//            }
+//        }
+
+//        private void CheckFigureSelection(Point point)
+//        {
+//            foreach (var child in DrawingCanvas.Children)
+//            {
+//                if (child is Shape shape)
+//                {
+//                    double left = Canvas.GetLeft(shape);
+//                    double top = Canvas.GetTop(shape);
+//                    double right = left + shape.Width;
+//                    double bottom = top + shape.Height;
+
+//                    if (point.X >= left && point.X <= right && point.Y >= top && point.Y <= bottom)
+//                    {
+//                        SelectFigure(shape, left, top);
+//                        return;
+//                    }
+//                }
+//            }
+
+//            RemoveSelection();
+//        }
+
+//        private void SelectFigure(Shape shape, double x, double y)
+//        {
+//            selectedFigure = new RectangleFigure(x, y, shape.Width, shape.Height, shape.Fill, shape.Stroke, shape.StrokeThickness);
+//            DrawSelectionRectangle(x, y, shape.Width, shape.Height);
+//        }
+
+//        private void DrawSelectionRectangle(double x, double y, double width, double height)
+//        {
+//            RemoveSelection(); // Удаляем старое выделение
+
+//            selectionRectangle = new Rectangle
+//            {
+//                Width = width + 10,
+//                Height = height + 10,
+//                Stroke = new SolidColorBrush(Colors.Blue),
+//                StrokeThickness = 2,
+//                StrokeDashArray = new DoubleCollection() { 4, 4 }
+//            };
+
+//            Canvas.SetLeft(selectionRectangle, x - 5);
+//            Canvas.SetTop(selectionRectangle, y - 5);
+//            DrawingCanvas.Children.Add(selectionRectangle);
+
+//            // Обновляем позиции квадратиков
+//            DrawResizeHandles(x, y, width, height);
+//        }
+
+
+//        private void DrawResizeHandles(double x, double y, double width, double height)
+//        {
+//            if (resizeHandles != null)
+//                DrawingCanvas.Children.Remove(resizeHandles);
+
+//            resizeHandles = new Canvas();
+
+//            double[] handleOffsets = { -5, width - 5 };
+//            foreach (double dx in handleOffsets)
+//            {
+//                foreach (double dy in handleOffsets)
+//                {
+//                    var handle = new Rectangle
+//                    {
+//                        Width = 10,
+//                        Height = 10,
+//                        Fill = new SolidColorBrush(Colors.White),
+//                        Stroke = new SolidColorBrush(Colors.Black),
+//                        StrokeThickness = 1
+//                    };
+
+//                    Canvas.SetLeft(handle, x + dx);
+//                    Canvas.SetTop(handle, y + dy);
+
+//                    handle.PointerPressed += ResizeHandle_PointerPressed;
+//                    resizeHandles.Children.Add(handle);
+//                }
+//            }
+
+//            DrawingCanvas.Children.Add(resizeHandles);
+//        }
+
+
+//        private void ResizeHandle_PointerPressed(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (sender is Rectangle handle)
+//            {
+//                handle.CapturePointer(e.Pointer);
+//                handle.PointerMoved += ResizeHandle_PointerMoved;
+//                handle.PointerReleased += ResizeHandle_PointerReleased;
+//            }
+//        }
+
+//        private void ResizeHandle_PointerMoved(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (selectedFigure == null || sender is not Rectangle handle) return;
+
+//            var point = e.GetCurrentPoint(DrawingCanvas).Position;
+//            double x = Canvas.GetLeft(selectionRectangle) + 5;
+//            double y = Canvas.GetTop(selectionRectangle) + 5;
+//            double newWidth = point.X - x;
+//            double newHeight = point.Y - y;
+
+//            // Минимальные размеры фигуры
+//            newWidth = Math.Max(newWidth, 10);
+//            newHeight = Math.Max(newHeight, 10);
+
+//            // Удаляем старую фигуру перед отрисовкой новой
+//            if (selectedFigure.Shape != null)
+//                DrawingCanvas.Children.Remove(selectedFigure.Shape);
+
+//            selectedFigure.Width = newWidth;
+//            selectedFigure.Height = newHeight;
+
+//            // Перерисовываем фигуру
+//            selectedFigure.Draw(DrawingCanvas);
+
+//            // Перерисовываем рамку выделения
+//            DrawSelectionRectangle(x, y, selectedFigure.Width, selectedFigure.Height);
+//        }
+
+
+//        private void ResizeHandle_PointerReleased(object sender, PointerRoutedEventArgs e)
+//        {
+//            if (sender is Rectangle handle)
+//            {
+//                handle.ReleasePointerCapture(e.Pointer);
+//                handle.PointerMoved -= ResizeHandle_PointerMoved;
+//                handle.PointerReleased -= ResizeHandle_PointerReleased;
+//            }
+//        }
+
+//        private void RemoveSelection()
+//        {
+//            DrawingCanvas.Children.Remove(selectionRectangle);
+//            DrawingCanvas.Children.Remove(resizeHandles);
+//            selectionRectangle = null;
+//            resizeHandles = null;
+//        }
+//    }
+//}
+
+#endregion

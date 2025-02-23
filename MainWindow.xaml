@@ -7,44 +7,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="App3">
+    Title="Drawing App">
 
     <Grid>
-        
-        <!-- Определяем две колонки, одна для панели инструментов, другая для холста -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <!-- Левое меню -->
             <ColumnDefinition Width="*"/>
-            <!-- Холст -->
         </Grid.ColumnDefinitions>
 
-        <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <MenuBarItem Title="File">
-                <MenuFlyoutItem Text="New" Click="NewFile_Click"/>
-                <MenuFlyoutItem Text="Open" Click="OpenFile_Click"/>
-                <MenuFlyoutItem Text="Save" Click="SaveFile_Click"/>
-            </MenuBarItem>
-            <MenuBarItem Title="View">
-                <MenuFlyoutItem Text="Toggle Dark/Light Theme" Click="ToggleTheme_Click"/>
-            </MenuBarItem>
-        </MenuBar>
-        <!-- Левое меню инструментов (выбор кисти и фигур) -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,40,10,10">
-            <Button Content="Brush" Name="BrushButton" Click="SelectBrush" Margin="10"/>
-            <Button Content="Rectangle" Name="RectangleButton" Click="SelectRectangle" Margin="10"/>
-            <Button Content="Snowman" Name="SnowmanButton" Click="SelectSnowman" Margin="10"/>
-            <Button Content="Circle" Name="CircleButton" Click="SelectCircle" Margin="10"/>
-            <Button Content="Clear" Name="Delete" Click="RemoveSelectedElement" Margin="10"/>
-            <Button Content="Clear" Name="ClearButton" Click="ClearCanvas" Margin="10"/>
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+            <Button Content="Brush" Click="SelectBrush" Margin="5"/>
+            <Button Content="Rectangle" Click="SelectRectangle" Margin="5"/>
+            <Button Content="Circle" Click="SelectCircle" Margin="5"/>
+            <Button Content="Clear" Click="ClearCanvas" Margin="5"/>
         </StackPanel>
 
-        <!-- Canvas для рисования -->
         <Canvas Name="DrawingCanvas" Background="White" Grid.Column="1"
                 PointerPressed="Canvas_PointerPressed"
                 PointerMoved="Canvas_PointerMoved"
-                PointerReleased="Canvas_PointerReleased"
-                PointerCaptureLost="Canvas_PointerCaptureLost" />
+                PointerReleased="Canvas_PointerReleased" />
     </Grid>
 </Window>
-

@@ -7,45 +7,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="App3">
+    Title="Drawing App">
 
     <Grid>
-        
-        <!-- Определяем две колонки, одна для панели инструментов, другая для холста -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <!-- Левое меню -->
             <ColumnDefinition Width="*"/>
-            <!-- Холст -->
         </Grid.ColumnDefinitions>
 
-        <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <MenuBarItem Title="File">
-                <MenuFlyoutItem x:ConnectionId='10' Text="New"                      />
-                <MenuFlyoutItem x:ConnectionId='11' Text="Open"                       />
-                <MenuFlyoutItem x:ConnectionId='12' Text="Save"                       />
-            </MenuBarItem>
-            <MenuBarItem Title="View">
-                <MenuFlyoutItem x:ConnectionId='9' Text="Toggle Dark/Light Theme"                          />
-            </MenuBarItem>
-        </MenuBar>
-        <!-- Левое меню инструментов (выбор кисти и фигур) -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,40,10,10">
-            <Button x:ConnectionId='3' Content="Brush" Name="BrushButton"                     Margin="10"/>
-            <Button x:ConnectionId='4' Content="Rectangle" Name="RectangleButton"                         Margin="10"/>
-            <Button x:ConnectionId='5' Content="Snowman" Name="SnowmanButton"                       Margin="10"/>
-            <Button x:ConnectionId='6' Content="Circle" Name="CircleButton"                      Margin="10"/>
-            <Button x:ConnectionId='7' Content="Clear" Name="Delete"                               Margin="10"/>
-            <Button x:ConnectionId='8' Content="Clear" Name="ClearButton"                     Margin="10"/>
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+            <Button x:ConnectionId='3' Content="Brush"                     Margin="5"/>
+            <Button x:ConnectionId='4' Content="Rectangle"                         Margin="5"/>
+            <Button x:ConnectionId='5' Content="Circle"                      Margin="5"/>
+            <Button x:ConnectionId='6' Content="Clear"                     Margin="5"/>
         </StackPanel>
 
-        <!-- Canvas для рисования -->
         <Canvas x:ConnectionId='2' Name="DrawingCanvas" Background="White" Grid.Column="1"
                                                       
                                                   
-                                                        
-                                                               />
+                                                         />
     </Grid>
 </Window>
-
 
