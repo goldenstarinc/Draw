@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Title="Drawing App">
 
-    <Grid>
+    <Grid KeyDown="Canvas_KeyDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -20,11 +20,14 @@
             <Button Content="Rectangle" Click="SelectRectangle" Margin="5"/>
             <Button Content="Circle" Click="SelectCircle" Margin="5"/>
             <Button Content="Clear" Click="ClearCanvas" Margin="5"/>
+            <Button Content="Fill" Click="SelectFill" Margin="5"/>
         </StackPanel>
 
         <Canvas Name="DrawingCanvas" Background="White" Grid.Column="1"
                 PointerPressed="Canvas_PointerPressed"
                 PointerMoved="Canvas_PointerMoved"
-                PointerReleased="Canvas_PointerReleased" />
+                PointerReleased="Canvas_PointerReleased"
+                DoubleTapped="Canvas_DoubleTapped"
+                />
     </Grid>
 </Window>
