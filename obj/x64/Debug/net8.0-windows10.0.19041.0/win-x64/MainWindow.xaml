@@ -21,6 +21,12 @@
             <Button x:ConnectionId='6' Content="Circle"                      Margin="5"/>
             <Button x:ConnectionId='7' Content="Clear"                     Margin="5"/>
             <Button x:ConnectionId='8' Content="Fill"                    Margin="5"/>
+            <Button x:ConnectionId='9' Content="AddLayer"                              Margin="5"/>
+            <Button x:ConnectionId='10' Content="RemoveLayer"                                 Margin="5"/>
+            <Button x:ConnectionId='11' Content="BringToFront"                                  Margin="5"/>
+            <Button x:ConnectionId='12' Content="BringToBack"                                Margin="5"/>
+            <Button x:ConnectionId='13' Content="+"                               Margin="5"/>
+            <Button x:ConnectionId='14' Content="-"                                   Margin="5"/>
         </StackPanel>
 
         <Canvas x:ConnectionId='3' Name="DrawingCanvas" Background="White" Grid.Column="1"

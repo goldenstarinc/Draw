@@ -21,6 +21,12 @@
             <Button Content="Circle" Click="SelectCircle" Margin="5"/>
             <Button Content="Clear" Click="ClearCanvas" Margin="5"/>
             <Button Content="Fill" Click="SelectFill" Margin="5"/>
+            <Button Content="AddLayer" Click="AddLayerButton_Click" Margin="5"/>
+            <Button Content="RemoveLayer" Click="RemoveLayerButton_Click" Margin="5"/>
+            <Button Content="BringToFront" Click="BringToFrontButton_Click" Margin="5"/>
+            <Button Content="BringToBack" Click="SendToBackButton_Click" Margin="5"/>
+            <Button Content="+" Click="SelectNextLayer_Click" Margin="5"/>
+            <Button Content="-" Click="SelectPreviousLayer_Click" Margin="5"/>
         </StackPanel>
 
         <Canvas Name="DrawingCanvas" Background="White" Grid.Column="1"

@@ -11,20 +11,25 @@ using System;
 using Windows.Foundation;
 using Windows.Devices.PointOfService.Provider;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 #endregion
 
 namespace App3
 {
     public sealed partial class MainWindow : Window
     {
+        private readonly LayerManager _layerManager = new LayerManager();
+
         private Tool selectedTool = Tool.Brush;
         private Polyline currentStroke;
         private bool isDrawing = false;
         private Point startPoint;
         private Figure previewFigure;
-        private Canvas previewLayer;
 
-        private Color defualtCanvasColor = Colors.White;
+        private int currentLayerIndex;
+
+        private Color defaultCanvasColor = Colors.White;
 
         private bool isDragging = false;
         private Point lastPointerPosition;
@@ -33,6 +38,8 @@ namespace App3
 
         private bool isResizing = false;
         private string resizeDirection = "";
+
+        private Canvas previewLayer;
         private enum Tool
         {
             Brush,
@@ -43,10 +50,65 @@ namespace App3
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            
+            DrawingCanvas.SizeChanged += OnDrawingCanvasSizeChanged;
+
+            _layerManager.AddLayer();
+
+            currentLayerIndex = 0;
+
             previewLayer = new Canvas();
+
+
+            foreach (var layer in _layerManager.GetAllLayers())
+            {
+                DrawingCanvas.Children.Add(layer);
+            }
             DrawingCanvas.Children.Add(previewLayer);
-            DrawingCanvas.Background = new SolidColorBrush(Colors.White);
+            UpdateCanvasSizes();
+        }
+
+        /// <summary>
+        /// Метод, срабатывающий при изменении размера канваса
+        /// </summary>
+        private void OnDrawingCanvasSizeChanged(object sender, SizeChangedEventArgs e) => UpdateCanvasSizes();
+
+        /// <summary>
+        /// Метод, обновляющий размеры слоев, в соответствие с размерами основного канваса
+        /// </summary>
+        private void UpdateCanvasSizes()
+        {
+            if (DrawingCanvas != null)
+            {
+                foreach (Canvas layer in _layerManager.GetAllLayers())
+                {
+                    layer.Width = DrawingCanvas.ActualWidth;
+                    layer.Height = DrawingCanvas.ActualHeight;
+                }
+            }
+        }
+
+        private void SelectNextLayer_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLayerIndex >= _layerManager.GetLayerCount() - 1)
+            {
+                currentLayerIndex = _layerManager.GetLayerCount() - 1;
+                return;
+            }
+            currentLayerIndex++;
+            Debug.Print(currentLayerIndex.ToString());
+        }
+
+        private void SelectPreviousLayer_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLayerIndex <= 0)
+            {
+                currentLayerIndex = 0;
+                return;
+            }
+            currentLayerIndex--;
+            Debug.Print(currentLayerIndex.ToString());
         }
 
         /// <summary>
@@ -75,8 +137,8 @@ namespace App3
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
             DrawingCanvas.Children.Clear();
-            previewLayer = new Canvas();
-            DrawingCanvas.Children.Add(previewLayer);
+            var newLayer = new Canvas();
+            DrawingCanvas.Children.Add(newLayer);
             DrawingCanvas.Background = new SolidColorBrush(Colors.White);
         }
 
@@ -120,7 +182,7 @@ namespace App3
                     StrokeThickness = 2
                 };
                 currentStroke.Points.Add(point);
-                DrawingCanvas.Children.Add(currentStroke);
+                _layerManager.GetLayer(currentLayerIndex).Children.Add(currentStroke);
             }
             else if (selectedTool == Tool.Fill)
             {
@@ -135,7 +197,7 @@ namespace App3
                 }
                 else
                 {
-                    DrawingCanvas.Background = new SolidColorBrush(Colors.Green);
+                    if (_layerManager != null) _layerManager.GetLayer(currentLayerIndex).Background = new SolidColorBrush(Colors.Coral);
                 }
             }
         }
@@ -229,14 +291,15 @@ namespace App3
 
                 if (selectedTool == Tool.Rectangle)
                 {
-                    previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(defualtCanvasColor), new SolidColorBrush(Colors.Black), 2);
+                    previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
                 }
                 else if (selectedTool == Tool.Circle)
                 {
-                    previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(defualtCanvasColor), new SolidColorBrush(Colors.Black), 2);
+                    previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(Colors.Black), 2);
                 }
 
                 previewLayer.Children.Clear();
+
                 previewFigure?.Draw(previewLayer);
             }
         }
@@ -255,7 +318,7 @@ namespace App3
             MakeResizingInactive();
             if (previewFigure != null)
             {
-                previewFigure.Draw(DrawingCanvas);
+                previewFigure.Draw(_layerManager.GetLayer(currentLayerIndex));
                 previewFigure = null;
                 previewLayer.Children.Clear();
             }
@@ -355,6 +418,7 @@ namespace App3
             if (selectedElement != null)
             {
                 DrawingCanvas.Children.Remove(selectedElement);
+                //_layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);???????????????????????????????
             }
         }
 
@@ -415,6 +479,54 @@ namespace App3
 
             return !string.IsNullOrEmpty(direction);
         }
+
+        private void AddLayerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _layerManager.AddLayer();
+            var newLayer = _layerManager.GetLayer(_layerManager.GetLayerCount() - 1);
+            DrawingCanvas.Children.Add(newLayer);
+        }
+
+        private void RemoveLayerButton_Click(object sender, RoutedEventArgs e)
+        {
+            int lastLayerIndex = _layerManager.GetLayerCount() - 1;
+            if (lastLayerIndex >= 0)
+            {
+                _layerManager.RemoveLayer(lastLayerIndex);
+                DrawingCanvas.Children.RemoveAt(lastLayerIndex);
+            }
+            if (currentLayerIndex == lastLayerIndex)
+            {
+                currentLayerIndex = _layerManager.GetLayerCount() - 1;
+            }
+        }
+
+        private void BringToFrontButton_Click(object sender, RoutedEventArgs e)
+        {
+            int activeLayerIndex = GetCurrentActiveLayerIndex(); // Предполагается функция получения активного слоя
+            _layerManager.BringToFront(activeLayerIndex);
+
+            ReorderLayersInDrawingCanvas();
+        }
+
+        private void SendToBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            int activeLayerIndex = GetCurrentActiveLayerIndex(); // Предполагается функция получения активного слоя
+            _layerManager.SendToBack(activeLayerIndex);
+
+            ReorderLayersInDrawingCanvas();
+        }
+
+        private void ReorderLayersInDrawingCanvas()
+        {
+            DrawingCanvas.Children.Clear();
+            foreach (var layer in _layerManager.GetAllLayers())
+            {
+                DrawingCanvas.Children.Add(layer);
+            }
+        }
+
+        private int GetCurrentActiveLayerIndex() => currentLayerIndex;
     }
 }
 

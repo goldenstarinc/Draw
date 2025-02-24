@@ -29,13 +29,13 @@
     <AppXManifest Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-02-24T18:13:35.555</Modified>
+      <Modified>2025-02-24T21:11:41.636</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-02-24T17:26:42.908</Modified>
+      <Modified>2025-02-24T19:45:50.971</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.runtimeconfig.json">
       <PackagePath>App3.runtimeconfig.json</PackagePath>
@@ -43,11 +43,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.dll">
       <PackagePath>App3.dll</PackagePath>
-      <Modified>2025-02-24T18:13:35.007</Modified>
+      <Modified>2025-02-24T21:11:41.398</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>App3.exe</PackagePath>
-      <Modified>2025-02-24T18:13:35.059</Modified>
+      <Modified>2025-02-24T21:11:41.401</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\notso\.nuget\packages\microsoft.web.webview2\1.0.2651.64\runtimes\win-x64\native\WebView2Loader.dll">
       <PackagePath>runtimes\win-x64\native\WebView2Loader.dll</PackagePath>
