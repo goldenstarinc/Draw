@@ -21,6 +21,11 @@ using Windows.UI.Core;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Runtime.InteropServices;
 using Windows.Storage;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Pickers;
 #endregion
 
 namespace App3
@@ -61,6 +66,7 @@ namespace App3
 
         private Canvas previewLayer;
         private Color selectedColor = Colors.Black;
+        private int selectedStrokeThickness = 2;
 
 
         private InputCursor? OriginalInputCursor { get; set; }
@@ -70,6 +76,7 @@ namespace App3
             Brush,
             Fill,
             Eraser,
+            SelectColorPicker,
             Rectangle,
             Circle
         }
@@ -113,6 +120,11 @@ namespace App3
         /// Метод, позволяющий выбрать ластик
         /// </summary>
         private void SelectEraser(object sender, RoutedEventArgs e) => selectedTool = Tool.Eraser;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать пипетку
+        /// </summary>
+        private void SelectColorPicker(object sender, RoutedEventArgs e) => selectedTool = Tool.SelectColorPicker;
 
         /// <summary>
         /// Метод для очищения канваса
@@ -162,15 +174,31 @@ namespace App3
 
             InitializePreviewLayer();
 
-            if (selectedTool == Tool.Brush)
+            if (selectedTool == Tool.Brush || selectedTool == Tool.Eraser)
             {
                 currentStroke = new Polyline
                 {
                     Stroke = new SolidColorBrush(selectedColor),
-                    StrokeThickness = 2
+                    StrokeThickness = selectedStrokeThickness
                 };
+                if (selectedTool == Tool.Eraser)
+                {
+                    currentStroke.Stroke = new SolidColorBrush(Colors.White);
+                }
                 currentStroke.Points.Add(point);
                 _layerManager.GetLayer(currentLayerIndex).Children.Add(currentStroke);
+            }
+            else if (selectedTool == Tool.SelectColorPicker) 
+            {
+                if (selectedElement != null && selectedElement is Shape shape)
+                {
+                    selectedColor = ((SolidColorBrush)shape.Fill).Color;
+                }
+                else if (selectedElement != null && selectedElement is Canvas canvas)
+                {
+                    selectedColor = ((SolidColorBrush)canvas.Background).Color;
+                }
+                colorPicker.Color = selectedColor;
             }
             else if (selectedTool == Tool.Fill && selectedElement != null)
             {
@@ -288,7 +316,7 @@ namespace App3
 
             var pointMove = e.GetCurrentPoint(DrawingCanvas).Position;
 
-            if (selectedTool == Tool.Brush && currentStroke != null)
+            if ((selectedTool == Tool.Eraser || selectedTool == Tool.Brush) && currentStroke != null)
             {
                 currentStroke.Points.Add(pointMove);
             }
@@ -763,21 +791,29 @@ namespace App3
         }
         private void ColorButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            var button = sender as Button;
+
+            if (button != null)
             {
-                // ������ ���� Border �� ���� ��������� ������
-                CurrentColor.Background = button.Background;
-                colorList.Hide();
+                selectedColor = ((SolidColorBrush)button.Background).Color;
+
+                CurrentColor.Background = new SolidColorBrush(selectedColor);
+
+                myColorButton.Flyout.Hide();
+
+                colorPicker.Color = selectedColor;
             }
         }
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
-                // ��������� TextBlock �� ��������� �����
                 SelectedNumber.Text = button.Content.ToString();
 
-                // ��������� Flyout
+                if (string.IsNullOrEmpty(SelectedNumber.Text)) return;
+
+                currentLayerIndex = int.Parse(SelectedNumber.Text);
+
                 numberFlyout.Hide();
             }
         }
@@ -813,24 +849,81 @@ namespace App3
             // ������ ��� ������� �� "Cancel"
         }
 
-        private void SaveFile_Click(object sender, RoutedEventArgs e)
+
+        private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".jpg");
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            // Ожидаем выбора файла
+            var file = await picker.PickSingleFileAsync();
+            if (file == null) return;  // Если файл не выбран, выходим
+
+            // Открываем поток для чтения файла
+            var stream = await file.OpenAsync(FileAccessMode.Read);
+
+            // Создаем BitmapImage и загружаем в него данные из потока
+            BitmapImage bitmap = new BitmapImage();
+            await bitmap.SetSourceAsync(stream);  // Асинхронно загружаем изображение
+
+            // Создаем элемент Image и добавляем его на холст
+            Image image = new Image { Source = bitmap };
+            DrawingCanvas.Children.Clear();  // Очищаем холст
+            _layerManager.ClearAllLayers();
+            _layerManager.AddLayer();
+            currentLayerIndex = 0;
+            _layerManager.GetLayer(currentLayerIndex).Children.Add(image);  // Добавляем изображение
+            DrawingCanvas.Children.Add(_layerManager.GetLayer(currentLayerIndex));
+            UpdateCanvasSizes();
         }
 
-        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var picker = new FileSavePicker();
+            picker.FileTypeChoices.Add("PNG Image", new[] { ".png" });
+            picker.SuggestedFileName = "Рисунок";
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            var file = await picker.PickSaveFileAsync();
+            if (file == null) return;
+
+            // Создаем поток для записи в файл
+            var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+
+            // Рендерим изображение в Bitmap
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap();
+            await renderBitmap.RenderAsync(DrawingCanvas); // Асинхронно
+
+            // Получаем данные пикселей и записываем в поток
+            var pixels = await renderBitmap.GetPixelsAsync();
+
+            // Используем BitmapEncoder для сохранения изображения в PNG
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)renderBitmap.PixelWidth, (uint)renderBitmap.PixelHeight, 96, 96, pixels.ToArray());
+
+            // Закрываем поток после записи
+            await encoder.FlushAsync();
         }
 
         private void NewFile_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            DrawingCanvas.Children.Clear();
         }
 
         private void ToggleTheme_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void StrokeThickness_Changed(object sender, RoutedEventArgs e)
+        {
+            selectedStrokeThickness = (int)slider.Value;
         }
     }
 }

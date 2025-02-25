@@ -59,8 +59,9 @@
             <StackPanel Grid.Column="0" Margin="10" Orientation="Vertical">
                 <TextBlock Text="Инструменты" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
 
-                <Grid Width="100" Height="85">
+                <Grid Width="150" Height="85">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
@@ -77,20 +78,33 @@
                     </Button>
 
                     <!-- Заливка -->
-                    <Button Grid.Row="0" Grid.Column="1" Click="SelectFill">
+                    <Button Grid.Row="0" Grid.Column="2" Click="SelectFill">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE88F;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Пипетка -->
+                    <Button Grid.Row="0" Grid.Column="1" Click="SelectColorPicker">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Текст -->
-                    <Button Grid.Row="1" Grid.Column="0" Click="SelectCircle">
+                    <Button Grid.Row="1" Grid.Column="0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
                         </StackPanel>
                     </Button>
+                    <!-- Очистка слоя -->
+                    <Button Grid.Row="1" Grid.Column="2" Click="ClearCanvas">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xED62;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
 
-                    <!-- Ластик -->
+                    <!-- Ластик  -->
                     <Button Grid.Row="1" Grid.Column="1" Click="SelectEraser">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE75C;" FontSize="20"/>
@@ -101,11 +115,11 @@
                 <TextBlock Text="Размер кисти" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
                 <!-- Слайдер -->
-                <Slider Width="180" HorizontalAlignment="Center"/>
+                <Slider x:Name="slider" ValueChanged="StrokeThickness_Changed" Width="180" HorizontalAlignment="Center"/>
 
                 <TextBlock Text="Фигуры" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
-                <Grid Width="120" Height="90">
+                <Grid Width="150" Height="120">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -120,47 +134,47 @@
 
                     <Button Grid.Row="0" Grid.Column="0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xF7AF;" FontSize="14"/>
+                            <FontIcon Glyph="&#xF7AF;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="0" Grid.Column="1" Click="SelectCircle">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xEA3A;" FontSize="14"/>
+                            <FontIcon Glyph="&#xEA3A;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="0" Grid.Column="2" Click="SelectRectangle">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE7FB;" FontSize="14"/>
+                            <FontIcon Glyph="&#xE7FB;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="1" Grid.Column="0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE739;" FontSize="14"/>
+                            <FontIcon Glyph="&#xE739;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="1" Grid.Column="1">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE879;" FontSize="14"/>
+                            <FontIcon Glyph="&#xE879;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="1" Grid.Column="2">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xEA50;" FontSize="14"/>
+                            <FontIcon Glyph="&#xEA50;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="2" Grid.Column="0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xEC8F;" FontSize="14"/>
+                            <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="2" Grid.Column="1">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE734;" FontSize="14"/>
+                            <FontIcon Glyph="&#xE734;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <Button Grid.Row="2" Grid.Column="2">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE805;" FontSize="14"/>
+                            <FontIcon Glyph="&#xE805;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -191,7 +205,7 @@
                     </Button>
                 </StackPanel>
 
-                <TextBlock Text="Другое" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+                <TextBlock Text="Слои" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
                 <SplitButton x:Name="myNumberButton" HorizontalAlignment="Center">
                     <TextBlock x:Name="SelectedNumber" Text="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
@@ -219,9 +233,7 @@
                     PointerPressed="Canvas_PointerPressed"
                     PointerMoved="Canvas_PointerMoved"
                     PointerReleased="Canvas_PointerReleased"
-                    DoubleTapped="Canvas_DoubleTapped"
-                    PointerEntered="CustomCanvas_PointerEntered" 
-                    PointerExited="CustomCanvas_PointerExited"/>
+                    DoubleTapped="Canvas_DoubleTapped"/>
             </Border>
         </Grid>
         <ContentDialog x:Name="colorPickerDialog"
@@ -233,5 +245,5 @@
             <ColorPicker x:Name="colorPicker"/>
         </ContentDialog>
     </Grid>
-    
+
 </Window>

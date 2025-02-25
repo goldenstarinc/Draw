@@ -10,14 +10,14 @@
     <PackageArchitecture>x64</PackageArchitecture>
     <PackageIdentityName>393344a1-83ba-414a-bff0-365c1e36179b</PackageIdentityName>
     <PackageIdentityPublisher>CN=ya110</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\</IntermediateOutputPath>
+    <IntermediateOutputPath>K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\</IntermediateOutputPath>
     <RemoteDeploymentType>CopyToDevice</RemoteDeploymentType>
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppX</LayoutDir>
+    <LayoutDir>K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppX</LayoutDir>
     <RegisteredManifestChecksum>6360795E3E1852457B0269372DE88F7A10FAE2082D371A11B49570CBBE8DC70B</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>393344a1-83ba-414a-bff0-365c1e36179b_1.0.0.0_x64__szxkee47jw138</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>393344a1-83ba-414a-bff0-365c1e36179b_szxkee47jw138!App</RegisteredUserModeAppID>
@@ -26,28 +26,28 @@
     <RegisteredVersion>1.0.0.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
+    <AppXManifest Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-02-25T20:33:05.086</Modified>
+      <Modified>2025-02-25T22:23:00.862</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-02-25T20:26:14.853</Modified>
+      <Modified>2025-02-25T22:08:17.718</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.runtimeconfig.json">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.runtimeconfig.json">
       <PackagePath>App3.runtimeconfig.json</PackagePath>
-      <Modified>2025-02-25T20:09:52.359</Modified>
+      <Modified>2025-02-25T20:40:20.980</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.dll">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.dll">
       <PackagePath>App3.dll</PackagePath>
-      <Modified>2025-02-25T20:33:04.802</Modified>
+      <Modified>2025-02-25T22:23:00.611</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>App3.exe</PackagePath>
-      <Modified>2025-02-25T20:33:04.805</Modified>
+      <Modified>2025-02-25T22:23:00.614</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\notso\.nuget\packages\microsoft.web.webview2\1.0.2651.64\runtimes\win-x64\native\WebView2Loader.dll">
       <PackagePath>runtimes\win-x64\native\WebView2Loader.dll</PackagePath>
@@ -869,35 +869,35 @@
       <PackagePath>Microsoft.Web.WebView2.Core.Projection.dll</PackagePath>
       <Modified>2024-07-20T08:33:44.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.deps.json">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\App3.deps.json">
       <PackagePath>App3.deps.json</PackagePath>
-      <Modified>2025-02-25T20:09:52.201</Modified>
+      <Modified>2025-02-25T20:40:20.829</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <Modified>2025-02-25T07:42:30.000</Modified>
     </AppxPackagedFile>

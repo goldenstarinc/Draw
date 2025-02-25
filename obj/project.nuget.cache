@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6HosaQGGEEs=",
+  "dgSpecHash": "sp3OEF9wYpw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\App3.csproj",
+  "projectFilePath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\notso\\.nuget\\packages\\microsoft.web.webview2\\1.0.2651.64\\microsoft.web.webview2.1.0.2651.64.nupkg.sha512",
     "C:\\Users\\notso\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.26100.1742\\microsoft.windows.sdk.buildtools.10.0.26100.1742.nupkg.sha512",

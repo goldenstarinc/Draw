@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\App3.csproj": {}
+    "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\App3.csproj": {
+    "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\App3.csproj",
+        "projectUniqueName": "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj",
         "projectName": "App3",
-        "projectPath": "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\App3.csproj",
+        "projectPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj",
         "packagesPath": "C:\\Users\\notso\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\notso\\OneDrive\\Desktop\\Photoshop_2-NewInterfaceOldBase\\obj\\",
+        "outputPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
