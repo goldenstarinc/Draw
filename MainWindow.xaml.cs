@@ -16,16 +16,28 @@ using System.Linq;
 using System.Reflection.Emit;
 using Microsoft.UI.Dispatching;
 using Windows.Devices.Input;
+using Microsoft.UI.Input;
+using Windows.UI.Core;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System.Runtime.InteropServices;
+using Windows.Storage;
 #endregion
 
 namespace App3
 {
+    public class CustomCanvas : Canvas
+    {
+        public InputCursor InputCursor
+        {
+            get => ProtectedCursor;
+            set => ProtectedCursor = value;
+        }
+    }
     public sealed partial class MainWindow : Window
     {
         #region DEFINED VARIABLES
 
         private Random random = new Random();
-
 
         private LayerManager _layerManager = new LayerManager();
 
@@ -49,7 +61,11 @@ namespace App3
 
         private Canvas previewLayer;
         private Color selectedColor = Colors.Magenta;
-        
+
+
+
+        private InputCursor? OriginalInputCursor { get; set; }
+
         private enum Tool
         {
             Brush,
@@ -58,17 +74,18 @@ namespace App3
             Rectangle,
             Circle
         }
-
+        private CoreCursor currentCursor = new CoreCursor(CoreCursorType.Custom, 223123);
         #endregion
+
         public MainWindow()
         {
             InitializeComponent();
-            
             DrawingCanvas.SizeChanged += OnDrawingCanvasSizeChanged;
 
             InitializeLayers();
-
             UpdateCanvasSizes();
+
+            ChangeCursor(CursorStates.Default);
         }
 
         #region TOOLS REALIZATION
@@ -142,7 +159,6 @@ namespace App3
                 lastPointerPosition = point;
                 return;
             }
-
             selectedElement = e.OriginalSource as UIElement;
 
             InitializePreviewLayer();
@@ -162,7 +178,7 @@ namespace App3
                 if (IsPointInsideElement(point, selectedElement) && selectedElement is Shape)
                 {
                     Shape selectedShape = selectedElement as Shape;
-
+                    
                     if (selectedShape != null)
                     {
                         selectedShape.Fill = new SolidColorBrush(selectedColor);
@@ -181,6 +197,27 @@ namespace App3
         /// </summary>
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (selectedElement != null && selectedElement is Shape)
+            {
+                var point = e.GetCurrentPoint(DrawingCanvas).Position;
+                string direction;
+                if (IsOnBorder(point, selectedElement as Shape, out direction))
+                {
+                    if (!string.IsNullOrEmpty(direction))
+                    {
+                        UpdateCursorForResizeDirection(direction);
+                    }
+                }
+                else
+                {
+                    ChangeCursor(CursorStates.Drawing);
+                }
+            }
+            else
+            {
+                ChangeCursor(CursorStates.Drawing);
+            }
+
             if (isResizing && !string.IsNullOrEmpty(resizeDirection))
             {
                 var point = e.GetCurrentPoint(DrawingCanvas).Position;
@@ -360,10 +397,10 @@ namespace App3
             double right = left + shape.Width;
             double bottom = top + shape.Height;
 
-            if (Math.Abs(point.X - left) < 5) direction += "left";
-            if (Math.Abs(point.X - right) < 5) direction += "right";
-            if (Math.Abs(point.Y - top) < 5) direction += "top";
-            if (Math.Abs(point.Y - bottom) < 5) direction += "bottom";
+            if (Math.Abs(point.X - left) < 8 && point.Y <= bottom && point.Y >= top) direction += "left";
+            if (Math.Abs(point.X - right) < 8 && point.Y <= bottom && point.Y >= top) direction += "right";
+            if (Math.Abs(point.Y - top) < 8 && point.X >= left && point.X <= right) direction += "top";
+            if (Math.Abs(point.Y - bottom) < 8 && point.X >= left && point.X <= right) direction += "bottom";
 
             return !string.IsNullOrEmpty(direction);
         }
@@ -613,6 +650,98 @@ namespace App3
             previewLayer = null;
         }
 
+        #endregion
+
+        #region CURSOR STUFF
+        enum CursorStates
+        {
+            Default,
+            Drawing,
+            Selecting,
+            SizeNorthwestSoutheast,
+            SizeNortheastSouthwest,
+            SizeWestEast,
+            SizeNorthSouth
+        }
+        private void ChangeCursor(CursorStates state)
+        {
+            switch (state)
+            {
+                case CursorStates.Default:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+                    break;
+                case CursorStates.Drawing:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.Cross);
+                    break;
+                case CursorStates.Selecting:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
+                    break;
+                case CursorStates.SizeNorthwestSoutheast:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeNorthwestSoutheast);
+                    break;
+                case CursorStates.SizeNortheastSouthwest:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeNortheastSouthwest);
+                    break;
+                case CursorStates.SizeWestEast:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
+                    break;
+                case CursorStates.SizeNorthSouth:
+                    DrawingCanvas.InputCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth);
+                    break;
+            }
+        }
+
+        private void UpdateCursorForResizeDirection(string direction)
+        {
+            if (string.IsNullOrEmpty(direction)) return;
+
+            switch (direction)
+            {
+                case "right":
+                    ChangeCursor(CursorStates.SizeWestEast);
+                    break;
+                case "left":
+                    ChangeCursor(CursorStates.SizeWestEast);
+                    break;
+                case "bottom":
+                    ChangeCursor(CursorStates.SizeNorthSouth);
+                    break;
+                case "top":
+                    ChangeCursor(CursorStates.SizeNorthSouth);
+                    break;
+                case "bottom-right":
+                    ChangeCursor(CursorStates.SizeNorthwestSoutheast);
+                    break;
+                case "top-left":
+                    ChangeCursor(CursorStates.SizeNorthwestSoutheast);
+                    break;
+                case "top-right":
+                    ChangeCursor(CursorStates.SizeNortheastSouthwest);
+                    break;
+                case "bottom-left":
+                    ChangeCursor(CursorStates.SizeNortheastSouthwest);
+                    break;
+                default:
+                    ChangeCursor(CursorStates.Default);
+                    break;
+            }
+        }
+
+        private void CustomCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is CustomCanvas canvas)
+            {
+                ChangeCursor(CursorStates.Drawing);
+            }
+        }
+
+        private void CustomCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is CustomCanvas canvas)
+            {
+                ChangeCursor(CursorStates.Default);
+            }
+        }
         #endregion
     }
 }

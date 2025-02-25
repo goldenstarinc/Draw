@@ -9,11 +9,12 @@
     mc:Ignorable="d"
     Title="Drawing App">
 
-    <Grid x:ConnectionId='2'                         >
+    <Grid x:ConnectionId='2'                         >   
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
 
         <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
             <Button x:ConnectionId='4' Content="Brush"                     Margin="5"/>
@@ -30,12 +31,14 @@
             <Button x:ConnectionId='15' Content="GenerateColor"                              Margin="5"/>
         </StackPanel>
 
-        <Canvas x:ConnectionId='3' Name="DrawingCanvas" Background="White" Grid.Column="1"
-                                                      
+        <local:CustomCanvas x:ConnectionId='3' Background="White" Grid.Column="1"
+            x:Name="DrawingCanvas" 
                                                   
-                                                        
-                                                  
-                />
+                                              
+                                                    
+                                              
+                                                         
+                                                      />
     </Grid>
 </Window>
 

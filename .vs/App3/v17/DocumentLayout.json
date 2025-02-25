@@ -11,12 +11,12 @@
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,7 +25,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 306,
+          "DockedHeight": 280,
           "SelectedChildIndex": 4,
           "Children": [
             {
@@ -34,28 +34,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Class.cs",
               "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
               "RelativeDocumentMoniker": "Class.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
               "RelativeToolTip": "Class.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAswFIAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAswFIAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-25T15:20:35.837Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAIwCsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-25T13:22:33.168Z"
+              "WhenOpened": "2025-02-25T13:22:33.168Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -65,7 +66,7 @@
               "RelativeDocumentMoniker": "LayerManager.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerManager.cs",
               "RelativeToolTip": "LayerManager.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-24T19:21:36.487Z",
               "EditorCaption": ""
@@ -78,7 +79,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAACMBAAAAAAAAAAAqwDoBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIMBAAAAAAAAAAAAAJQBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-17T20:06:44.095Z",
               "EditorCaption": ""
@@ -86,7 +87,7 @@
           ]
         },
         {
-          "DockedHeight": 11,
+          "DockedHeight": 37,
           "SelectedChildIndex": -1,
           "Children": [
             {

@@ -9,11 +9,12 @@
     mc:Ignorable="d"
     Title="Drawing App">
 
-    <Grid KeyDown="Canvas_KeyDown">
+    <Grid KeyDown="Canvas_KeyDown">   
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
 
         <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
             <Button Content="Brush" Click="SelectBrush" Margin="5"/>
@@ -30,11 +31,13 @@
             <Button Content="GenerateColor" Click="GetRandomColor_Click" Margin="5"/>
         </StackPanel>
 
-        <Canvas Name="DrawingCanvas" Background="White" Grid.Column="1"
-                PointerPressed="Canvas_PointerPressed"
-                PointerMoved="Canvas_PointerMoved"
-                PointerReleased="Canvas_PointerReleased"
-                DoubleTapped="Canvas_DoubleTapped"
-                />
+        <local:CustomCanvas Background="White" Grid.Column="1"
+            x:Name="DrawingCanvas" 
+            PointerPressed="Canvas_PointerPressed"
+            PointerMoved="Canvas_PointerMoved"
+            PointerReleased="Canvas_PointerReleased"
+            DoubleTapped="Canvas_DoubleTapped"
+            PointerEntered="CustomCanvas_PointerEntered" 
+            PointerExited="CustomCanvas_PointerExited"/>
     </Grid>
 </Window>
