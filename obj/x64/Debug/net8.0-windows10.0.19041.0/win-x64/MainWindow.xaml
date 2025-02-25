@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Window
+﻿<Window
     x:Class="App3.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,43 +8,231 @@
     mc:Ignorable="d"
     Title="App3">
 
-    <Grid>
-        
-        <!-- Определяем две колонки, одна для панели инструментов, другая для холста -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <!-- Левое меню -->
-            <ColumnDefinition Width="*"/>
-            <!-- Холст -->
-        </Grid.ColumnDefinitions>
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
 
-        <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{ThemeResource LayerFillColorDefaultBrush}">
-            <MenuBarItem Title="File">
-                <MenuFlyoutItem x:ConnectionId='10' Text="New"                      />
-                <MenuFlyoutItem x:ConnectionId='11' Text="Open"                       />
-                <MenuFlyoutItem x:ConnectionId='12' Text="Save"                       />
+
+    <Grid x:ConnectionId='2'                         >
+        <!-- Определяем строки для меню и остальной области -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Меню -->
+        <MenuBar Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent">
+            <MenuBarItem Title="Файл">
+                <MenuFlyoutItem x:ConnectionId='32' Text="Новый"                      >
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Document"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:ConnectionId='33' Text="Открыть"                       >
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="OpenFile"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:ConnectionId='34' Text="Сохранить"                       >
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Save"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuBarItem>
-            <MenuBarItem Title="View">
-                <MenuFlyoutItem x:ConnectionId='9' Text="Toggle Dark/Light Theme"                          />
+            <MenuBarItem Title="Вид">
+                <MenuFlyoutItem x:ConnectionId='31' Text="Переключить тему"                          >
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE706;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuBarItem>
         </MenuBar>
-        <!-- Левое меню инструментов (выбор кисти и фигур) -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,40,10,10">
-            <Button x:ConnectionId='3' Content="Brush" Name="BrushButton"                     Margin="10"/>
-            <Button x:ConnectionId='4' Content="Rectangle" Name="RectangleButton"                         Margin="10"/>
-            <Button x:ConnectionId='5' Content="Snowman" Name="SnowmanButton"                       Margin="10"/>
-            <Button x:ConnectionId='6' Content="Circle" Name="CircleButton"                      Margin="10"/>
-            <Button x:ConnectionId='7' Content="Clear" Name="Delete"                               Margin="10"/>
-            <Button x:ConnectionId='8' Content="Clear" Name="ClearButton"                     Margin="10"/>
-        </StackPanel>
 
-        <!-- Canvas для рисования -->
-        <Canvas x:ConnectionId='2' Name="DrawingCanvas" Background="White" Grid.Column="1"
+        <Grid Grid.Row="1">
+            <!-- Определяем две колонки: панель инструментов и холст -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель инструментов -->
+            <StackPanel Grid.Column="0" Margin="10" Orientation="Vertical">
+                <TextBlock Text="Инструменты" FontSize="14" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <Grid Width="100" Height="85">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Кисть -->
+                    <Button x:ConnectionId='27' Grid.Row="0" Grid.Column="0"                    >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE771;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Заливка -->
+                    <Button x:ConnectionId='28' Grid.Row="0" Grid.Column="1"                   >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Текст -->
+                    <Button x:ConnectionId='29' Grid.Row="1" Grid.Column="0"                     >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Ластик -->
+                    <Button x:ConnectionId='30' Grid.Row="1" Grid.Column="1"                              >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE75C;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <TextBlock Text="Размер кисти" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                <!-- Слайдер -->
+                <Slider Width="180" HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Фигуры" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                <Grid Width="120" Height="90">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xF7AF;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='25' Grid.Row="0" Grid.Column="1"                     >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xEA3A;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='26' Grid.Row="0" Grid.Column="2"                        >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE7FB;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="1" Grid.Column="0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE739;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="1" Grid.Column="1">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE879;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="1" Grid.Column="2">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xEA50;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="2" Grid.Column="0">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xEC8F;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="2" Grid.Column="1">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE734;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="2" Grid.Column="2">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE805;" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <TextBlock Text="Цвет" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <SplitButton x:ConnectionId='15' x:Name="myColorButton">
+                        <Border x:ConnectionId='17' x:Name="CurrentColor" Width="22" Height="22" Background="Green" CornerRadius="4,4,4,4"/>
+                        <SplitButton.Flyout>
+                            <Flyout x:ConnectionId='18' x:Name="colorList" Placement="Bottom">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button x:ConnectionId='19' Width="32" Height="32" Background="Red"                          />
+                                    <Button x:ConnectionId='20' Width="32" Height="32" Background="Blue"                          />
+                                    <Button x:ConnectionId='21' Width="32" Height="32" Background="Yellow"                          />
+                                    <Button x:ConnectionId='22' Width="32" Height="32" Background="Purple"                          />
+                                    <Button x:ConnectionId='23' Width="32" Height="32" Background="Orange"                          />
+                                    <Button x:ConnectionId='24' Width="32" Height="32" Background="Green"                          />
+                                </StackPanel>
+                            </Flyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                    <!-- Кнопка справа -->
+                    <Button x:ConnectionId='16' Name="OpenColorPicker" Margin="5,0,0,0"                                    >
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE790;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <TextBlock Text="Другое" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                <SplitButton x:ConnectionId='6' x:Name="myNumberButton" HorizontalAlignment="Center">
+                    <TextBlock x:ConnectionId='7' x:Name="SelectedNumber" Text="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+                    <SplitButton.Flyout>
+                        <Flyout x:ConnectionId='8' x:Name="numberFlyout" Placement="Bottom">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button x:ConnectionId='9' Width="32" Height="32" Content="1"                           />
+                                <Button x:ConnectionId='10' Width="32" Height="32" Content="2"                           />
+                                <Button x:ConnectionId='11' Width="32" Height="32" Content="3"                           />
+                                <Button x:ConnectionId='12' Width="32" Height="32" Content="4"                           />
+                                <Button x:ConnectionId='13' Width="32" Height="32" Content="5"                           />
+                                <Button x:ConnectionId='14' Width="32" Height="32" Content="+"                         />
+                            </StackPanel>
+                        </Flyout>
+                    </SplitButton.Flyout>
+                </SplitButton>
+
+
+            </StackPanel>
+
+            <!-- Область рисования -->
+            <Border Grid.Column="1" CornerRadius="10" Background="White" Margin="10">
+                <local:CustomCanvas x:ConnectionId='5' Background="White" Grid.Column="1"
+                    x:Name="DrawingCanvas" 
+                                                          
                                                       
-                                                  
-                                                        
-                                                               />
+                                                            
+                                                      
+                                                                 
+                                                              />
+            </Border>
+        </Grid>
+        <ContentDialog x:ConnectionId='3' x:Name="colorPickerDialog"
+                   Title="Choose a color"
+                   PrimaryButtonText="OK"
+                   SecondaryButtonText="Cancel"
+                                                                            
+                                                                                >
+            <ColorPicker x:ConnectionId='4' x:Name="colorPicker"/>
+        </ContentDialog>
     </Grid>
+    
 </Window>
-
 

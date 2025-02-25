@@ -1,1 +1,1 @@
-C:\Users\otvyagis\Documents\GitHub\Photoshop_2\App3.csproj;x64
+C:\Users\notso\OneDrive\Desktop\Photoshop_2-NewInterfaceOldBase\App3.csproj;x64

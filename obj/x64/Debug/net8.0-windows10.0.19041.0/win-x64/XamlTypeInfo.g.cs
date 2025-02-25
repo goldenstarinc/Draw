@@ -226,43 +226,81 @@ namespace App3.App3_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[17];
+            _typeNameTable = new string[36];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
             _typeNameTable[3] = "Boolean";
-            _typeNameTable[4] = "Microsoft.UI.Xaml.Controls.MenuBar";
-            _typeNameTable[5] = "Microsoft.UI.Xaml.Controls.Control";
-            _typeNameTable[6] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuBarItem>";
-            _typeNameTable[7] = "Microsoft.UI.Xaml.Controls.MenuBarItem";
-            _typeNameTable[8] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>";
-            _typeNameTable[9] = "Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase";
-            _typeNameTable[10] = "String";
-            _typeNameTable[11] = "App3.MainWindow";
-            _typeNameTable[12] = "Microsoft.UI.Xaml.Window";
-            _typeNameTable[13] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[14] = "Microsoft.UI.Xaml.DependencyObject";
-            _typeNameTable[15] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
-            _typeNameTable[16] = "Int32";
+            _typeNameTable[4] = "Microsoft.UI.Xaml.Media.MicaBackdrop";
+            _typeNameTable[5] = "Microsoft.UI.Xaml.Media.SystemBackdrop";
+            _typeNameTable[6] = "Microsoft.UI.Composition.SystemBackdrops.MicaKind";
+            _typeNameTable[7] = "System.Enum";
+            _typeNameTable[8] = "System.ValueType";
+            _typeNameTable[9] = "Microsoft.UI.Xaml.Controls.MenuBar";
+            _typeNameTable[10] = "Microsoft.UI.Xaml.Controls.Control";
+            _typeNameTable[11] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuBarItem>";
+            _typeNameTable[12] = "Microsoft.UI.Xaml.Controls.MenuBarItem";
+            _typeNameTable[13] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>";
+            _typeNameTable[14] = "Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase";
+            _typeNameTable[15] = "String";
+            _typeNameTable[16] = "Microsoft.UI.Xaml.Controls.ColorPicker";
+            _typeNameTable[17] = "Windows.UI.Color";
+            _typeNameTable[18] = "Microsoft.UI.Xaml.Controls.ColorSpectrumComponents";
+            _typeNameTable[19] = "Microsoft.UI.Xaml.Controls.ColorSpectrumShape";
+            _typeNameTable[20] = "Int32";
+            _typeNameTable[21] = "Microsoft.UI.Xaml.Controls.Orientation";
+            _typeNameTable[22] = "System.Nullable`1<Windows.UI.Color>";
+            _typeNameTable[23] = "App3.CustomCanvas";
+            _typeNameTable[24] = "Microsoft.UI.Xaml.Controls.Canvas";
+            _typeNameTable[25] = "Microsoft.UI.Xaml.Controls.Panel";
+            _typeNameTable[26] = "Microsoft.UI.Input.InputCursor";
+            _typeNameTable[27] = "Microsoft.UI.Xaml.Controls.SplitButton";
+            _typeNameTable[28] = "Microsoft.UI.Xaml.Controls.ContentControl";
+            _typeNameTable[29] = "Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase";
+            _typeNameTable[30] = "System.Windows.Input.ICommand";
+            _typeNameTable[31] = "App3.MainWindow";
+            _typeNameTable[32] = "Microsoft.UI.Xaml.Window";
+            _typeNameTable[33] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[34] = "Microsoft.UI.Xaml.DependencyObject";
+            _typeNameTable[35] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
 
-            _typeTable = new global::System.Type[17];
+            _typeTable = new global::System.Type[36];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
             _typeTable[3] = typeof(global::System.Boolean);
-            _typeTable[4] = typeof(global::Microsoft.UI.Xaml.Controls.MenuBar);
-            _typeTable[5] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
-            _typeTable[6] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuBarItem>);
-            _typeTable[7] = typeof(global::Microsoft.UI.Xaml.Controls.MenuBarItem);
-            _typeTable[8] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>);
-            _typeTable[9] = typeof(global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase);
-            _typeTable[10] = typeof(global::System.String);
-            _typeTable[11] = typeof(global::App3.MainWindow);
-            _typeTable[12] = typeof(global::Microsoft.UI.Xaml.Window);
-            _typeTable[13] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[14] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
-            _typeTable[15] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
-            _typeTable[16] = typeof(global::System.Int32);
+            _typeTable[4] = typeof(global::Microsoft.UI.Xaml.Media.MicaBackdrop);
+            _typeTable[5] = typeof(global::Microsoft.UI.Xaml.Media.SystemBackdrop);
+            _typeTable[6] = typeof(global::Microsoft.UI.Composition.SystemBackdrops.MicaKind);
+            _typeTable[7] = typeof(global::System.Enum);
+            _typeTable[8] = typeof(global::System.ValueType);
+            _typeTable[9] = typeof(global::Microsoft.UI.Xaml.Controls.MenuBar);
+            _typeTable[10] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
+            _typeTable[11] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuBarItem>);
+            _typeTable[12] = typeof(global::Microsoft.UI.Xaml.Controls.MenuBarItem);
+            _typeTable[13] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>);
+            _typeTable[14] = typeof(global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase);
+            _typeTable[15] = typeof(global::System.String);
+            _typeTable[16] = typeof(global::Microsoft.UI.Xaml.Controls.ColorPicker);
+            _typeTable[17] = typeof(global::Windows.UI.Color);
+            _typeTable[18] = typeof(global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents);
+            _typeTable[19] = typeof(global::Microsoft.UI.Xaml.Controls.ColorSpectrumShape);
+            _typeTable[20] = typeof(global::System.Int32);
+            _typeTable[21] = typeof(global::Microsoft.UI.Xaml.Controls.Orientation);
+            _typeTable[22] = typeof(global::System.Nullable<global::Windows.UI.Color>);
+            _typeTable[23] = typeof(global::App3.CustomCanvas);
+            _typeTable[24] = typeof(global::Microsoft.UI.Xaml.Controls.Canvas);
+            _typeTable[25] = typeof(global::Microsoft.UI.Xaml.Controls.Panel);
+            _typeTable[26] = typeof(global::Microsoft.UI.Input.InputCursor);
+            _typeTable[27] = typeof(global::Microsoft.UI.Xaml.Controls.SplitButton);
+            _typeTable[28] = typeof(global::Microsoft.UI.Xaml.Controls.ContentControl);
+            _typeTable[29] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase);
+            _typeTable[30] = typeof(global::System.Windows.Input.ICommand);
+            _typeTable[31] = typeof(global::App3.MainWindow);
+            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Window);
+            _typeTable[33] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
+            _typeTable[35] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -298,18 +336,35 @@ namespace App3.App3_XamlTypeInfo
         }
 
         private object Activate_0_XamlControlsResources() { return new global::Microsoft.UI.Xaml.Controls.XamlControlsResources(); }
-        private object Activate_4_MenuBar() { return new global::Microsoft.UI.Xaml.Controls.MenuBar(); }
-        private object Activate_7_MenuBarItem() { return new global::Microsoft.UI.Xaml.Controls.MenuBarItem(); }
-        private object Activate_11_MainWindow() { return new global::App3.MainWindow(); }
-        private object Activate_13_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_4_MicaBackdrop() { return new global::Microsoft.UI.Xaml.Media.MicaBackdrop(); }
+        private object Activate_9_MenuBar() { return new global::Microsoft.UI.Xaml.Controls.MenuBar(); }
+        private object Activate_12_MenuBarItem() { return new global::Microsoft.UI.Xaml.Controls.MenuBarItem(); }
+        private object Activate_16_ColorPicker() { return new global::Microsoft.UI.Xaml.Controls.ColorPicker(); }
+        private object Activate_23_CustomCanvas() { return new global::App3.CustomCanvas(); }
+        private object Activate_27_SplitButton() { return new global::Microsoft.UI.Xaml.Controls.SplitButton(); }
+        private object Activate_31_MainWindow() { return new global::App3.MainWindow(); }
+        private object Activate_33_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
-        private void StaticInitializer_4_MenuBar() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.MenuBar).TypeHandle);
-        private void StaticInitializer_6_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuBarItem>).TypeHandle);
-        private void StaticInitializer_7_MenuBarItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.MenuBarItem).TypeHandle);
-        private void StaticInitializer_8_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>).TypeHandle);
-        private void StaticInitializer_11_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::App3.MainWindow).TypeHandle);
-        private void StaticInitializer_13_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_15_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_4_MicaBackdrop() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Media.MicaBackdrop).TypeHandle);
+        private void StaticInitializer_6_MicaKind() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Composition.SystemBackdrops.MicaKind).TypeHandle);
+        private void StaticInitializer_7_Enum() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Enum).TypeHandle);
+        private void StaticInitializer_8_ValueType() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.ValueType).TypeHandle);
+        private void StaticInitializer_9_MenuBar() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.MenuBar).TypeHandle);
+        private void StaticInitializer_11_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuBarItem>).TypeHandle);
+        private void StaticInitializer_12_MenuBarItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.MenuBarItem).TypeHandle);
+        private void StaticInitializer_13_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>).TypeHandle);
+        private void StaticInitializer_16_ColorPicker() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ColorPicker).TypeHandle);
+        private void StaticInitializer_17_Color() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Windows.UI.Color).TypeHandle);
+        private void StaticInitializer_18_ColorSpectrumComponents() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents).TypeHandle);
+        private void StaticInitializer_19_ColorSpectrumShape() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ColorSpectrumShape).TypeHandle);
+        private void StaticInitializer_22_Nullable() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Nullable<global::Windows.UI.Color>).TypeHandle);
+        private void StaticInitializer_23_CustomCanvas() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::App3.CustomCanvas).TypeHandle);
+        private void StaticInitializer_26_InputCursor() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Input.InputCursor).TypeHandle);
+        private void StaticInitializer_27_SplitButton() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.SplitButton).TypeHandle);
+        private void StaticInitializer_30_ICommand() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Windows.Input.ICommand).TypeHandle);
+        private void StaticInitializer_31_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::App3.MainWindow).TypeHandle);
+        private void StaticInitializer_33_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_35_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -317,19 +372,19 @@ namespace App3.App3_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newKey, newItem);
         }
-        private void VectorAdd_6_IList(object instance, object item)
+        private void VectorAdd_11_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.MenuBarItem>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.MenuBarItem)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_8_IList(object instance, object item)
+        private void VectorAdd_13_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_15_IList(object instance, object item)
+        private void VectorAdd_35_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -367,69 +422,220 @@ namespace App3.App3_XamlTypeInfo
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 4:   //  Microsoft.UI.Xaml.Controls.MenuBar
+            case 4:   //  Microsoft.UI.Xaml.Media.MicaBackdrop
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Media.SystemBackdrop"));
+                userType.Activator = Activate_4_MicaBackdrop;
+                userType.StaticInitializer = StaticInitializer_4_MicaBackdrop;
+                userType.AddMemberName("Kind");
+                xamlType = userType;
+                break;
+
+            case 5:   //  Microsoft.UI.Xaml.Media.SystemBackdrop
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 6:   //  Microsoft.UI.Composition.SystemBackdrops.MicaKind
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
+                userType.StaticInitializer = StaticInitializer_6_MicaKind;
+                userType.AddEnumValue("Base", global::Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base);
+                userType.AddEnumValue("BaseAlt", global::Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt);
+                xamlType = userType;
+                break;
+
+            case 7:   //  System.Enum
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
+                userType.StaticInitializer = StaticInitializer_7_Enum;
+                xamlType = userType;
+                break;
+
+            case 8:   //  System.ValueType
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.StaticInitializer = StaticInitializer_8_ValueType;
+                xamlType = userType;
+                break;
+
+            case 9:   //  Microsoft.UI.Xaml.Controls.MenuBar
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_4_MenuBar;
-                userType.StaticInitializer = StaticInitializer_4_MenuBar;
+                userType.Activator = Activate_9_MenuBar;
+                userType.StaticInitializer = StaticInitializer_9_MenuBar;
                 userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.MenuBar.Items");
                 userType.AddMemberName("Items");
                 xamlType = userType;
                 break;
 
-            case 5:   //  Microsoft.UI.Xaml.Controls.Control
+            case 10:   //  Microsoft.UI.Xaml.Controls.Control
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 6:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuBarItem>
+            case 11:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuBarItem>
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_6_IList;
-                userType.CollectionAdd = VectorAdd_6_IList;
+                userType.StaticInitializer = StaticInitializer_11_IList;
+                userType.CollectionAdd = VectorAdd_11_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 7:   //  Microsoft.UI.Xaml.Controls.MenuBarItem
+            case 12:   //  Microsoft.UI.Xaml.Controls.MenuBarItem
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_7_MenuBarItem;
-                userType.StaticInitializer = StaticInitializer_7_MenuBarItem;
+                userType.Activator = Activate_12_MenuBarItem;
+                userType.StaticInitializer = StaticInitializer_12_MenuBarItem;
                 userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.MenuBarItem.Items");
                 userType.AddMemberName("Items");
                 userType.AddMemberName("Title");
                 xamlType = userType;
                 break;
 
-            case 8:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>
+            case 13:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_8_IList;
-                userType.CollectionAdd = VectorAdd_8_IList;
+                userType.StaticInitializer = StaticInitializer_13_IList;
+                userType.CollectionAdd = VectorAdd_13_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 9:   //  Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase
+            case 14:   //  Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 10:   //  String
+            case 15:   //  String
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 11:   //  App3.MainWindow
-                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Window"));
-                userType.Activator = Activate_11_MainWindow;
-                userType.StaticInitializer = StaticInitializer_11_MainWindow;
+            case 16:   //  Microsoft.UI.Xaml.Controls.ColorPicker
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
+                userType.Activator = Activate_16_ColorPicker;
+                userType.StaticInitializer = StaticInitializer_16_ColorPicker;
+                userType.AddMemberName("Color");
+                userType.AddMemberName("ColorSpectrumComponents");
+                userType.AddMemberName("ColorSpectrumShape");
+                userType.AddMemberName("IsAlphaEnabled");
+                userType.AddMemberName("IsAlphaSliderVisible");
+                userType.AddMemberName("IsAlphaTextInputVisible");
+                userType.AddMemberName("IsColorChannelTextInputVisible");
+                userType.AddMemberName("IsColorPreviewVisible");
+                userType.AddMemberName("IsColorSliderVisible");
+                userType.AddMemberName("IsColorSpectrumVisible");
+                userType.AddMemberName("IsHexInputVisible");
+                userType.AddMemberName("IsMoreButtonVisible");
+                userType.AddMemberName("MaxHue");
+                userType.AddMemberName("MaxSaturation");
+                userType.AddMemberName("MaxValue");
+                userType.AddMemberName("MinHue");
+                userType.AddMemberName("MinSaturation");
+                userType.AddMemberName("MinValue");
+                userType.AddMemberName("Orientation");
+                userType.AddMemberName("PreviousColor");
+                xamlType = userType;
+                break;
+
+            case 17:   //  Windows.UI.Color
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
+                userType.StaticInitializer = StaticInitializer_17_Color;
+                xamlType = userType;
+                break;
+
+            case 18:   //  Microsoft.UI.Xaml.Controls.ColorSpectrumComponents
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
+                userType.StaticInitializer = StaticInitializer_18_ColorSpectrumComponents;
+                userType.AddEnumValue("HueValue", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueValue);
+                userType.AddEnumValue("ValueHue", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue);
+                userType.AddEnumValue("HueSaturation", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation);
+                userType.AddEnumValue("SaturationHue", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue);
+                userType.AddEnumValue("SaturationValue", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue);
+                userType.AddEnumValue("ValueSaturation", global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation);
+                xamlType = userType;
+                break;
+
+            case 19:   //  Microsoft.UI.Xaml.Controls.ColorSpectrumShape
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
+                userType.StaticInitializer = StaticInitializer_19_ColorSpectrumShape;
+                userType.AddEnumValue("Box", global::Microsoft.UI.Xaml.Controls.ColorSpectrumShape.Box);
+                userType.AddEnumValue("Ring", global::Microsoft.UI.Xaml.Controls.ColorSpectrumShape.Ring);
+                xamlType = userType;
+                break;
+
+            case 20:   //  Int32
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 21:   //  Microsoft.UI.Xaml.Controls.Orientation
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 22:   //  System.Nullable`1<Windows.UI.Color>
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
+                userType.SetBoxedType(GetXamlTypeByName("Windows.UI.Color"));
+                userType.BoxInstance = userType.BoxType<global::Windows.UI.Color>;
+                userType.StaticInitializer = StaticInitializer_22_Nullable;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 23:   //  App3.CustomCanvas
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Canvas"));
+                userType.Activator = Activate_23_CustomCanvas;
+                userType.StaticInitializer = StaticInitializer_23_CustomCanvas;
+                userType.AddMemberName("InputCursor");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 12:   //  Microsoft.UI.Xaml.Window
+            case 24:   //  Microsoft.UI.Xaml.Controls.Canvas
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 13:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 25:   //  Microsoft.UI.Xaml.Controls.Panel
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 26:   //  Microsoft.UI.Input.InputCursor
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.StaticInitializer = StaticInitializer_26_InputCursor;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 27:   //  Microsoft.UI.Xaml.Controls.SplitButton
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ContentControl"));
+                userType.Activator = Activate_27_SplitButton;
+                userType.StaticInitializer = StaticInitializer_27_SplitButton;
+                userType.AddMemberName("Flyout");
+                userType.AddMemberName("Command");
+                userType.AddMemberName("CommandParameter");
+                xamlType = userType;
+                break;
+
+            case 28:   //  Microsoft.UI.Xaml.Controls.ContentControl
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 29:   //  Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 30:   //  System.Windows.Input.ICommand
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
+                userType.StaticInitializer = StaticInitializer_30_ICommand;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 31:   //  App3.MainWindow
+                userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Window"));
+                userType.Activator = Activate_31_MainWindow;
+                userType.StaticInitializer = StaticInitializer_31_MainWindow;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 32:   //  Microsoft.UI.Xaml.Window
+                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 33:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_13_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_13_TreeViewNode;
+                userType.Activator = Activate_33_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_33_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -441,20 +647,16 @@ namespace App3.App3_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 14:   //  Microsoft.UI.Xaml.DependencyObject
+            case 34:   //  Microsoft.UI.Xaml.DependencyObject
                 xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 15:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 35:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::App3.App3_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_15_IList;
-                userType.CollectionAdd = VectorAdd_15_IList;
+                userType.StaticInitializer = StaticInitializer_35_IList;
+                userType.CollectionAdd = VectorAdd_35_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
-                break;
-
-            case 16:   //  Int32
-                xamlType = new global::App3.App3_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }
             return xamlType;
@@ -525,72 +727,322 @@ namespace App3.App3_XamlTypeInfo
             var that = (global::Microsoft.UI.Xaml.Controls.XamlControlsResources)instance;
             that.UseCompactResources = (global::System.Boolean)Value;
         }
-        private object get_1_MenuBar_Items(object instance)
+        private object get_1_MicaBackdrop_Kind(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Media.MicaBackdrop)instance;
+            return that.Kind;
+        }
+        private void set_1_MicaBackdrop_Kind(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Media.MicaBackdrop)instance;
+            that.Kind = (global::Microsoft.UI.Composition.SystemBackdrops.MicaKind)Value;
+        }
+        private object get_2_MenuBar_Items(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.MenuBar)instance;
             return that.Items;
         }
-        private object get_2_MenuBarItem_Items(object instance)
+        private object get_3_MenuBarItem_Items(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.MenuBarItem)instance;
             return that.Items;
         }
-        private object get_3_MenuBarItem_Title(object instance)
+        private object get_4_MenuBarItem_Title(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.MenuBarItem)instance;
             return that.Title;
         }
-        private void set_3_MenuBarItem_Title(object instance, object Value)
+        private void set_4_MenuBarItem_Title(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.MenuBarItem)instance;
             that.Title = (global::System.String)Value;
         }
-        private object get_4_TreeViewNode_Children(object instance)
+        private object get_5_ColorPicker_Color(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.Color;
+        }
+        private void set_5_ColorPicker_Color(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.Color = (global::Windows.UI.Color)Value;
+        }
+        private object get_6_ColorPicker_ColorSpectrumComponents(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.ColorSpectrumComponents;
+        }
+        private void set_6_ColorPicker_ColorSpectrumComponents(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.ColorSpectrumComponents = (global::Microsoft.UI.Xaml.Controls.ColorSpectrumComponents)Value;
+        }
+        private object get_7_ColorPicker_ColorSpectrumShape(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.ColorSpectrumShape;
+        }
+        private void set_7_ColorPicker_ColorSpectrumShape(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.ColorSpectrumShape = (global::Microsoft.UI.Xaml.Controls.ColorSpectrumShape)Value;
+        }
+        private object get_8_ColorPicker_IsAlphaEnabled(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsAlphaEnabled;
+        }
+        private void set_8_ColorPicker_IsAlphaEnabled(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsAlphaEnabled = (global::System.Boolean)Value;
+        }
+        private object get_9_ColorPicker_IsAlphaSliderVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsAlphaSliderVisible;
+        }
+        private void set_9_ColorPicker_IsAlphaSliderVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsAlphaSliderVisible = (global::System.Boolean)Value;
+        }
+        private object get_10_ColorPicker_IsAlphaTextInputVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsAlphaTextInputVisible;
+        }
+        private void set_10_ColorPicker_IsAlphaTextInputVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsAlphaTextInputVisible = (global::System.Boolean)Value;
+        }
+        private object get_11_ColorPicker_IsColorChannelTextInputVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsColorChannelTextInputVisible;
+        }
+        private void set_11_ColorPicker_IsColorChannelTextInputVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsColorChannelTextInputVisible = (global::System.Boolean)Value;
+        }
+        private object get_12_ColorPicker_IsColorPreviewVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsColorPreviewVisible;
+        }
+        private void set_12_ColorPicker_IsColorPreviewVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsColorPreviewVisible = (global::System.Boolean)Value;
+        }
+        private object get_13_ColorPicker_IsColorSliderVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsColorSliderVisible;
+        }
+        private void set_13_ColorPicker_IsColorSliderVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsColorSliderVisible = (global::System.Boolean)Value;
+        }
+        private object get_14_ColorPicker_IsColorSpectrumVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsColorSpectrumVisible;
+        }
+        private void set_14_ColorPicker_IsColorSpectrumVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsColorSpectrumVisible = (global::System.Boolean)Value;
+        }
+        private object get_15_ColorPicker_IsHexInputVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsHexInputVisible;
+        }
+        private void set_15_ColorPicker_IsHexInputVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsHexInputVisible = (global::System.Boolean)Value;
+        }
+        private object get_16_ColorPicker_IsMoreButtonVisible(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.IsMoreButtonVisible;
+        }
+        private void set_16_ColorPicker_IsMoreButtonVisible(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.IsMoreButtonVisible = (global::System.Boolean)Value;
+        }
+        private object get_17_ColorPicker_MaxHue(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MaxHue;
+        }
+        private void set_17_ColorPicker_MaxHue(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MaxHue = (global::System.Int32)Value;
+        }
+        private object get_18_ColorPicker_MaxSaturation(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MaxSaturation;
+        }
+        private void set_18_ColorPicker_MaxSaturation(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MaxSaturation = (global::System.Int32)Value;
+        }
+        private object get_19_ColorPicker_MaxValue(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MaxValue;
+        }
+        private void set_19_ColorPicker_MaxValue(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MaxValue = (global::System.Int32)Value;
+        }
+        private object get_20_ColorPicker_MinHue(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MinHue;
+        }
+        private void set_20_ColorPicker_MinHue(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MinHue = (global::System.Int32)Value;
+        }
+        private object get_21_ColorPicker_MinSaturation(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MinSaturation;
+        }
+        private void set_21_ColorPicker_MinSaturation(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MinSaturation = (global::System.Int32)Value;
+        }
+        private object get_22_ColorPicker_MinValue(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.MinValue;
+        }
+        private void set_22_ColorPicker_MinValue(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.MinValue = (global::System.Int32)Value;
+        }
+        private object get_23_ColorPicker_Orientation(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.Orientation;
+        }
+        private void set_23_ColorPicker_Orientation(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.Orientation = (global::Microsoft.UI.Xaml.Controls.Orientation)Value;
+        }
+        private object get_24_ColorPicker_PreviousColor(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            return that.PreviousColor;
+        }
+        private void set_24_ColorPicker_PreviousColor(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ColorPicker)instance;
+            that.PreviousColor = (global::System.Nullable<global::Windows.UI.Color>)Value;
+        }
+        private object get_25_CustomCanvas_InputCursor(object instance)
+        {
+            var that = (global::App3.CustomCanvas)instance;
+            return that.InputCursor;
+        }
+        private void set_25_CustomCanvas_InputCursor(object instance, object Value)
+        {
+            var that = (global::App3.CustomCanvas)instance;
+            that.InputCursor = (global::Microsoft.UI.Input.InputCursor)Value;
+        }
+        private object get_26_SplitButton_Flyout(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            return that.Flyout;
+        }
+        private void set_26_SplitButton_Flyout(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            that.Flyout = (global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase)Value;
+        }
+        private object get_27_SplitButton_Command(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            return that.Command;
+        }
+        private void set_27_SplitButton_Command(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            that.Command = (global::System.Windows.Input.ICommand)Value;
+        }
+        private object get_28_SplitButton_CommandParameter(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            return that.CommandParameter;
+        }
+        private void set_28_SplitButton_CommandParameter(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.SplitButton)instance;
+            that.CommandParameter = (global::System.Object)Value;
+        }
+        private object get_29_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_5_TreeViewNode_Content(object instance)
+        private object get_30_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_5_TreeViewNode_Content(object instance, object Value)
+        private void set_30_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_6_TreeViewNode_Depth(object instance)
+        private object get_31_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_7_TreeViewNode_HasChildren(object instance)
+        private object get_32_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_8_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_33_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_8_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_33_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_9_TreeViewNode_IsExpanded(object instance)
+        private object get_34_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_9_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_34_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_10_TreeViewNode_Parent(object instance)
+        private object get_35_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -610,71 +1062,245 @@ namespace App3.App3_XamlTypeInfo
                 xamlMember.Getter = get_0_XamlControlsResources_UseCompactResources;
                 xamlMember.Setter = set_0_XamlControlsResources_UseCompactResources;
                 break;
+            case "Microsoft.UI.Xaml.Media.MicaBackdrop.Kind":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Media.MicaBackdrop");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Kind", "Microsoft.UI.Composition.SystemBackdrops.MicaKind");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_1_MicaBackdrop_Kind;
+                xamlMember.Setter = set_1_MicaBackdrop_Kind;
+                break;
             case "Microsoft.UI.Xaml.Controls.MenuBar.Items":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.MenuBar");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Items", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuBarItem>");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_1_MenuBar_Items;
+                xamlMember.Getter = get_2_MenuBar_Items;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.MenuBarItem.Items":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.MenuBarItem");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Items", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.MenuFlyoutItemBase>");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_2_MenuBarItem_Items;
+                xamlMember.Getter = get_3_MenuBarItem_Items;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.MenuBarItem.Title":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.MenuBarItem");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Title", "String");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_3_MenuBarItem_Title;
-                xamlMember.Setter = set_3_MenuBarItem_Title;
+                xamlMember.Getter = get_4_MenuBarItem_Title;
+                xamlMember.Setter = set_4_MenuBarItem_Title;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.Color":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Color", "Windows.UI.Color");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_5_ColorPicker_Color;
+                xamlMember.Setter = set_5_ColorPicker_Color;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.ColorSpectrumComponents":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "ColorSpectrumComponents", "Microsoft.UI.Xaml.Controls.ColorSpectrumComponents");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_6_ColorPicker_ColorSpectrumComponents;
+                xamlMember.Setter = set_6_ColorPicker_ColorSpectrumComponents;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.ColorSpectrumShape":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "ColorSpectrumShape", "Microsoft.UI.Xaml.Controls.ColorSpectrumShape");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_7_ColorPicker_ColorSpectrumShape;
+                xamlMember.Setter = set_7_ColorPicker_ColorSpectrumShape;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsAlphaEnabled":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsAlphaEnabled", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_8_ColorPicker_IsAlphaEnabled;
+                xamlMember.Setter = set_8_ColorPicker_IsAlphaEnabled;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsAlphaSliderVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsAlphaSliderVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_9_ColorPicker_IsAlphaSliderVisible;
+                xamlMember.Setter = set_9_ColorPicker_IsAlphaSliderVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsAlphaTextInputVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsAlphaTextInputVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_10_ColorPicker_IsAlphaTextInputVisible;
+                xamlMember.Setter = set_10_ColorPicker_IsAlphaTextInputVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsColorChannelTextInputVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsColorChannelTextInputVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_11_ColorPicker_IsColorChannelTextInputVisible;
+                xamlMember.Setter = set_11_ColorPicker_IsColorChannelTextInputVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsColorPreviewVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsColorPreviewVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_12_ColorPicker_IsColorPreviewVisible;
+                xamlMember.Setter = set_12_ColorPicker_IsColorPreviewVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsColorSliderVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsColorSliderVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_13_ColorPicker_IsColorSliderVisible;
+                xamlMember.Setter = set_13_ColorPicker_IsColorSliderVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsColorSpectrumVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsColorSpectrumVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_14_ColorPicker_IsColorSpectrumVisible;
+                xamlMember.Setter = set_14_ColorPicker_IsColorSpectrumVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsHexInputVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsHexInputVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_15_ColorPicker_IsHexInputVisible;
+                xamlMember.Setter = set_15_ColorPicker_IsHexInputVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.IsMoreButtonVisible":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsMoreButtonVisible", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_16_ColorPicker_IsMoreButtonVisible;
+                xamlMember.Setter = set_16_ColorPicker_IsMoreButtonVisible;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MaxHue":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MaxHue", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_17_ColorPicker_MaxHue;
+                xamlMember.Setter = set_17_ColorPicker_MaxHue;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MaxSaturation":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MaxSaturation", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_18_ColorPicker_MaxSaturation;
+                xamlMember.Setter = set_18_ColorPicker_MaxSaturation;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MaxValue":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MaxValue", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_19_ColorPicker_MaxValue;
+                xamlMember.Setter = set_19_ColorPicker_MaxValue;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MinHue":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MinHue", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_20_ColorPicker_MinHue;
+                xamlMember.Setter = set_20_ColorPicker_MinHue;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MinSaturation":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MinSaturation", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_21_ColorPicker_MinSaturation;
+                xamlMember.Setter = set_21_ColorPicker_MinSaturation;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.MinValue":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "MinValue", "Int32");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_22_ColorPicker_MinValue;
+                xamlMember.Setter = set_22_ColorPicker_MinValue;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.Orientation":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Orientation", "Microsoft.UI.Xaml.Controls.Orientation");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_23_ColorPicker_Orientation;
+                xamlMember.Setter = set_23_ColorPicker_Orientation;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ColorPicker.PreviousColor":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ColorPicker");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "PreviousColor", "System.Nullable`1<Windows.UI.Color>");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_24_ColorPicker_PreviousColor;
+                xamlMember.Setter = set_24_ColorPicker_PreviousColor;
+                break;
+            case "App3.CustomCanvas.InputCursor":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("App3.CustomCanvas");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "InputCursor", "Microsoft.UI.Input.InputCursor");
+                xamlMember.Getter = get_25_CustomCanvas_InputCursor;
+                xamlMember.Setter = set_25_CustomCanvas_InputCursor;
+                break;
+            case "Microsoft.UI.Xaml.Controls.SplitButton.Flyout":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.SplitButton");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Flyout", "Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_26_SplitButton_Flyout;
+                xamlMember.Setter = set_26_SplitButton_Flyout;
+                break;
+            case "Microsoft.UI.Xaml.Controls.SplitButton.Command":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.SplitButton");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Command", "System.Windows.Input.ICommand");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_27_SplitButton_Command;
+                xamlMember.Setter = set_27_SplitButton_Command;
+                break;
+            case "Microsoft.UI.Xaml.Controls.SplitButton.CommandParameter":
+                userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.SplitButton");
+                xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "CommandParameter", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_28_SplitButton_CommandParameter;
+                xamlMember.Setter = set_28_SplitButton_CommandParameter;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_4_TreeViewNode_Children;
+                xamlMember.Getter = get_29_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_5_TreeViewNode_Content;
-                xamlMember.Setter = set_5_TreeViewNode_Content;
+                xamlMember.Getter = get_30_TreeViewNode_Content;
+                xamlMember.Setter = set_30_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_6_TreeViewNode_Depth;
+                xamlMember.Getter = get_31_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_7_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_32_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_8_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_8_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_33_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_33_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_9_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_9_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_34_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_34_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::App3.App3_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::App3.App3_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_10_TreeViewNode_Parent;
+                xamlMember.Getter = get_35_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

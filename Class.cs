@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using System;
@@ -18,7 +19,7 @@ namespace GraphicsLibrary
         public Brush FillColor { get; set; }
         public Brush StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
-
+        // public UIElement Shape { get; private set; }  // Ссылка на нарисованный объект
         public Figure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
         {
             X = x;
@@ -79,7 +80,7 @@ namespace GraphicsLibrary
             Canvas.SetLeft(ellipse, X);
             Canvas.SetTop(ellipse, Y);
 
-            canvas.Children.Add(ellipse);
+            canvas?.Children.Add(ellipse);
         }
     }
 }
