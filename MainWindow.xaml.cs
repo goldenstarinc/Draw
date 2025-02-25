@@ -15,12 +15,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using Microsoft.UI.Dispatching;
+using Windows.Devices.Input;
 #endregion
 
 namespace App3
 {
     public sealed partial class MainWindow : Window
     {
+        #region DEFINED VARIABLES
+
         private Random random = new Random();
 
 
@@ -56,6 +59,7 @@ namespace App3
             Circle
         }
 
+        #endregion
         public MainWindow()
         {
             InitializeComponent();
@@ -67,77 +71,7 @@ namespace App3
             UpdateCanvasSizes();
         }
 
-        private void InitializeLayers()
-        {
-            currentLayerIndex = 0;
-
-            _layerManager.AddLayer();
-
-
-            foreach (var layer in _layerManager.GetAllLayers())
-            {
-                layer.Background = new SolidColorBrush(defaultCanvasColor);
-                DrawingCanvas.Children.Add(layer);
-            }
-        }
-
-        private void InitializePreviewLayer()
-        {
-            previewLayer = new Canvas();
-            previewLayer.Background = new SolidColorBrush(defaultCanvasColor);
-            DrawingCanvas.Children.Add(previewLayer);
-        }
-
-        private void DestroyPrevewLayer()
-        {
-            if (previewLayer != null)
-            {
-                DrawingCanvas.Children.Remove(previewLayer);
-            }
-            previewLayer = null;
-        }
-
-        /// <summary>
-        /// Метод, срабатывающий при изменении размера канваса
-        /// </summary>
-        private void OnDrawingCanvasSizeChanged(object sender, SizeChangedEventArgs e) => UpdateCanvasSizes();
-
-        /// <summary>
-        /// Метод, обновляющий размеры слоев, в соответствие с размерами основного канваса
-        /// </summary>
-        private void UpdateCanvasSizes()
-        {
-            if (DrawingCanvas != null)
-            {
-                foreach (Canvas layer in _layerManager.GetAllLayers())
-                {
-                    layer.Width = DrawingCanvas.ActualWidth;
-                    layer.Height = DrawingCanvas.ActualHeight;
-                }
-            }
-        }
-
-        private void SelectNextLayer_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentLayerIndex >= _layerManager.GetLayerCount() - 1)
-            {
-                currentLayerIndex = _layerManager.GetLayerCount() - 1;
-                return;
-            }
-            currentLayerIndex++;
-            Debug.Print(currentLayerIndex.ToString());
-        }
-
-        private void SelectPreviousLayer_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentLayerIndex <= 0)
-            {
-                currentLayerIndex = 0;
-                return;
-            }
-            currentLayerIndex--;
-            Debug.Print(currentLayerIndex.ToString());
-        }
+        #region TOOLS REALIZATION
 
         /// <summary>
         /// Метод, позволяющий выбрать кисть
@@ -160,6 +94,11 @@ namespace App3
         private void SelectFill(object sender, RoutedEventArgs e) => selectedTool = Tool.Fill;
 
         /// <summary>
+        /// Метод, позволяющий выбрать ластик
+        /// </summary>
+        private void SelectEraser(object sender, RoutedEventArgs e) => selectedTool = Tool.Eraser;
+
+        /// <summary>
         /// Метод для очищения канваса
         /// </summary>
         private void ClearCanvas(object sender, RoutedEventArgs e)
@@ -171,6 +110,8 @@ namespace App3
             currentLayer.Children.Clear();
             currentLayer.Background = new SolidColorBrush(defaultCanvasColor);
         }
+
+        #endregion
 
         /// <summary>
         /// Метод, отслеживающий одиночное нажатие курсора
@@ -203,6 +144,8 @@ namespace App3
             }
 
             selectedElement = e.OriginalSource as UIElement;
+
+            InitializePreviewLayer();
 
             if (selectedTool == Tool.Brush)
             {
@@ -353,49 +296,7 @@ namespace App3
                 previewFigure = null;
                 previewLayer.Children.Clear();
             }
-        }
-
-        /// <summary>
-        /// Метод, выделяющий выбранную фигуру
-        /// </summary>
-        /// <param name="element"></param>
-        private void DrawSelectionRectangle(UIElement element)
-        {
-            RemoveSelectionRectangle(ref selectionRectangle);
-
-            if (element is Shape shape)
-            {
-                double left = Canvas.GetLeft(shape);
-                double top = Canvas.GetTop(shape);
-                double width = shape.Width;
-                double height = shape.Height;
-
-                selectionRectangle = new Rectangle
-                {
-                    Width = width + 8,
-                    Height = height + 8, 
-                    Stroke = new SolidColorBrush(Colors.Black), 
-                    StrokeThickness = 2,
-                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255))
-                };
-
-                Canvas.SetLeft(selectionRectangle, left - 4);
-                Canvas.SetTop(selectionRectangle, top - 4);
-
-                DrawingCanvas.Children.Add(selectionRectangle);
-            }
-        }
-
-        /// <summary>
-        /// Метод, снимающий выделение с фигуры
-        /// </summary>
-        private void RemoveSelection()
-        {
-            if (selectionRectangle != null)
-            {
-                RemoveSelectionRectangle(ref selectionRectangle);
-            }
-            SetSelectedElementToNull();
+            DestroyPreviewLayer();
         }
 
         /// <summary>
@@ -410,6 +311,9 @@ namespace App3
                 MakeDraggingActive();
             }
         }
+
+
+        #region ADDITIONAL FUNCS
 
         /// <summary>
         /// Метод, проверяющий содержит ли выбранная фигура переданную точку
@@ -442,31 +346,31 @@ namespace App3
         }
 
         /// <summary>
-        /// Метод, удаляющий выбранную фигуру
+        /// Метод, проверяющий находится ли переданная точка на границе выделенной фигуры
         /// </summary>
-        private void RemoveSelectedElement()
+        /// <param name="point">Переданная точка</param>
+        /// <param name="shape">Выделенная фигура</param>
+        /// <param name="direction">Направления изменения размера</param>
+        /// <returns>True - если точка находится на границе выделенной фигуры, иначе - false</returns>
+        private bool IsOnBorder(Point point, Shape shape, out string direction)
         {
-            if (selectedElement != null)
-            {
-                DrawingCanvas.Children.Remove(selectedElement);
-                _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);
-            }
+            direction = "";
+            double left = Canvas.GetLeft(shape);
+            double top = Canvas.GetTop(shape);
+            double right = left + shape.Width;
+            double bottom = top + shape.Height;
+
+            if (Math.Abs(point.X - left) < 5) direction += "left";
+            if (Math.Abs(point.X - right) < 5) direction += "right";
+            if (Math.Abs(point.Y - top) < 5) direction += "top";
+            if (Math.Abs(point.Y - bottom) < 5) direction += "bottom";
+
+            return !string.IsNullOrEmpty(direction);
         }
 
-        /// <summary>
-        /// Метод, выполняющий сброс выбранной фигуры
-        /// </summary>
-        private void SetSelectedElementToNull() => selectedElement = null;
+        #endregion
 
-        /// <summary>
-        /// Метод, удаляющий прямоугольник, отвечающий за выделение фигуры
-        /// </summary>
-        /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
-        private void RemoveSelectionRectangle(ref Rectangle selectionRectangle)
-        {
-            DrawingCanvas.Children.Remove(selectionRectangle);
-            selectionRectangle = null;
-        }
+        #region BOOL STATE METHODS
 
         /// <summary>
         /// Метод, делающий изменение размера фигуры неактивным
@@ -489,38 +393,103 @@ namespace App3
         private void MakeDraggingActive() => isDragging = true;
 
         /// <summary>
-        /// Метод, проверяющий находится ли переданная точка на границе выделенной фигуры
+        /// Метод, включающий режим рисования
         /// </summary>
-        /// <param name="point">Переданная точка</param>
-        /// <param name="shape">Выделенная фигура</param>
-        /// <param name="direction">Направления изменения размера</param>
-        /// <returns>True - если точка находится на границе выделенной фигуры, иначе - false</returns>
-        private bool IsOnBorder(Point point, Shape shape, out string direction)
+        private void MakeDrawingInactive() => isDrawing = false;
+
+        /// <summary>
+        ///  Метод, выключающий режим рисования
+        /// </summary>
+        private void MakeDrawingActive() => isDrawing = true;
+
+        #endregion
+
+        #region SELECTION METHODS
+
+        /// <summary>
+        /// Метод, выделяющий выбранную фигуру
+        /// </summary>
+        /// <param name="element"></param>
+        private void DrawSelectionRectangle(UIElement element)
         {
-            direction = "";
-            double left = Canvas.GetLeft(shape);
-            double top = Canvas.GetTop(shape);
-            double right = left + shape.Width;
-            double bottom = top + shape.Height;
+            RemoveSelectionRectangle(ref selectionRectangle);
 
-            if (Math.Abs(point.X - left) < 5) direction += "left";
-            if (Math.Abs(point.X - right) < 5) direction += "right";
-            if (Math.Abs(point.Y - top) < 5) direction += "top";
-            if (Math.Abs(point.Y - bottom) < 5) direction += "bottom";
+            if (element is Shape shape)
+            {
+                double left = Canvas.GetLeft(shape);
+                double top = Canvas.GetTop(shape);
+                double width = shape.Width;
+                double height = shape.Height;
 
-            return !string.IsNullOrEmpty(direction);
+                selectionRectangle = new Rectangle
+                {
+                    Width = width + 8,
+                    Height = height + 8,
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = 2,
+                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255))
+                };
+
+                Canvas.SetLeft(selectionRectangle, left - 4);
+                Canvas.SetTop(selectionRectangle, top - 4);
+
+                _layerManager.GetLayer(currentLayerIndex).Children.Add(selectionRectangle);
+            }
         }
+
+        /// <summary>
+        /// Метод, снимающий выделение с фигуры
+        /// </summary>
+        private void RemoveSelection()
+        {
+            if (selectionRectangle != null)
+            {
+                RemoveSelectionRectangle(ref selectionRectangle);
+            }
+            SetSelectedElementToNull();
+        }
+
+        /// <summary>
+        /// Метод, удаляющий прямоугольник, отвечающий за выделение фигуры
+        /// </summary>
+        /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
+        private void RemoveSelectionRectangle(ref Rectangle selectionRectangle)
+        {
+            _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectionRectangle);
+            selectionRectangle = null;
+        }
+
+        /// <summary>
+        /// Метод, удаляющий выбранную фигуру
+        /// </summary>
+        private void RemoveSelectedElement()
+        {
+            if (selectedElement != null)
+            {
+                DrawingCanvas.Children.Remove(selectedElement);
+                _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);
+            }
+        }
+
+        /// <summary>
+        /// Метод, выполняющий сброс выбранной фигуры
+        /// </summary>
+        private void SetSelectedElementToNull() => selectedElement = null;
+
+        #endregion
+
+        #region Layers
         private void AddLayerButton_Click(object sender, RoutedEventArgs e)
         {
             _layerManager.AddLayer();
             _layerManager.GetLayer(_layerManager.GetLayerCount() - 1).Background = new SolidColorBrush(defaultCanvasColor);
             DrawingCanvas.Children.Remove(previewLayer);
             DrawingCanvas.Children.Add(_layerManager.GetLayer(_layerManager.GetLayerCount() - 1));
+            previewLayer = new Canvas();
             DrawingCanvas.Children.Add(previewLayer);
 
             UpdateCanvasSizes();
         }
-
         private void RemoveLayerButton_Click(object sender, RoutedEventArgs e)
         {
             int lastLayerIndex = _layerManager.GetLayerCount() - 1;
@@ -571,6 +540,80 @@ namespace App3
         {
             selectedColor = Color.FromArgb(255, (byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255));
         }
+
+        private void InitializeLayers()
+        {
+            currentLayerIndex = 0;
+
+            _layerManager.AddLayer();
+
+
+            foreach (var layer in _layerManager.GetAllLayers())
+            {
+                layer.Background = new SolidColorBrush(defaultCanvasColor);
+                DrawingCanvas.Children.Add(layer);
+            }
+        }
+
+        /// <summary>
+        /// Метод, срабатывающий при изменении размера канваса
+        /// </summary>
+        private void OnDrawingCanvasSizeChanged(object sender, SizeChangedEventArgs e) => UpdateCanvasSizes();
+
+        /// <summary>
+        /// Метод, обновляющий размеры слоев, в соответствие с размерами основного канваса
+        /// </summary>
+        private void UpdateCanvasSizes()
+        {
+            if (DrawingCanvas != null)
+            {
+                foreach (Canvas layer in _layerManager.GetAllLayers())
+                {
+                    layer.Width = DrawingCanvas.ActualWidth;
+                    layer.Height = DrawingCanvas.ActualHeight;
+                }
+            }
+        }
+
+        private void SelectNextLayer_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLayerIndex >= _layerManager.GetLayerCount() - 1)
+            {
+                currentLayerIndex = _layerManager.GetLayerCount() - 1;
+                return;
+            }
+            currentLayerIndex++;
+            Debug.Print(currentLayerIndex.ToString());
+        }
+
+        private void SelectPreviousLayer_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentLayerIndex <= 0)
+            {
+                currentLayerIndex = 0;
+                return;
+            }
+            currentLayerIndex--;
+            Debug.Print(currentLayerIndex.ToString());
+        }
+
+        private void InitializePreviewLayer()
+        {
+            previewLayer = new Canvas();
+            previewLayer.Background = new SolidColorBrush(defaultCanvasColor);
+            DrawingCanvas.Children.Add(previewLayer);
+        }
+
+        private void DestroyPreviewLayer()
+        {
+            if (previewLayer != null)
+            {
+                DrawingCanvas.Children.Remove(previewLayer);
+            }
+            previewLayer = null;
+        }
+
+        #endregion
     }
 }
 

@@ -1,17 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\",
+  "WorkspaceRootPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\mymat\\onedrive\\desktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\mymat\\onedrive\\desktop\\github\\photoshop_2\\layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\mymat\\onedrive\\desktop\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -21,35 +25,47 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 267,
-          "SelectedChildIndex": 3,
+          "DockedHeight": 306,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Class.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
+              "RelativeDocumentMoniker": "Class.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
+              "RelativeToolTip": "Class.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAswFIAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-25T15:20:35.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-25T13:22:33.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T13:22:33.168Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "LayerManager.cs",
-              "DocumentMoniker": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\LayerManager.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerManager.cs",
               "RelativeDocumentMoniker": "LayerManager.cs",
-              "ToolTip": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\LayerManager.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerManager.cs",
               "RelativeToolTip": "LayerManager.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAgwDQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-24T19:21:36.487Z",
               "EditorCaption": ""
@@ -58,14 +74,32 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAB0CAAAAAAAAAAAIwEACAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACMBAAAAAAAAAAAqwDoBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-17T20:06:44.095Z",
               "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 11,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

@@ -80,7 +80,7 @@ namespace GraphicsLibrary
             Canvas.SetLeft(ellipse, X);
             Canvas.SetTop(ellipse, Y);
 
-            canvas.Children.Add(ellipse);
+            canvas?.Children.Add(ellipse);
         }
     }
 }
