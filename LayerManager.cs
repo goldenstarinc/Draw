@@ -1,15 +1,17 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media;
 
 namespace App3
 {
     public class LayerManager
     {
-        private readonly List<Canvas> _layers = new List<Canvas>();
+        private List<Canvas> _layers = new List<Canvas>();
 
         public void AddLayer()
         {

@@ -27,6 +27,7 @@
             <Button Content="BringToBack" Click="SendToBackButton_Click" Margin="5"/>
             <Button Content="+" Click="SelectNextLayer_Click" Margin="5"/>
             <Button Content="-" Click="SelectPreviousLayer_Click" Margin="5"/>
+            <Button Content="GenerateColor" Click="GetRandomColor_Click" Margin="5"/>
         </StackPanel>
 
         <Canvas Name="DrawingCanvas" Background="White" Grid.Column="1"

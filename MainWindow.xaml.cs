@@ -13,13 +13,18 @@ using Windows.Devices.PointOfService.Provider;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using Microsoft.UI.Dispatching;
 #endregion
 
 namespace App3
 {
     public sealed partial class MainWindow : Window
     {
-        private readonly LayerManager _layerManager = new LayerManager();
+        private Random random = new Random();
+
+
+        private LayerManager _layerManager = new LayerManager();
 
         private Tool selectedTool = Tool.Brush;
         private Polyline currentStroke;
@@ -29,7 +34,7 @@ namespace App3
 
         private int currentLayerIndex;
 
-        private Color defaultCanvasColor = Colors.White;
+        private Color defaultCanvasColor = Colors.Transparent;
 
         private bool isDragging = false;
         private Point lastPointerPosition;
@@ -40,10 +45,13 @@ namespace App3
         private string resizeDirection = "";
 
         private Canvas previewLayer;
+        private Color selectedColor = Colors.Magenta;
+        
         private enum Tool
         {
             Brush,
             Fill,
+            Eraser,
             Rectangle,
             Circle
         }
@@ -54,19 +62,39 @@ namespace App3
             
             DrawingCanvas.SizeChanged += OnDrawingCanvasSizeChanged;
 
-            _layerManager.AddLayer();
+            InitializeLayers();
 
+            UpdateCanvasSizes();
+        }
+
+        private void InitializeLayers()
+        {
             currentLayerIndex = 0;
 
-            previewLayer = new Canvas();
+            _layerManager.AddLayer();
 
 
             foreach (var layer in _layerManager.GetAllLayers())
             {
+                layer.Background = new SolidColorBrush(defaultCanvasColor);
                 DrawingCanvas.Children.Add(layer);
             }
+        }
+
+        private void InitializePreviewLayer()
+        {
+            previewLayer = new Canvas();
+            previewLayer.Background = new SolidColorBrush(defaultCanvasColor);
             DrawingCanvas.Children.Add(previewLayer);
-            UpdateCanvasSizes();
+        }
+
+        private void DestroyPrevewLayer()
+        {
+            if (previewLayer != null)
+            {
+                DrawingCanvas.Children.Remove(previewLayer);
+            }
+            previewLayer = null;
         }
 
         /// <summary>
@@ -136,10 +164,12 @@ namespace App3
         /// </summary>
         private void ClearCanvas(object sender, RoutedEventArgs e)
         {
-            DrawingCanvas.Children.Clear();
-            var newLayer = new Canvas();
-            DrawingCanvas.Children.Add(newLayer);
-            DrawingCanvas.Background = new SolidColorBrush(Colors.White);
+            var currentLayer = _layerManager.GetLayer(currentLayerIndex);
+
+            if (currentLayer == null) return;
+            
+            currentLayer.Children.Clear();
+            currentLayer.Background = new SolidColorBrush(defaultCanvasColor);
         }
 
         /// <summary>
@@ -184,20 +214,21 @@ namespace App3
                 currentStroke.Points.Add(point);
                 _layerManager.GetLayer(currentLayerIndex).Children.Add(currentStroke);
             }
-            else if (selectedTool == Tool.Fill)
+            else if (selectedTool == Tool.Fill && selectedElement != null)
             {
-                if (IsPointInsideElement(point, selectedElement))
+                if (IsPointInsideElement(point, selectedElement) && selectedElement is Shape)
                 {
                     Shape selectedShape = selectedElement as Shape;
 
                     if (selectedShape != null)
                     {
-                        selectedShape.Fill = new SolidColorBrush(Colors.Green);
+                        selectedShape.Fill = new SolidColorBrush(selectedColor);
                     }
                 }
-                else
+                else if (selectedElement is Canvas)
                 {
-                    if (_layerManager != null) _layerManager.GetLayer(currentLayerIndex).Background = new SolidColorBrush(Colors.Coral);
+                    if (_layerManager != null) _layerManager.GetLayer(currentLayerIndex).Background = new SolidColorBrush(selectedColor);
+                    UpdateCanvasSizes();
                 }
             }
         }
@@ -418,7 +449,7 @@ namespace App3
             if (selectedElement != null)
             {
                 DrawingCanvas.Children.Remove(selectedElement);
-                //_layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);???????????????????????????????
+                _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);
             }
         }
 
@@ -479,12 +510,15 @@ namespace App3
 
             return !string.IsNullOrEmpty(direction);
         }
-
         private void AddLayerButton_Click(object sender, RoutedEventArgs e)
         {
             _layerManager.AddLayer();
-            var newLayer = _layerManager.GetLayer(_layerManager.GetLayerCount() - 1);
-            DrawingCanvas.Children.Add(newLayer);
+            _layerManager.GetLayer(_layerManager.GetLayerCount() - 1).Background = new SolidColorBrush(defaultCanvasColor);
+            DrawingCanvas.Children.Remove(previewLayer);
+            DrawingCanvas.Children.Add(_layerManager.GetLayer(_layerManager.GetLayerCount() - 1));
+            DrawingCanvas.Children.Add(previewLayer);
+
+            UpdateCanvasSizes();
         }
 
         private void RemoveLayerButton_Click(object sender, RoutedEventArgs e)
@@ -495,9 +529,14 @@ namespace App3
                 _layerManager.RemoveLayer(lastLayerIndex);
                 DrawingCanvas.Children.RemoveAt(lastLayerIndex);
             }
+            
             if (currentLayerIndex == lastLayerIndex)
             {
                 currentLayerIndex = _layerManager.GetLayerCount() - 1;
+                if (currentLayerIndex < 0)
+                {
+                    currentLayerIndex = 0;
+                }
             }
         }
 
@@ -527,6 +566,11 @@ namespace App3
         }
 
         private int GetCurrentActiveLayerIndex() => currentLayerIndex;
+
+        private void GetRandomColor_Click(object sender, RoutedEventArgs e)
+        {
+            selectedColor = Color.FromArgb(255, (byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255));
+        }
     }
 }
 

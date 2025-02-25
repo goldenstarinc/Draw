@@ -27,6 +27,7 @@
             <Button x:ConnectionId='12' Content="BringToBack"                                Margin="5"/>
             <Button x:ConnectionId='13' Content="+"                               Margin="5"/>
             <Button x:ConnectionId='14' Content="-"                                   Margin="5"/>
+            <Button x:ConnectionId='15' Content="GenerateColor"                              Margin="5"/>
         </StackPanel>
 
         <Canvas x:ConnectionId='3' Name="DrawingCanvas" Background="White" Grid.Column="1"
