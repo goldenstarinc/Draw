@@ -527,5 +527,59 @@ namespace App3
         {
             //throw new NotImplementedException();
         }
+        private void ColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                // Меняем цвет Border на цвет выбранной кнопки
+                CurrentColor.Background = button.Background;
+                colorList.Hide();
+            }
+        }
+        private void NumberButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                // Обновляем TextBlock на выбранную цифру
+                SelectedNumber.Text = button.Content.ToString();
+
+                // Закрываем Flyout
+                numberFlyout.Hide();
+            }
+        }
+
+        private void PlusButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Логика для кнопки "+"
+            // Например, можно открыть диалог или добавить новую цифру
+            SelectedNumber.Text = "+";
+
+            // Закрываем Flyout
+            numberFlyout.Hide();
+        }
+        private async void OpenColorPickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Показываем ContentDialog
+            var result = await colorPickerDialog.ShowAsync();
+
+            // Если пользователь нажал "OK", обрабатываем выбранный цвет
+            if (result == ContentDialogResult.Primary)
+            {
+                var selectedColor = colorPicker.Color;
+                // Используйте selectedColor по своему усмотрению
+            }
+        }
+
+        // Обработчик для кнопки "OK"
+        private void ColorPickerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // Логика при нажатии на "OK"
+        }
+
+        // Обработчик для кнопки "Cancel"
+        private void ColorPickerDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            // Логика при нажатии на "Cancel"
+        }
     }
 }

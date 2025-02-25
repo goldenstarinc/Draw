@@ -1,22 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\",
+  "WorkspaceRootPath": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\otvyagis\\documents\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\ya110\\documents\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\ya110\\documents\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\otvyagis\\documents\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\otvyagis\\documents\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|c:\\users\\ya110\\documents\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,27 +26,41 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAL4AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-22T20:47:51.141Z"
+              "WhenOpened": "2025-02-22T20:47:51.141Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAACUCAAAAAAAAAAAwwDYCAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-17T20:06:44.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Class.cs",
-              "DocumentMoniker": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\Class.cs",
+              "DocumentMoniker": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\Class.cs",
               "RelativeDocumentMoniker": "Class.cs",
-              "ToolTip": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\Class.cs",
+              "ToolTip": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\Class.cs",
               "RelativeToolTip": "Class.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAADwvz4AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -57,25 +71,13 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "MainWindow.g.cs",
-              "DocumentMoniker": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
+              "DocumentMoniker": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
               "RelativeDocumentMoniker": "obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
-              "ToolTip": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
+              "ToolTip": "C:\\Users\\ya110\\Documents\\GitHub\\Photoshop_2\\obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
               "RelativeToolTip": "obj\\x64\\Debug\\net8.0-windows10.0.19041.0\\win-x64\\MainWindow.g.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAkwGMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T20:34:08.856Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\otvyagis\\Documents\\GitHub\\Photoshop_2\\MainWindow.xaml.cs*",
-              "RelativeToolTip": "MainWindow.xaml.cs*",
-              "ViewState": "AgIAAIcAAAAAAAAAAAAUwKMAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-17T20:06:44.095Z",
+              "WhenOpened": "2025-02-22T20:34:08.856Z",
               "EditorCaption": ""
             }
           ]
