@@ -2011,3 +2011,4 @@ K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64
 K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\qualifiers.txt.intermediate
 K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\MultipleQualifiersPerDimensionFound.txt
 K:\MyDesktop\GitHub\Photoshop_2\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ProjectArchitectures.txt
+K:\MyDesktop\GitHub\Photoshop_2\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Newtonsoft.Json.dll

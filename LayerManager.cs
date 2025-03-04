@@ -11,12 +11,19 @@ namespace App3
 {
     public class LayerManager
     {
-        private List<Canvas> _layers = new List<Canvas>();
+        private List<CustomCanvas> _layers = new List<CustomCanvas>();
 
-        public void AddLayer()
+        public void AddLayer(CustomCanvas canvas = null)
         {
-            var newLayer = new Canvas();
-            _layers.Add(newLayer);
+            if (canvas != null)
+            {
+                _layers.Add(canvas);
+            }
+            else
+            {
+                var newLayer = new CustomCanvas();
+                _layers.Add(newLayer);
+            }
         }
 
         public void RemoveLayer(int index)
@@ -63,7 +70,7 @@ namespace App3
             _layers.Clear();
         }
 
-        public IEnumerable<Canvas> GetAllLayers()
+        public IEnumerable<CustomCanvas> GetAllLayers()
         {
             return _layers;
         }

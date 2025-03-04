@@ -39,13 +39,6 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuBarItem>
-            <MenuBarItem Title="Вид">
-                <MenuFlyoutItem Text="Переключить тему" Click="ToggleTheme_Click">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE706;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuBarItem>
         </MenuBar>
 
         <Grid Grid.Row="1">
@@ -71,41 +64,41 @@
                     </Grid.RowDefinitions>
 
                     <!-- Кисть -->
-                    <Button Grid.Row="0" Grid.Column="0" Click="SelectBrush">
+                    <Button Grid.Row="0" Grid.Column="0" Click="SelectBrush" ToolTipService.ToolTip="Кисть">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE771;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Заливка -->
-                    <Button Grid.Row="0" Grid.Column="2" Click="SelectFill">
+                    <Button Grid.Row="0" Grid.Column="2" Click="SelectFill" ToolTipService.ToolTip="Заливка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE88F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Пипетка -->
-                    <Button Grid.Row="0" Grid.Column="1" Click="SelectColorPicker">
+                    <Button Grid.Row="0" Grid.Column="1" Click="SelectColorPicker" ToolTipService.ToolTip="Пипетка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Текст -->
-                    <Button Grid.Row="1" Grid.Column="0">
+                    <Button Grid.Row="1" Grid.Column="0" Click="SelectText" ToolTipService.ToolTip="Текст">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <!-- Очистка слоя -->
-                    <Button Grid.Row="1" Grid.Column="2" Click="ClearCanvas">
+                    <Button Grid.Row="1" Grid.Column="2" Click="ClearCanvas" ToolTipService.ToolTip="Очистить слой">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xED62;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Ластик  -->
-                    <Button Grid.Row="1" Grid.Column="1" Click="SelectEraser">
+                    <Button Grid.Row="1" Grid.Column="1" Click="SelectEraser" ToolTipService.ToolTip="Ластик">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE75C;" FontSize="20"/>
                         </StackPanel>
@@ -132,47 +125,42 @@
 
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0">
+                    <Button Grid.Row="0" Grid.Column="0" Click="SelectLine" ToolTipService.ToolTip="Линия">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xF7AF;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="0" Grid.Column="1" Click="SelectCircle">
+                    <Button Grid.Row="0" Grid.Column="1" Click="SelectCircle" ToolTipService.ToolTip="Круг">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA3A;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="0" Grid.Column="2" Click="SelectRectangle">
+                    <Button Grid.Row="0" Grid.Column="2" Click="SelectRectangle" ToolTipService.ToolTip="Прямоугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE7FB;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="1" Grid.Column="0">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE739;" FontSize="20"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Row="1" Grid.Column="1">
+                    <Button Grid.Row="1" Grid.Column="0" Click="SelectTriangle" ToolTipService.ToolTip="Треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE879;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="1" Grid.Column="2">
+                    <Button Grid.Row="1" Grid.Column="1" Click="SelectRightTriangle" ToolTipService.ToolTip="Прямоугольный треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA50;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="2" Grid.Column="0">
+                    <Button Grid.Row="1" Grid.Column="2" Click="SelectRhombus" ToolTipService.ToolTip="Ромб">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="2" Grid.Column="1">
+                    <Button Grid.Row="2" Grid.Column="0" Click="SelectGoldenStar" ToolTipService.ToolTip="Звезда">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE734;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="2" Grid.Column="2">
+                    <Button Grid.Row="2" Grid.Column="1" Click="SelectPerson" ToolTipService.ToolTip="Человечек">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE805;" FontSize="20"/>
                         </StackPanel>
@@ -198,7 +186,7 @@
                         </SplitButton.Flyout>
                     </SplitButton>
                     <!-- Кнопка справа -->
-                    <Button Name="OpenColorPicker" Margin="5,0,0,0" Click="OpenColorPickerButton_Click">
+                    <Button Name="OpenColorPicker" Margin="5,0,0,0" Click="OpenColorPickerButton_Click" ToolTipService.ToolTip="Палитра">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE790;" FontSize="20"/>
                         </StackPanel>
@@ -211,13 +199,10 @@
                     <TextBlock x:Name="SelectedNumber" Text="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
                     <SplitButton.Flyout>
                         <Flyout x:Name="numberFlyout" Placement="Bottom">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
+                            <StackPanel x:Name="ButtonContainer" Orientation="Horizontal" Spacing="8">
                                 <Button Width="32" Height="32" Content="1" Click="NumberButton_Click"/>
-                                <Button Width="32" Height="32" Content="2" Click="NumberButton_Click"/>
-                                <Button Width="32" Height="32" Content="3" Click="NumberButton_Click"/>
-                                <Button Width="32" Height="32" Content="4" Click="NumberButton_Click"/>
-                                <Button Width="32" Height="32" Content="5" Click="NumberButton_Click"/>
-                                <Button Width="32" Height="32" Content="+" Click="PlusButton_Click"/>
+                                <Button Width="32" Height="32" Content="+" Click="PlusButton_Click" ToolTipService.ToolTip="Добавить слой"/>
+                                <Button Width="32" Height="32" Content="-" Click="MinusButton_Click" ToolTipService.ToolTip="Удалить слой"/>
                             </StackPanel>
                         </Flyout>
                     </SplitButton.Flyout>
@@ -233,7 +218,8 @@
                     PointerPressed="Canvas_PointerPressed"
                     PointerMoved="Canvas_PointerMoved"
                     PointerReleased="Canvas_PointerReleased"
-                    DoubleTapped="Canvas_DoubleTapped"/>
+                    PointerEntered="CustomCanvas_PointerEntered"
+                    PointerExited="CustomCanvas_PointerExited"/>
             </Border>
         </Grid>
         <ContentDialog x:Name="colorPickerDialog"

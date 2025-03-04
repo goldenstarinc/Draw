@@ -26,12 +26,16 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Pickers;
+using static App3.StateMethods;
+using Microsoft.Web.WebView2.Core;
+using Microsoft.UI.System;
 #endregion
 
 namespace App3
 {
     public class CustomCanvas : Canvas
     {
+
         public InputCursor InputCursor
         {
             get => ProtectedCursor;
@@ -40,17 +44,17 @@ namespace App3
     }
     public sealed partial class MainWindow : Window
     {
-        #region DEFINED VARIABLES
+        #region DEFINED-VARIABLES
 
         private Random random = new Random();
 
         private LayerManager _layerManager = new LayerManager();
 
-        private Tool selectedTool = Tool.Brush;
-        private Polyline currentStroke;
+        internal Tool selectedTool = Tool.Brush;
+        private Polyline? currentStroke;
         private bool isDrawing = false;
         private Point startPoint;
-        private Figure previewFigure;
+        private Figure? previewFigure;
 
         private int currentLayerIndex;
 
@@ -58,29 +62,34 @@ namespace App3
 
         private bool isDragging = false;
         private Point lastPointerPosition;
-        private UIElement selectedElement;
-        private Rectangle selectionRectangle;
+        private UIElement? selectedElement;
+        private Rectangle? selectionRectangle;
 
         private bool isResizing = false;
         private string resizeDirection = "";
 
-        private Canvas previewLayer;
+        private Canvas? previewLayer;
         private Color selectedColor = Colors.Black;
         private int selectedStrokeThickness = 2;
 
+        private TextBox inputTextBox;
 
-        private InputCursor? OriginalInputCursor { get; set; }
-
-        private enum Tool
+        internal enum Tool
         {
             Brush,
             Fill,
             Eraser,
             SelectColorPicker,
             Rectangle,
-            Circle
+            Circle,
+            Triangle,
+            RightTriangle,
+            Rhombus,
+            GoldenStar,
+            Person,
+            Line,
+            Text
         }
-        private CoreCursor currentCursor = new CoreCursor(CoreCursorType.Custom, 223123);
         #endregion
 
         public MainWindow()
@@ -94,7 +103,7 @@ namespace App3
             ChangeCursor(CursorStates.Default);
         }
 
-        #region TOOLS REALIZATION
+        #region TOOLS-REALIZATION
 
         /// <summary>
         /// Метод, позволяющий выбрать кисть
@@ -112,6 +121,31 @@ namespace App3
         private void SelectCircle(object sender, RoutedEventArgs e) => selectedTool = Tool.Circle;
 
         /// <summary>
+        /// Метод, позволяющий выбрать треугольник
+        /// </summary>
+        private void SelectTriangle(object sender, RoutedEventArgs e) => selectedTool = Tool.Triangle;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать прямоугольный треугольник
+        /// </summary>
+        private void SelectRightTriangle(object sender, RoutedEventArgs e) => selectedTool = Tool.RightTriangle;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать ромб
+        /// </summary>
+        private void SelectRhombus(object sender, RoutedEventArgs e) => selectedTool = Tool.Rhombus;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать звезду
+        /// </summary>
+        private void SelectGoldenStar(object sender, RoutedEventArgs e) => selectedTool = Tool.GoldenStar;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать человечка
+        /// </summary>
+        private void SelectPerson(object sender, RoutedEventArgs e) => selectedTool = Tool.Person;
+
+        /// <summary>
         /// Метод, позволяющий выбрать заливку
         /// </summary>
         private void SelectFill(object sender, RoutedEventArgs e) => selectedTool = Tool.Fill;
@@ -125,6 +159,16 @@ namespace App3
         /// Метод, позволяющий выбрать пипетку
         /// </summary>
         private void SelectColorPicker(object sender, RoutedEventArgs e) => selectedTool = Tool.SelectColorPicker;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать линию
+        /// </summary>
+        private void SelectLine(object sender, RoutedEventArgs e) => selectedTool = Tool.Line;
+
+        /// <summary>
+        /// Метод, позволяющий выбрать текст
+        /// </summary>
+        private void SelectText(object sender, RoutedEventArgs e) => selectedTool = Tool.Text;
 
         /// <summary>
         /// Метод для очищения канваса
@@ -141,6 +185,8 @@ namespace App3
 
         #endregion
 
+        #region POINTER-EVENTS
+
         /// <summary>
         /// Метод, отслеживающий одиночное нажатие курсора
         /// </summary>
@@ -154,17 +200,17 @@ namespace App3
             {
                 if (IsOnBorder(point, selectionRectangle, out resizeDirection))
                 {
-                    MakeResizingActive();
+                    MakeActive(ref isResizing);
                     return;
                 }
                 else if (selectedElement != null && selectedElement is Shape && IsPointInsideElement(point, selectedElement))
                 {
-                    MakeDraggingActive();
+                    MakeActive(ref isDragging);
                 }
                 else
                 {
                     RemoveSelection();
-                    MakeDraggingInactive();
+                    MakeInactive(ref isDragging);
                 }
                 isDrawing = false;
                 lastPointerPosition = point;
@@ -197,16 +243,18 @@ namespace App3
                 else if (selectedElement != null && selectedElement is Canvas canvas)
                 {
                     selectedColor = ((SolidColorBrush)canvas.Background).Color;
+                    if (selectedColor == Colors.Transparent)
+                    {
+                        selectedColor = Colors.White;
+                    }
                 }
                 colorPicker.Color = selectedColor;
             }
             else if (selectedTool == Tool.Fill && selectedElement != null)
             {
-                if (IsPointInsideElement(point, selectedElement) && selectedElement is Shape)
+                if (selectedElement is Shape)
                 {
-                    Shape selectedShape = selectedElement as Shape;
-
-                    if (selectedShape != null)
+                    if (selectedElement != null && selectedElement is Shape selectedShape)
                     {
                         selectedShape.Fill = new SolidColorBrush(selectedColor);
                     }
@@ -224,11 +272,11 @@ namespace App3
         /// </summary>
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (selectedElement != null && selectedElement is Shape)
+            if (selectedElement != null && selectedElement is Shape selectedShape)
             {
                 var point = e.GetCurrentPoint(DrawingCanvas).Position;
                 string direction;
-                if (IsOnBorder(point, selectedElement as Shape, out direction))
+                if (IsOnBorder(point, selectedShape, out direction))
                 {
                     if (!string.IsNullOrEmpty(direction))
                     {
@@ -251,9 +299,7 @@ namespace App3
                 double dx = point.X - startPoint.X;
                 double dy = point.Y - startPoint.Y;
 
-                Shape shape = selectedElement as Shape;
-
-                if (shape != null)
+                if (selectedElement != null && selectedElement is Shape shape)
                 {
                     if (resizeDirection.Contains("right"))
                     {
@@ -291,13 +337,11 @@ namespace App3
                 startPoint = point;
                 return;
             }
-
+             
             if (isDragging && selectedElement != null)
             {
-                if (selectionRectangle != null)
-                {
-                    RemoveSelectionRectangle(ref selectionRectangle);
-                }
+                RemoveSelectionRectangle(ref selectionRectangle);
+
                 var point = e.GetCurrentPoint(DrawingCanvas).Position;
                 double dx = point.X - lastPointerPosition.X;
                 double dy = point.Y - lastPointerPosition.Y;
@@ -320,8 +364,34 @@ namespace App3
             {
                 currentStroke.Points.Add(pointMove);
             }
-            else if (selectedTool == Tool.Rectangle || selectedTool == Tool.Circle)
+            else if (selectedTool == Tool.Text)
             {
+                double x = Math.Min(startPoint.X, pointMove.X);
+                double y = Math.Min(startPoint.Y, pointMove.Y);
+                double width = Math.Abs(pointMove.X - startPoint.X);
+                double height = Math.Abs(pointMove.Y - startPoint.Y);
+                inputTextBox = new TextBox
+                {
+                    Width = width,
+                    Height = height,
+                    Background = new SolidColorBrush(Colors.Transparent),
+                    Foreground = new SolidColorBrush(selectedColor),
+                    BorderThickness = new Thickness(0),
+                    FontSize = 20,
+                    AcceptsReturn = true,
+                    TextWrapping = TextWrapping.Wrap
+                };
+                Canvas.SetLeft(inputTextBox, x);
+                Canvas.SetTop(inputTextBox, y);
+
+                previewLayer?.Children.Clear();
+                previewLayer?.Children.Add(inputTextBox);
+                inputTextBox.TextChanged += InputTextBox_TextChanged;
+                inputTextBox.LostFocus += InputTextBox_LostFocus;
+                inputTextBox.Focus(FocusState.Programmatic);
+            }
+            else if (IsFigure())
+{
                 double x = Math.Min(startPoint.X, pointMove.X);
                 double y = Math.Min(startPoint.Y, pointMove.Y);
                 double width = Math.Abs(pointMove.X - startPoint.X);
@@ -335,10 +405,34 @@ namespace App3
                 {
                     previewFigure = new CircleFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
                 }
+                else if (selectedTool == Tool.Line)
+                {
+                    previewFigure = new LineFigure(startPoint.X, startPoint.Y, pointMove.X, pointMove.Y, new SolidColorBrush(selectedColor), 2);
+                }
+                else if (selectedTool == Tool.Triangle)
+                {
+                    previewFigure = new TriangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
+                }
+                else if (selectedTool == Tool.RightTriangle)
+                {
+                    previewFigure = new RightTriangleFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
+                }
+                else if (selectedTool == Tool.Rhombus)
+                {
+                    previewFigure = new RhombusFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
+                }
+                else if (selectedTool == Tool.GoldenStar)
+                {
+                    previewFigure = new GoldenStarFigure(x + width / 2, y + height / 2, Math.Max(width, height), new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
+                }
+                else if (selectedTool == Tool.Person)
+                {
+                    previewFigure = new PersonFigure(x, y, width, height, new SolidColorBrush(Colors.Transparent), new SolidColorBrush(selectedColor), 2);
+                }
 
-                previewLayer.Children.Clear();
+                previewLayer?.Children.Clear();
 
-                previewFigure?.Draw(previewLayer);
+                if (previewLayer != null) previewFigure?.Draw(previewLayer);
             }
         }
 
@@ -351,14 +445,16 @@ namespace App3
             {
                 DrawSelectionRectangle(selectedElement);
             }
-            isDrawing = false;
-            MakeDraggingInactive();
-            MakeResizingInactive();
+
+            MakeInactive(ref isDrawing);
+            MakeInactive(ref isDragging);
+            MakeInactive(ref isResizing);
+
             if (previewFigure != null)
             {
                 previewFigure.Draw(_layerManager.GetLayer(currentLayerIndex));
                 previewFigure = null;
-                previewLayer.Children.Clear();
+                previewLayer?.Children.Clear();
             }
             DestroyPreviewLayer();
         }
@@ -368,16 +464,54 @@ namespace App3
         /// </summary>
         private void Canvas_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            selectedElement = e.OriginalSource as UIElement; // Проверяем, нажали ли на фигуру
+            selectedElement = e.OriginalSource as UIElement; 
             if (selectedElement != null && selectedElement is Shape)
             {
                 DrawSelectionRectangle(selectedElement);
-                MakeDraggingActive();
+                MakeActive(ref isDragging);
             }
         }
 
+        #endregion
 
-        #region ADDITIONAL FUNCS
+        #region TEXTBOXES
+
+        /// <summary>
+        /// Обработка изменение текста в текстбоксе
+        /// </summary>
+        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (inputTextBox == null) return;
+
+            inputTextBox.Width = inputTextBox.Width + 11;
+        }
+
+        /// <summary>
+        /// Обработка потери фокуса текстбоксом
+        /// </summary>
+        private void InputTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (inputTextBox == null || startPoint == null) return;
+
+            var textBlock = new TextBlock
+            {
+                Text = inputTextBox.Text,
+                FontSize = 20,
+                Foreground = new SolidColorBrush(selectedColor)
+            };
+
+            Canvas.SetLeft(textBlock, startPoint.X);
+            Canvas.SetTop(textBlock, startPoint.Y);
+
+            _layerManager.GetLayer(currentLayerIndex).Children.Add(textBlock);
+
+            _layerManager.GetLayer(currentLayerIndex).Children.Remove(inputTextBox);
+            inputTextBox = null;
+        }
+
+        #endregion
+
+        #region ADDITIONAL-FUNCS
 
         /// <summary>
         /// Метод, проверяющий содержит ли выбранная фигура переданную точку
@@ -405,7 +539,7 @@ namespace App3
             {
                 RemoveSelectedElement();
                 RemoveSelection();
-                MakeDraggingInactive();
+                MakeInactive(ref isDragging);
             }
         }
 
@@ -432,43 +566,17 @@ namespace App3
             return !string.IsNullOrEmpty(direction);
         }
 
-        #endregion
-
-        #region BOOL STATE METHODS
-
         /// <summary>
-        /// Метод, делающий изменение размера фигуры неактивным
+        /// Проверка, является ли выбранный инструмент фигурой
         /// </summary>
-        private void MakeResizingInactive() => isResizing = false;
-
-        /// <summary>
-        /// Метод, делающий изменение размера фигуры активным
-        /// </summary>
-        private void MakeResizingActive() => isResizing = true;
-
-        /// <summary>
-        /// Метод, делающий перемещение фигуры неактивным
-        /// </summary>
-        private void MakeDraggingInactive() => isDragging = false;
-
-        /// <summary>
-        /// Метод, делающий перемещение фигуры активным
-        /// </summary>
-        private void MakeDraggingActive() => isDragging = true;
-
-        /// <summary>
-        /// Метод, включающий режим рисования
-        /// </summary>
-        private void MakeDrawingInactive() => isDrawing = false;
-
-        /// <summary>
-        ///  Метод, выключающий режим рисования
-        /// </summary>
-        private void MakeDrawingActive() => isDrawing = true;
+        /// <returns>True - если выбранный инструмент является фигурой, иначе false</returns>
+        private bool IsFigure() => selectedTool == Tool.Rectangle || selectedTool == Tool.Circle || selectedTool == Tool.Line ||
+                                   selectedTool == Tool.Triangle || selectedTool == Tool.RightTriangle || selectedTool == Tool.Rhombus ||
+                                   selectedTool == Tool.GoldenStar || selectedTool == Tool.Person;
 
         #endregion
 
-        #region SELECTION METHODS
+        #region SELECTION-METHODS
 
         /// <summary>
         /// Метод, выделяющий выбранную фигуру
@@ -505,7 +613,7 @@ namespace App3
         /// Метод, снимающий выделение с фигуры
         /// </summary>
         private void RemoveSelection()
-        {
+        { 
             if (selectionRectangle != null)
             {
                 RemoveSelectionRectangle(ref selectionRectangle);
@@ -517,9 +625,12 @@ namespace App3
         /// Метод, удаляющий прямоугольник, отвечающий за выделение фигуры
         /// </summary>
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
-        private void RemoveSelectionRectangle(ref Rectangle selectionRectangle)
+        private void RemoveSelectionRectangle(ref Rectangle? selectionRectangle)
         {
-            _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectionRectangle);
+            if (selectionRectangle != null)
+            {
+                _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectionRectangle);
+            }
             selectionRectangle = null;
         }
 
@@ -527,14 +638,6 @@ namespace App3
         /// Метод, удаляющий выбранную фигуру
         /// </summary>
         private void RemoveSelectedElement()
-        {
-            if (selectedElement != null)
-            {
-                DrawingCanvas.Children.Remove(selectedElement);
-                _layerManager.GetLayer(currentLayerIndex).Children.Remove(selectedElement);
-            }
-        }
-        private void RemoveSelectedElement(object sender, RoutedEventArgs e)
         {
             if (selectedElement != null)
             {
@@ -550,19 +653,28 @@ namespace App3
 
         #endregion
 
-        #region Layers
-        private void AddLayerButton_Click(object sender, RoutedEventArgs e)
+        #region LAYERS
+
+        /// <summary>
+        /// Добавление слоя
+        /// </summary>
+        private void AddLayer()
         {
             _layerManager.AddLayer();
             _layerManager.GetLayer(_layerManager.GetLayerCount() - 1).Background = new SolidColorBrush(defaultCanvasColor);
             DrawingCanvas.Children.Remove(previewLayer);
             DrawingCanvas.Children.Add(_layerManager.GetLayer(_layerManager.GetLayerCount() - 1));
+            _layerManager.GetLayer(_layerManager.GetLayerCount() - 1).DoubleTapped += Canvas_DoubleTapped;
             previewLayer = new Canvas();
             DrawingCanvas.Children.Add(previewLayer);
 
             UpdateCanvasSizes();
         }
-        private void RemoveLayerButton_Click(object sender, RoutedEventArgs e)
+        
+        /// <summary>
+        /// Удаление слоя
+        /// </summary>
+        private void RemoveLayer()
         {
             int lastLayerIndex = _layerManager.GetLayerCount() - 1;
             if (lastLayerIndex >= 0)
@@ -581,48 +693,18 @@ namespace App3
             }
         }
 
-        private void BringToFrontButton_Click(object sender, RoutedEventArgs e)
-        {
-            int activeLayerIndex = GetCurrentActiveLayerIndex(); // Предполагается функция получения активного слоя
-            _layerManager.BringToFront(activeLayerIndex);
-
-            ReorderLayersInDrawingCanvas();
-        }
-
-        private void SendToBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            int activeLayerIndex = GetCurrentActiveLayerIndex(); // Предполагается функция получения активного слоя
-            _layerManager.SendToBack(activeLayerIndex);
-
-            ReorderLayersInDrawingCanvas();
-        }
-
-        private void ReorderLayersInDrawingCanvas()
-        {
-            DrawingCanvas.Children.Clear();
-            foreach (var layer in _layerManager.GetAllLayers())
-            {
-                DrawingCanvas.Children.Add(layer);
-            }
-        }
-
-        private int GetCurrentActiveLayerIndex() => currentLayerIndex;
-
-        private void GetRandomColor_Click(object sender, RoutedEventArgs e)
-        {
-            selectedColor = Color.FromArgb(255, (byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255));
-        }
-
+        /// <summary>
+        /// Инициализация слоев
+        /// </summary>
         private void InitializeLayers()
         {
             currentLayerIndex = 0;
-
             _layerManager.AddLayer();
-
 
             foreach (var layer in _layerManager.GetAllLayers())
             {
                 layer.Background = new SolidColorBrush(defaultCanvasColor);
+                layer.DoubleTapped += Canvas_DoubleTapped;
                 DrawingCanvas.Children.Add(layer);
             }
         }
@@ -647,28 +729,9 @@ namespace App3
             }
         }
 
-        private void SelectNextLayer_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentLayerIndex >= _layerManager.GetLayerCount() - 1)
-            {
-                currentLayerIndex = _layerManager.GetLayerCount() - 1;
-                return;
-            }
-            currentLayerIndex++;
-            Debug.Print(currentLayerIndex.ToString());
-        }
-
-        private void SelectPreviousLayer_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentLayerIndex <= 0)
-            {
-                currentLayerIndex = 0;
-                return;
-            }
-            currentLayerIndex--;
-            Debug.Print(currentLayerIndex.ToString());
-        }
-
+        /// <summary>
+        /// Инициализация preview-слоя
+        /// </summary>
         private void InitializePreviewLayer()
         {
             previewLayer = new Canvas();
@@ -676,6 +739,9 @@ namespace App3
             DrawingCanvas.Children.Add(previewLayer);
         }
 
+        /// <summary>
+        /// Уничтожение preview-слоя
+        /// </summary>
         private void DestroyPreviewLayer()
         {
             if (previewLayer != null)
@@ -685,9 +751,142 @@ namespace App3
             previewLayer = null;
         }
 
+        /// <summary>
+        /// Выбор номера слоя
+        /// </summary>
+        private void NumberButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                ResetLayerOrder();
+                SelectedNumber.Text = button.Content.ToString();
+
+                if (string.IsNullOrEmpty(SelectedNumber.Text)) return;
+
+                currentLayerIndex = int.Parse(SelectedNumber.Text) - 1;
+                SetActiveLayer(currentLayerIndex);
+                numberFlyout.Hide();
+            }
+        }
+
+        /// <summary>
+        /// Добавление слоя
+        /// </summary>
+        private void PlusButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddLayer();
+
+            int lastLayerIndex = _layerManager.GetLayerCount() - 1;
+
+            ButtonContainer.Children.RemoveAt(lastLayerIndex);
+            ButtonContainer.Children.RemoveAt(lastLayerIndex);
+
+            Button newNumberButton = new Button
+            {
+                Content = lastLayerIndex + 1,
+                Width = 32,
+                Height = 32,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            newNumberButton.Click += NumberButton_Click;
+            ButtonContainer.Children.Add(newNumberButton);
+
+            if (SelectedNumber.Text == "") SelectedNumber.Text = (currentLayerIndex + 1).ToString();
+
+            CreatePlusLayerButton();
+            CreateMinusLayerButton();
+
+            numberFlyout.Hide();
+        }
+
+        /// <summary>
+        /// Создание кнопки "+"
+        /// </summary>
+        private void CreatePlusLayerButton()
+        {
+            Button plusButton = new Button
+            {
+                Content = '+',
+                Width = 32,
+                Height = 32,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            plusButton.Click += PlusButton_Click;
+            ButtonContainer.Children.Add(plusButton);
+        }
+
+        /// <summary>
+        /// Создание кнопки "-"
+        /// </summary>
+        private void CreateMinusLayerButton()
+        {
+            Button minusButton = new Button
+            {
+                Content = '-',
+                Width = 32,
+                Height = 32,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            minusButton.Click += MinusButton_Click;
+            ButtonContainer.Children.Add(minusButton);
+        }
+
+        /// <summary>
+        /// Удаление слоя
+        /// </summary>
+        private void MinusButton_Click(object sender, RoutedEventArgs e)
+        {
+            int indexToRemove = currentLayerIndex;
+            if (_layerManager.GetLayerCount() <= 0) return;
+
+            if (int.Parse(SelectedNumber.Text) >= _layerManager.GetLayerCount())
+            {
+                SelectedNumber.Text = (currentLayerIndex).ToString();
+            }
+            if (int.Parse(SelectedNumber.Text) <= 0)
+            {
+                SelectedNumber.Text = "";
+            }
+            RemoveLayer();
+            ButtonContainer.Children.RemoveAt(indexToRemove);
+            int startIndex = 1;
+            foreach (Button button in ButtonContainer.Children)
+            {
+                if (button.Content.ToString() == "+" || button.Content.ToString() == "-") break;
+
+                button.Content = startIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Назначает активный слой
+        /// </summary>
+        /// <param name="index">Индекс текущего слоя</param>
+        private void SetActiveLayer(int index)
+        {
+            currentLayerIndex = index;
+            Canvas activeLayer = _layerManager.GetLayer(index);
+            DrawingCanvas.Children.Remove(activeLayer);
+            DrawingCanvas.Children.Add(activeLayer);
+        }
+
+        /// <summary>
+        /// Возвращает правильный порядок слоев
+        /// </summary>
+        private void ResetLayerOrder()
+        {
+            List<CustomCanvas> layers = _layerManager.GetAllLayers().ToList();
+            DrawingCanvas.Children.Clear();
+
+            foreach (var layer in layers)
+            {
+                DrawingCanvas.Children.Add(layer);
+            }
+        }
+
         #endregion
 
-        #region CURSOR STUFF
+        #region CURSOR-STUFF
         enum CursorStates
         {
             Default,
@@ -761,34 +960,20 @@ namespace App3
                     break;
             }
         }
-
-        private void CustomCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (sender is CustomCanvas canvas)
-            {
-                ChangeCursor(CursorStates.Drawing);
-            }
-        }
+        private void CustomCanvas_PointerEntered(object sender, PointerRoutedEventArgs e) => ChangeCursor(CursorStates.Drawing);
 
         private void CustomCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (sender is CustomCanvas canvas)
-            {
-                ChangeCursor(CursorStates.Default);
-            }
+            Canvas_PointerReleased(sender, e);
+            RemoveSelection();
         }
         #endregion
 
+        #region DRAWING-PARAMETERS
 
-        private void Canvas_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void SelectSnowman(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Выбор цвета в панели
+        /// </summary>
         private void ColorButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -804,29 +989,10 @@ namespace App3
                 colorPicker.Color = selectedColor;
             }
         }
-        private void NumberButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                SelectedNumber.Text = button.Content.ToString();
 
-                if (string.IsNullOrEmpty(SelectedNumber.Text)) return;
-
-                currentLayerIndex = int.Parse(SelectedNumber.Text);
-
-                numberFlyout.Hide();
-            }
-        }
-
-        private void PlusButton_Click(object sender, RoutedEventArgs e)
-        {
-            // ������ ��� ������ "+"
-            // ��������, ����� ������� ������ ��� �������� ����� �����
-            SelectedNumber.Text = "+";
-
-            // ��������� Flyout
-            numberFlyout.Hide();
-        }
+        /// <summary>
+        /// Открытие цветовой панели
+        /// </summary>
         private async void OpenColorPickerButton_Click(object sender, RoutedEventArgs e)
         {
             var result = await colorPickerDialog.ShowAsync();
@@ -837,93 +1003,72 @@ namespace App3
             }
         }
 
-        // ���������� ��� ������ "OK"
-        private void ColorPickerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            // ������ ��� ������� �� "OK"
-        }
+        /// <summary>
+        /// Изменение толщины кисти
+        /// </summary>
+        private void StrokeThickness_Changed(object sender, RoutedEventArgs e) => selectedStrokeThickness = (int)slider.Value;
 
-        // ���������� ��� ������ "Cancel"
-        private void ColorPickerDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            // ������ ��� ������� �� "Cancel"
-        }
+        // "OK"
+        private void ColorPickerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) { }
 
+        // "Cancel"
+        private void ColorPickerDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) { }
 
-        private async void OpenFile_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add(".png");
-            picker.FileTypeFilter.Add(".jpg");
+        #endregion
 
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+        #region FILE-PANEL
 
-            // Ожидаем выбора файла
-            var file = await picker.PickSingleFileAsync();
-            if (file == null) return;  // Если файл не выбран, выходим
-
-            // Открываем поток для чтения файла
-            var stream = await file.OpenAsync(FileAccessMode.Read);
-
-            // Создаем BitmapImage и загружаем в него данные из потока
-            BitmapImage bitmap = new BitmapImage();
-            await bitmap.SetSourceAsync(stream);  // Асинхронно загружаем изображение
-
-            // Создаем элемент Image и добавляем его на холст
-            Image image = new Image { Source = bitmap };
-            DrawingCanvas.Children.Clear();  // Очищаем холст
-            _layerManager.ClearAllLayers();
-            _layerManager.AddLayer();
-            currentLayerIndex = 0;
-            _layerManager.GetLayer(currentLayerIndex).Children.Add(image);  // Добавляем изображение
-            DrawingCanvas.Children.Add(_layerManager.GetLayer(currentLayerIndex));
-            UpdateCanvasSizes();
-        }
-
-        private async void SaveFile_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new FileSavePicker();
-            picker.FileTypeChoices.Add("PNG Image", new[] { ".png" });
-            picker.SuggestedFileName = "Рисунок";
-
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-
-            var file = await picker.PickSaveFileAsync();
-            if (file == null) return;
-
-            // Создаем поток для записи в файл
-            var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-
-            // Рендерим изображение в Bitmap
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap();
-            await renderBitmap.RenderAsync(DrawingCanvas); // Асинхронно
-
-            // Получаем данные пикселей и записываем в поток
-            var pixels = await renderBitmap.GetPixelsAsync();
-
-            // Используем BitmapEncoder для сохранения изображения в PNG
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)renderBitmap.PixelWidth, (uint)renderBitmap.PixelHeight, 96, 96, pixels.ToArray());
-
-            // Закрываем поток после записи
-            await encoder.FlushAsync();
-        }
-
+        /// <summary>
+        /// Создание нового файла
+        /// </summary>
         private void NewFile_Click(object sender, RoutedEventArgs e)
         {
             DrawingCanvas.Children.Clear();
+            _layerManager.ClearAllLayers();
         }
 
-        private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Функция для открытия файла
+        /// </summary>
+        private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".json");
+            picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            StorageFile file = await picker.PickSingleFileAsync();
+            if (file == null) return;
+
+            _layerManager.ClearAllLayers();
+            List<CustomCanvas> canvasList = new List<CustomCanvas>();
+            canvasList = CanvasSerializer.LoadCanvasFromJson(file.Path);
+            foreach (CustomCanvas canvas in canvasList)
+            {
+                _layerManager.AddLayer(canvas);
+            }
         }
 
-        private void StrokeThickness_Changed(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Функция для сохранения файла
+        /// </summary>
+        private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-            selectedStrokeThickness = (int)slider.Value;
+
+            var picker = new FileSavePicker();
+            picker.FileTypeChoices.Add("JSON File", new[] { ".json" });
+            picker.SuggestedFileName = "canvas";
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            StorageFile file = await picker.PickSaveFileAsync();
+
+            CanvasSerializer.SaveCanvasToJson(_layerManager, file.Path);
         }
+
+        #endregion
     }
 }
