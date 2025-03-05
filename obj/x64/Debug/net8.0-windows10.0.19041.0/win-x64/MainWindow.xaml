@@ -64,41 +64,41 @@
                     </Grid.RowDefinitions>
 
                     <!-- Кисть -->
-                    <Button x:ConnectionId='32' Grid.Row="0" Grid.Column="0"                     ToolTipService.ToolTip="Кисть">
+                    <Button x:ConnectionId='32' x:Name="Brush" Grid.Row="0" Grid.Column="0"                     ToolTipService.ToolTip="Кисть">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE771;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Заливка -->
-                    <Button x:ConnectionId='33' Grid.Row="0" Grid.Column="2"                    ToolTipService.ToolTip="Заливка">
+                    <Button x:ConnectionId='33' x:Name="Fill" Grid.Row="0" Grid.Column="2"                    ToolTipService.ToolTip="Заливка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE88F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Пипетка -->
-                    <Button x:ConnectionId='34' Grid.Row="0" Grid.Column="1"                           ToolTipService.ToolTip="Пипетка">
+                    <Button x:ConnectionId='34' x:Name="ColorPicker" Grid.Row="0" Grid.Column="1"                           ToolTipService.ToolTip="Пипетка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Текст -->
-                    <Button x:ConnectionId='35' Grid.Row="1" Grid.Column="0"                    ToolTipService.ToolTip="Текст">
+                    <Button x:ConnectionId='35' x:Name="Text" Grid.Row="1" Grid.Column="0"                    ToolTipService.ToolTip="Текст">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <!-- Очистка слоя -->
-                    <Button x:ConnectionId='36' Grid.Row="1" Grid.Column="2"                     ToolTipService.ToolTip="Очистить слой">
+                    <Button x:ConnectionId='36' x:Name="Clear" Grid.Row="1" Grid.Column="2"                     ToolTipService.ToolTip="Очистить слой">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xED62;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Ластик  -->
-                    <Button x:ConnectionId='37' Grid.Row="1" Grid.Column="1"                      ToolTipService.ToolTip="Ластик">
+                    <Button x:ConnectionId='37' x:Name="Eraser" Grid.Row="1" Grid.Column="1"                      ToolTipService.ToolTip="Ластик">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE75C;" FontSize="20"/>
                         </StackPanel>
@@ -125,42 +125,42 @@
 
                     </Grid.RowDefinitions>
 
-                    <Button x:ConnectionId='24' Grid.Row="0" Grid.Column="0"                    ToolTipService.ToolTip="Линия">
+                    <Button x:ConnectionId='24' x:Name="Line" Grid.Row="0" Grid.Column="0"                    ToolTipService.ToolTip="Линия">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xF7AF;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='25' Grid.Row="0" Grid.Column="1"                      ToolTipService.ToolTip="Круг">
+                    <Button x:ConnectionId='25' x:Name="Circle" Grid.Row="0" Grid.Column="1"                      ToolTipService.ToolTip="Круг">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA3A;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='26' Grid.Row="0" Grid.Column="2"                         ToolTipService.ToolTip="Прямоугольник">
+                    <Button x:ConnectionId='26' x:Name="Rectangle" Grid.Row="0" Grid.Column="2"                         ToolTipService.ToolTip="Прямоугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE7FB;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='27' Grid.Row="1" Grid.Column="0"                        ToolTipService.ToolTip="Треугольник">
+                    <Button x:ConnectionId='27' x:Name="Triangle" Grid.Row="1" Grid.Column="0"                        ToolTipService.ToolTip="Треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE879;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='28' Grid.Row="1" Grid.Column="1"                             ToolTipService.ToolTip="Прямоугольный треугольник">
+                    <Button x:ConnectionId='28' x:Name="RightTriangle" Grid.Row="1" Grid.Column="1"                             ToolTipService.ToolTip="Прямоугольный треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA50;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='29' Grid.Row="1" Grid.Column="2"                       ToolTipService.ToolTip="Ромб">
+                    <Button x:ConnectionId='29' x:Name="Rhomb" Grid.Row="1" Grid.Column="2"                       ToolTipService.ToolTip="Ромб">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='30' Grid.Row="2" Grid.Column="0"                          ToolTipService.ToolTip="Звезда">
+                    <Button x:ConnectionId='30' x:Name="GoldenStar" Grid.Row="2" Grid.Column="0"                          ToolTipService.ToolTip="Звезда">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE734;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button x:ConnectionId='31' Grid.Row="2" Grid.Column="1"                      ToolTipService.ToolTip="Человечек">
+                    <Button x:ConnectionId='31' x:Name="Person" Grid.Row="2" Grid.Column="1"                      ToolTipService.ToolTip="Человечек">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE805;" FontSize="20"/>
                         </StackPanel>

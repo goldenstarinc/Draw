@@ -7,8 +7,8 @@
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:canvasserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:layermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,14 +39,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LayerManager.cs",
-              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerManager.cs",
-              "RelativeDocumentMoniker": "LayerManager.cs",
-              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerManager.cs",
-              "RelativeToolTip": "LayerManager.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAwwBkAAAANAAAAAAAAAA==",
+              "Title": "Class.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
+              "RelativeDocumentMoniker": "Class.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\Class.cs",
+              "RelativeToolTip": "Class.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAgwHUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-04T17:18:52.452Z",
+              "WhenOpened": "2025-03-05T10:25:01.463Z",
               "EditorCaption": ""
             },
             {
@@ -57,9 +57,9 @@
               "RelativeDocumentMoniker": "CanvasSerializer.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\CanvasSerializer.cs",
               "RelativeToolTip": "CanvasSerializer.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAIwE0AAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAArwFkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-04T18:31:33.836Z",
+              "WhenOpened": "2025-03-05T10:21:05.03Z",
               "EditorCaption": ""
             },
             {
@@ -70,7 +70,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAKsCAAAAAAAAAAAEwL4CAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANEBAAAAAAAAAAAtwOoBAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-04T18:29:49.131Z",
               "EditorCaption": ""

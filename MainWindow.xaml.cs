@@ -29,13 +29,15 @@ using Windows.Storage.Pickers;
 using static App3.StateMethods;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.UI.System;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using static System.Net.WebRequestMethods;
+using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace App3
 {
     public class CustomCanvas : Canvas
     {
-
         public InputCursor InputCursor
         {
             get => ProtectedCursor;
@@ -96,7 +98,6 @@ namespace App3
         {
             InitializeComponent();
             DrawingCanvas.SizeChanged += OnDrawingCanvasSizeChanged;
-
             InitializeLayers();
             UpdateCanvasSizes();
 
@@ -105,70 +106,124 @@ namespace App3
 
         #region TOOLS-REALIZATION
 
+        private Button? selectedButton = null;
+
         /// <summary>
         /// Метод, позволяющий выбрать кисть
         /// </summary>
-        private void SelectBrush(object sender, RoutedEventArgs e) => selectedTool = Tool.Brush;
+        private void SelectBrush(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Brush;
+            SetSelectedButton(Brush);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать прямоугольник
         /// </summary>
-        private void SelectRectangle(object sender, RoutedEventArgs e) => selectedTool = Tool.Rectangle;
+        private void SelectRectangle(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Rectangle;
+            SetSelectedButton(Rectangle);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать круг
         /// </summary>
-        private void SelectCircle(object sender, RoutedEventArgs e) => selectedTool = Tool.Circle;
+        private void SelectCircle(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Circle;
+            SetSelectedButton(Circle);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать треугольник
         /// </summary>
-        private void SelectTriangle(object sender, RoutedEventArgs e) => selectedTool = Tool.Triangle;
+        private void SelectTriangle(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Triangle;
+            SetSelectedButton(Triangle);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать прямоугольный треугольник
         /// </summary>
-        private void SelectRightTriangle(object sender, RoutedEventArgs e) => selectedTool = Tool.RightTriangle;
+        private void SelectRightTriangle(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.RightTriangle;
+            SetSelectedButton(RightTriangle);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать ромб
         /// </summary>
-        private void SelectRhombus(object sender, RoutedEventArgs e) => selectedTool = Tool.Rhombus;
+        private void SelectRhombus(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Rhombus;
+            SetSelectedButton(Rhomb);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать звезду
         /// </summary>
-        private void SelectGoldenStar(object sender, RoutedEventArgs e) => selectedTool = Tool.GoldenStar;
+        private void SelectGoldenStar(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.GoldenStar;
+            SetSelectedButton(GoldenStar);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать человечка
         /// </summary>
-        private void SelectPerson(object sender, RoutedEventArgs e) => selectedTool = Tool.Person;
+        private void SelectPerson(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Person;
+            SetSelectedButton(Person);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать заливку
         /// </summary>
-        private void SelectFill(object sender, RoutedEventArgs e) => selectedTool = Tool.Fill;
+        private void SelectFill(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Fill;
+            SetSelectedButton(Fill);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать ластик
         /// </summary>
-        private void SelectEraser(object sender, RoutedEventArgs e) => selectedTool = Tool.Eraser;
+        private void SelectEraser(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Eraser;
+            SetSelectedButton(Eraser);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать пипетку
         /// </summary>
-        private void SelectColorPicker(object sender, RoutedEventArgs e) => selectedTool = Tool.SelectColorPicker;
+        private void SelectColorPicker(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.SelectColorPicker;
+            SetSelectedButton(ColorPicker);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать линию
         /// </summary>
-        private void SelectLine(object sender, RoutedEventArgs e) => selectedTool = Tool.Line;
+        private void SelectLine(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Line;
+            SetSelectedButton(Line);
+        }
 
         /// <summary>
         /// Метод, позволяющий выбрать текст
         /// </summary>
-        private void SelectText(object sender, RoutedEventArgs e) => selectedTool = Tool.Text;
+        private void SelectText(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Text;
+            SetSelectedButton(Text);
+        }
 
         /// <summary>
         /// Метод для очищения канваса
@@ -543,6 +598,19 @@ namespace App3
             }
         }
 
+        private void SetSelectedButton(Button newSelected)
+        {
+            // Сбрасываем предыдущую кнопку, если она есть
+            if (selectedButton != null)
+            {
+                selectedButton.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+
+            // Устанавливаем новую кнопку и выделяем её границу
+            selectedButton = newSelected;
+            selectedButton.BorderBrush = new SolidColorBrush(Colors.Blue);
+        }
+
         /// <summary>
         /// Метод, проверяющий находится ли переданная точка на границе выделенной фигуры
         /// </summary>
@@ -691,6 +759,11 @@ namespace App3
                     currentLayerIndex = 0;
                 }
             }
+
+            //if (_layerManager.GetLayerCount == 0)
+            //{
+
+            //}
         }
 
         /// <summary>
@@ -1032,6 +1105,8 @@ namespace App3
         /// </summary>
         private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
+            NewFile_Click(sender, e);
+
             var picker = new FileOpenPicker();
             picker.FileTypeFilter.Add(".json");
             picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1042,13 +1117,19 @@ namespace App3
             StorageFile file = await picker.PickSingleFileAsync();
             if (file == null) return;
 
+            currentLayerIndex = 0;
+
             _layerManager.ClearAllLayers();
             List<CustomCanvas> canvasList = new List<CustomCanvas>();
             canvasList = CanvasSerializer.LoadCanvasFromJson(file.Path);
             foreach (CustomCanvas canvas in canvasList)
             {
+                canvas.DoubleTapped += Canvas_DoubleTapped;
                 _layerManager.AddLayer(canvas);
+                DrawingCanvas.Children.Add(canvas);
             }
+            ResetLayerOrder();
+            SetActiveLayer(currentLayerIndex);
         }
 
         /// <summary>
@@ -1056,7 +1137,6 @@ namespace App3
         /// </summary>
         private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
-
             var picker = new FileSavePicker();
             picker.FileTypeChoices.Add("JSON File", new[] { ".json" });
             picker.SuggestedFileName = "canvas";
@@ -1065,8 +1145,8 @@ namespace App3
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
             StorageFile file = await picker.PickSaveFileAsync();
-
-            CanvasSerializer.SaveCanvasToJson(_layerManager, file.Path);
+            
+            if (file != null) CanvasSerializer.SaveCanvasToJson(_layerManager, file.Path);
         }
 
         #endregion

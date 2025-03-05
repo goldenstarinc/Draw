@@ -64,41 +64,41 @@
                     </Grid.RowDefinitions>
 
                     <!-- Кисть -->
-                    <Button Grid.Row="0" Grid.Column="0" Click="SelectBrush" ToolTipService.ToolTip="Кисть">
+                    <Button x:Name="Brush" Grid.Row="0" Grid.Column="0" Click="SelectBrush" ToolTipService.ToolTip="Кисть">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE771;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Заливка -->
-                    <Button Grid.Row="0" Grid.Column="2" Click="SelectFill" ToolTipService.ToolTip="Заливка">
+                    <Button x:Name="Fill" Grid.Row="0" Grid.Column="2" Click="SelectFill" ToolTipService.ToolTip="Заливка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE88F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Пипетка -->
-                    <Button Grid.Row="0" Grid.Column="1" Click="SelectColorPicker" ToolTipService.ToolTip="Пипетка">
+                    <Button x:Name="ColorPicker" Grid.Row="0" Grid.Column="1" Click="SelectColorPicker" ToolTipService.ToolTip="Пипетка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Текст -->
-                    <Button Grid.Row="1" Grid.Column="0" Click="SelectText" ToolTipService.ToolTip="Текст">
+                    <Button x:Name="Text" Grid.Row="1" Grid.Column="0" Click="SelectText" ToolTipService.ToolTip="Текст">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <!-- Очистка слоя -->
-                    <Button Grid.Row="1" Grid.Column="2" Click="ClearCanvas" ToolTipService.ToolTip="Очистить слой">
+                    <Button x:Name="Clear" Grid.Row="1" Grid.Column="2" Click="ClearCanvas" ToolTipService.ToolTip="Очистить слой">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xED62;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Ластик  -->
-                    <Button Grid.Row="1" Grid.Column="1" Click="SelectEraser" ToolTipService.ToolTip="Ластик">
+                    <Button x:Name="Eraser" Grid.Row="1" Grid.Column="1" Click="SelectEraser" ToolTipService.ToolTip="Ластик">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE75C;" FontSize="20"/>
                         </StackPanel>
@@ -125,42 +125,42 @@
 
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Click="SelectLine" ToolTipService.ToolTip="Линия">
+                    <Button x:Name="Line" Grid.Row="0" Grid.Column="0" Click="SelectLine" ToolTipService.ToolTip="Линия">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xF7AF;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="0" Grid.Column="1" Click="SelectCircle" ToolTipService.ToolTip="Круг">
+                    <Button x:Name="Circle" Grid.Row="0" Grid.Column="1" Click="SelectCircle" ToolTipService.ToolTip="Круг">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA3A;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="0" Grid.Column="2" Click="SelectRectangle" ToolTipService.ToolTip="Прямоугольник">
+                    <Button x:Name="Rectangle" Grid.Row="0" Grid.Column="2" Click="SelectRectangle" ToolTipService.ToolTip="Прямоугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE7FB;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="1" Grid.Column="0" Click="SelectTriangle" ToolTipService.ToolTip="Треугольник">
+                    <Button x:Name="Triangle" Grid.Row="1" Grid.Column="0" Click="SelectTriangle" ToolTipService.ToolTip="Треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE879;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="1" Grid.Column="1" Click="SelectRightTriangle" ToolTipService.ToolTip="Прямоугольный треугольник">
+                    <Button x:Name="RightTriangle" Grid.Row="1" Grid.Column="1" Click="SelectRightTriangle" ToolTipService.ToolTip="Прямоугольный треугольник">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEA50;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="1" Grid.Column="2" Click="SelectRhombus" ToolTipService.ToolTip="Ромб">
+                    <Button x:Name="Rhomb" Grid.Row="1" Grid.Column="2" Click="SelectRhombus" ToolTipService.ToolTip="Ромб">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="2" Grid.Column="0" Click="SelectGoldenStar" ToolTipService.ToolTip="Звезда">
+                    <Button x:Name="GoldenStar" Grid.Row="2" Grid.Column="0" Click="SelectGoldenStar" ToolTipService.ToolTip="Звезда">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE734;" FontSize="20"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Row="2" Grid.Column="1" Click="SelectPerson" ToolTipService.ToolTip="Человечек">
+                    <Button x:Name="Person" Grid.Row="2" Grid.Column="1" Click="SelectPerson" ToolTipService.ToolTip="Человечек">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE805;" FontSize="20"/>
                         </StackPanel>

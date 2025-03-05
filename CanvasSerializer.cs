@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.IO;
 using Windows.UI;
 using Newtonsoft;
+using GraphicsLibrary;
 
 namespace App3
 {
@@ -37,7 +38,7 @@ namespace App3
                     var strokeColor = stroke?.Color.ToString();
                     var childDto = new CanvasChildDto
                     {
-                        Type = shape.GetType().Name,
+                        Name = shape.Name,
                         Width = shape.Width,
                         Height = shape.Height,
                         Left = CustomCanvas.GetLeft(shape),
@@ -82,45 +83,50 @@ namespace App3
             var canvas = new CustomCanvas();
             foreach (var childDto in dto.Children)
             {
-                UIElement child = null;
+                Figure child = null;
+                byte aF = 0, rF = 0, gF = 0, bF = 0;
+
+                if (childDto.Name != "Line")
+                {
+                    aF = Convert.ToByte(childDto.FillColor.Substring(1, 2), 16);
+                    rF = Convert.ToByte(childDto.FillColor.Substring(3, 2), 16);
+                    gF = Convert.ToByte(childDto.FillColor.Substring(5, 2), 16);
+                    bF = Convert.ToByte(childDto.FillColor.Substring(7, 2), 16);
+                }
+
                 byte a = Convert.ToByte(childDto.StrokeColor.Substring(1, 2), 16);
                 byte r = Convert.ToByte(childDto.StrokeColor.Substring(3, 2), 16);
                 byte g = Convert.ToByte(childDto.StrokeColor.Substring(5, 2), 16);
                 byte b = Convert.ToByte(childDto.StrokeColor.Substring(7, 2), 16);
-                switch (childDto.Type.ToLower())
+
+                switch (childDto.Name.ToLower())
                 {
                     case "rectangle":
-                        child = new Rectangle
-                        {
-                            Width = childDto.Width,
-                            Height = childDto.Height,
-                            Stroke = new SolidColorBrush(Color.FromArgb(a, r, g, b)),
-                            StrokeThickness = childDto.StrokeThickness
-                        };
+                        child = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
-                    case "ellipse":
-                        child = new Ellipse
-                        {
-                            Width = childDto.Width,
-                            Height = childDto.Height,
-                            Stroke = new SolidColorBrush(Color.FromArgb(a, r, g, b)),
-                            StrokeThickness = childDto.StrokeThickness
-                        };
+                    case "circle":
+                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
-                        // Add more cases for other types as needed
+                    case "triangle":
+                        child = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        break;
+                    case "righttriangle":
+                        child = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        break;
+                    case "goldenstar":
+                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        break;
+                    case "rhombus":
+                        child = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        break;
+                    case "line":
+                        child = new LineFigure(childDto.Left, childDto.Top, childDto.Left + childDto.Width, childDto.Top + childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        break;
                 }
 
                 if (child != null)
                 {
-                    // Convert color string back to Brush
-                    if (!string.IsNullOrEmpty(childDto.FillColor))
-                    {
-                        child.SetValue(Shape.FillProperty, new SolidColorBrush(Colors.Transparent));
-                    }
-
-                    CustomCanvas.SetLeft(child, childDto.Left);
-                    CustomCanvas.SetTop(child, childDto.Top);
-                    canvas.Children.Add(child);
+                    child.Draw(canvas);
                 }
             }
 
@@ -159,7 +165,7 @@ namespace App3
     /// </summary>
     public class CanvasChildDto
     {
-        public string? Type { get; set; }
+        public string? Name { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public double Left { get; set; }
