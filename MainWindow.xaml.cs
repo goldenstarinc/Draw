@@ -760,10 +760,10 @@ namespace App3
                 }
             }
 
-            //if (_layerManager.GetLayerCount == 0)
-            //{
-
-            //}
+            if (_layerManager.GetLayerCount() == 0)
+            {
+                AddLayer();
+            }
         }
 
         /// <summary>
@@ -910,7 +910,7 @@ namespace App3
         private void MinusButton_Click(object sender, RoutedEventArgs e)
         {
             int indexToRemove = currentLayerIndex;
-            if (_layerManager.GetLayerCount() <= 0) return;
+            if (_layerManager.GetLayerCount() <= 1) return;
 
             if (int.Parse(SelectedNumber.Text) >= _layerManager.GetLayerCount())
             {

@@ -113,8 +113,8 @@ namespace GraphicsLibrary
         {
             var line = new Line
             {
-                Width = X2 - X,
-                Height = Y2 - Y,
+                Width = Math.Abs(X2 - X),
+                Height = Math.Abs(Y2 - Y),
                 X2 = X2 - X,
                 Y2 = Y2 - Y,
                 Stroke = StrokeColor,
@@ -138,6 +138,7 @@ namespace GraphicsLibrary
             : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
         {
         }
+
         public override void Draw(Canvas canvas)
         {
             var triangle = new Polygon

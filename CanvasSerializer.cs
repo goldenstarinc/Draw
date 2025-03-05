@@ -28,6 +28,7 @@ namespace App3
         public static CanvasDto SerializeCanvas(CustomCanvas canvas)
         {
             var dto = new CanvasDto();
+
             foreach (UIElement child in canvas.Children)
             {
                 if (child is Shape shape)
@@ -36,18 +37,37 @@ namespace App3
                     var color = brush?.Color.ToString();
                     var stroke = shape.Stroke as SolidColorBrush;
                     var strokeColor = stroke?.Color.ToString();
-                    var childDto = new CanvasChildDto
+
+                    if (shape.Name != "")
                     {
-                        Name = shape.Name,
-                        Width = shape.Width,
-                        Height = shape.Height,
-                        Left = CustomCanvas.GetLeft(shape),
-                        Top = CustomCanvas.GetTop(shape),
-                        FillColor = color,
-                        StrokeColor = strokeColor,
-                        StrokeThickness = shape.StrokeThickness
-                    };
-                    dto.Children.Add(childDto);
+                        CanvasChildDto childDto = new CanvasChildDto
+                        {
+                            Name = shape.Name,
+                            Width = shape.Width,
+                            Height = shape.Height,
+                            Left = CustomCanvas.GetLeft(shape),
+                            Top = CustomCanvas.GetTop(shape),
+                            FillColor = color,
+                            StrokeColor = strokeColor,
+                            StrokeThickness = shape.StrokeThickness
+                        };
+                        dto.Children.Add(childDto);
+                    }
+                    else if (shape is Polyline line)
+                    {
+                        foreach (var point in line.Points)
+                        {
+                            CanvasChildDto childDto = new CanvasChildDto
+                            {
+                                Name = line.Name,
+                                Left = point.X,
+                                Top = point.Y,
+                                StrokeColor = strokeColor,
+                                StrokeThickness = line.StrokeThickness
+                            };
+                            dto.Children.Add(childDto);
+                        }
+                    }
                 }
             }
             return dto;
@@ -80,13 +100,17 @@ namespace App3
         {
             var dto = JsonConvert.DeserializeObject<CanvasDto>(json);
 
+            double previousX = 0;
+            double previousY = 0;
+            string previousName = " ";
+
             var canvas = new CustomCanvas();
             foreach (var childDto in dto.Children)
             {
                 Figure child = null;
                 byte aF = 0, rF = 0, gF = 0, bF = 0;
 
-                if (childDto.Name != "Line")
+                if (childDto.Name != "Line" && childDto.Name != "")
                 {
                     aF = Convert.ToByte(childDto.FillColor.Substring(1, 2), 16);
                     rF = Convert.ToByte(childDto.FillColor.Substring(3, 2), 16);
@@ -122,12 +146,23 @@ namespace App3
                     case "line":
                         child = new LineFigure(childDto.Left, childDto.Top, childDto.Left + childDto.Width, childDto.Top + childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
+                    case "":
+                        if (previousName != "")
+                        {
+                            previousX = childDto.Left;
+                            previousY = childDto.Top;
+                        }
+                        child = new LineFigure(previousX, previousY, childDto.Left, childDto.Top, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness + 2);
+                        previousY = childDto.Top;
+                        previousX = childDto.Left;
+                        break;
                 }
 
                 if (child != null)
                 {
                     child.Draw(canvas);
                 }
+                previousName = childDto.Name;
             }
 
             return canvas;
