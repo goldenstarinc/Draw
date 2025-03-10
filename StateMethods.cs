@@ -14,12 +14,12 @@ namespace App3
         /// <summary>
         /// Метод, делающий состояние булевой переменной неактивным
         /// </summary>
-        internal static void MakeInactive(ref bool state) => state = false;
+        internal static void SetInactive(ref bool state) => state = false;
 
         /// <summary>
         /// Метод, делающий состояние булевой переменной активным
         /// </summary>
-        internal static void MakeActive(ref bool state) => state = true;
+        internal static void SetActive(ref bool state) => state = true;
 
         /// <summary>
         /// Метод, проверяющий состояние булевой переменной

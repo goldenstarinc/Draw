@@ -37,7 +37,7 @@ namespace App3
                     var color = brush?.Color.ToString();
                     var stroke = shape.Stroke as SolidColorBrush;
                     var strokeColor = stroke?.Color.ToString();
-
+                    
                     if (shape.Name != "")
                     {
                         CanvasChildDto childDto = new CanvasChildDto
@@ -62,6 +62,7 @@ namespace App3
                                 Name = line.Name,
                                 Left = point.X,
                                 Top = point.Y,
+                                FillColor = Colors.Black.ToString(),
                                 StrokeColor = strokeColor,
                                 StrokeThickness = line.StrokeThickness
                             };
@@ -96,18 +97,20 @@ namespace App3
         /// </summary>
         /// <param name="json">JSON-файл</param>
         /// <returns>Десериализованный канвас</returns>
-        public static CustomCanvas DeserializeCanvas(string json)
+        public static CustomCanvas? DeserializeCanvas(string json)
         {
-            var dto = JsonConvert.DeserializeObject<CanvasDto>(json);
+            CanvasDto? dto = JsonConvert.DeserializeObject<CanvasDto>(json);
+
+            if (dto == null) return null;
 
             double previousX = 0;
             double previousY = 0;
             string previousName = " ";
 
             var canvas = new CustomCanvas();
-            foreach (var childDto in dto.Children)
+            foreach (CanvasChildDto childDto in dto.Children)
             {
-                Figure child = null;
+                Figure? child = null;
                 byte aF = 0, rF = 0, gF = 0, bF = 0;
 
                 if (childDto.Name != "Line" && childDto.Name != "")
@@ -129,7 +132,7 @@ namespace App3
                         child = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
                     case "circle":
-                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
                     case "triangle":
                         child = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
@@ -138,7 +141,7 @@ namespace App3
                         child = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
                     case "goldenstar":
-                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
                         break;
                     case "rhombus":
                         child = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
@@ -200,13 +203,13 @@ namespace App3
     /// </summary>
     public class CanvasChildDto
     {
-        public string? Name { get; set; }
+        public required string Name { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public double Left { get; set; }
         public double Top { get; set; }
-        public string? FillColor { get; set; }
-        public string? StrokeColor { get; set; }
+        public required string FillColor { get; set; }
+        public required string StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
     }
 }

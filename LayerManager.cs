@@ -20,7 +20,7 @@ namespace App3
         /// Добавление слоя
         /// </summary>
         /// <param name="canvas">Слой</param>
-        public void AddLayer(CustomCanvas canvas = null)
+        public void AddLayer(CustomCanvas? canvas = null)
         {
             if (canvas != null)
             {
@@ -80,7 +80,6 @@ namespace App3
         /// <returns>Слой</returns>
         public Canvas GetLayer(int index)
         {
-            if (index == -1) return null;
             return _layers[index];
         }
 

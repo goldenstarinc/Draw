@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI;
 
 namespace GraphicsLibrary
 {
@@ -20,10 +22,10 @@ namespace GraphicsLibrary
         public double Y { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
-        public Brush? FillColor { get; set; }
+        public Brush FillColor { get; set; }
         public Brush StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
-        public Figure(double x, double y, double width, double height, Brush? fillColor, Brush strokeColor, double strokeThickness)
+        public Figure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
         {
             X = x;
             Y = y;
@@ -35,7 +37,7 @@ namespace GraphicsLibrary
         }
 
 
-        public abstract void Draw(Canvas canvas);
+        public abstract void Draw(Canvas? canvas);
     }
 
     /// <summary>
@@ -47,8 +49,10 @@ namespace GraphicsLibrary
             : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
         {
         }
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var rectangle = new Rectangle
             {
                 Width = Width,
@@ -56,7 +60,8 @@ namespace GraphicsLibrary
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
-                Name = "Rectangle"
+                Name = "Rectangle",
+                Tag = this
             };
 
             Canvas.SetLeft(rectangle, X);
@@ -71,13 +76,15 @@ namespace GraphicsLibrary
     /// </summary>
     public class CircleFigure : Figure
     {
-        public CircleFigure(double x, double y, double diameter, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x - diameter / 2, y - diameter / 2, diameter, diameter, fillColor, strokeColor, strokeThickness)
+        public CircleFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness)
+            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness)
         {
         }
 
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var ellipse = new Ellipse
             {
                 Width = Width,
@@ -85,7 +92,8 @@ namespace GraphicsLibrary
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
-                Name = "Circle"
+                Name = "Circle",
+                Tag = this
             };
 
             Canvas.SetLeft(ellipse, X);
@@ -104,13 +112,15 @@ namespace GraphicsLibrary
         public double Y2 { get; set; }
 
         public LineFigure(double x, double y, double x2, double y2, Brush strokeColor, double strokeThickness)
-            : base(x, y, x2 - x, y2 - y, null, strokeColor, strokeThickness)
+            : base(x, y, x2 - x, y2 - y, new SolidColorBrush(Colors.Black), strokeColor, strokeThickness)
         {
             X2 = x2;
             Y2 = y2;
         }
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var line = new Line
             {
                 Width = Math.Abs(X2 - X),
@@ -119,7 +129,8 @@ namespace GraphicsLibrary
                 Y2 = Y2 - Y,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
-                Name = "Line"
+                Name = "Line",
+                Tag = this
             };
 
             Canvas.SetLeft(line, X);
@@ -139,8 +150,10 @@ namespace GraphicsLibrary
         {
         }
 
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var triangle = new Polygon
             {
                 Fill = FillColor,
@@ -149,12 +162,13 @@ namespace GraphicsLibrary
                 Width = Width,
                 Height = Height,
                 Points = new PointCollection
-            {
-                new Point(1, 1),
-                new Point(Width, 1),
-                new Point(Width / 2, Height)
-            },
-                Name = "Triangle"
+                {
+                    new Point(1, 1),
+                    new Point(Width, 1),
+                    new Point(Width / 2, Height)
+                },
+                Name = "Triangle",
+                Tag = this
             };
 
             Canvas.SetLeft(triangle, X);
@@ -173,22 +187,25 @@ namespace GraphicsLibrary
             : base(x, y, baseLength, height, fillColor, strokeColor, strokeThickness)
         {
         }
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var triangle = new Polygon
             {
                 Points = new PointCollection
-        {
-            new Point(1, 1),
-            new Point(Width, 1),
-            new Point(1, Height)
-        },
+                {
+                    new Point(1, 1),
+                    new Point(Width, 1),
+                    new Point(1, Height)
+                },
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Width = Width,
                 Height = Height,
-                Name = "RightTriangle"
+                Name = "RightTriangle",
+                Tag = this
             };
 
             Canvas.SetLeft(triangle, X);
@@ -207,23 +224,26 @@ namespace GraphicsLibrary
             : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
         {
         }
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var rhombus = new Polygon
             {
                 Points = new PointCollection
-        {
-            new Point(1 + Width / 2, 1),
-            new Point(1 + Width, 1 + Height / 2),
-            new Point(1 + Width / 2, 1 + Height),
-            new Point(1, 1 + Height / 2)
-        },
+                {
+                    new Point(1 + Width / 2, 1),
+                    new Point(1 + Width, 1 + Height / 2),
+                    new Point(1 + Width / 2, 1 + Height),
+                    new Point(1, 1 + Height / 2)
+                },
                 Fill = FillColor,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "Rhombus",
                 Width = Width,
-                Height = Height
+                Height = Height,
+                Tag = this
             };
 
             Canvas.SetLeft(rhombus, X);
@@ -238,13 +258,15 @@ namespace GraphicsLibrary
     /// </summary>
     public class GoldenStarFigure : Figure
     {
-        public GoldenStarFigure(double x, double y, double radius, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, radius, radius, fillColor, strokeColor, strokeThickness)
+        public GoldenStarFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness)
+            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness)
         {
         }
 
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
+            if (canvas == null) return;
+
             var points = new PointCollection();
             double angle = Math.PI / 5;
             for (int i = 0; i < 10; i++)
@@ -263,7 +285,8 @@ namespace GraphicsLibrary
                 StrokeThickness = StrokeThickness,
                 Name = "GoldenStar",
                 Width = Width,
-                Height = Height
+                Height = Height,
+                Tag = this
             };
 
             Canvas.SetLeft(star, X);
@@ -282,9 +305,11 @@ namespace GraphicsLibrary
             : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
         {
         }
-        public override void Draw(Canvas canvas)
+        public override void Draw(Canvas? canvas)
         {
-            var head = new CircleFigure(X, Y, Width / 3, FillColor, StrokeColor, StrokeThickness);
+            if (canvas == null) return;
+
+            var head = new CircleFigure(X, Y, Width / 3, Width / 3, FillColor, StrokeColor, StrokeThickness);
 
             var body = new LineFigure(X + Width / 2, Y + Width / 3, X + Width / 2, Y + Height / 3 * 2, StrokeColor, StrokeThickness);
 
