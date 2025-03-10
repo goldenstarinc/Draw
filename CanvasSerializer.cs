@@ -37,7 +37,13 @@ namespace App3
                     var color = brush?.Color.ToString();
                     var stroke = shape.Stroke as SolidColorBrush;
                     var strokeColor = stroke?.Color.ToString();
-                    
+                    double rotationAngle = 0;
+
+                    if (shape.Tag is Figure figure)
+                    {
+                        rotationAngle = figure.RotationAngle;
+                    }
+
                     if (shape.Name != "")
                     {
                         CanvasChildDto childDto = new CanvasChildDto
@@ -49,7 +55,8 @@ namespace App3
                             Top = CustomCanvas.GetTop(shape),
                             FillColor = color,
                             StrokeColor = strokeColor,
-                            StrokeThickness = shape.StrokeThickness
+                            StrokeThickness = shape.StrokeThickness,
+                            RotationAngle = rotationAngle
                         };
                         dto.Children.Add(childDto);
                     }
@@ -64,7 +71,8 @@ namespace App3
                                 Top = point.Y,
                                 FillColor = Colors.Black.ToString(),
                                 StrokeColor = strokeColor,
-                                StrokeThickness = line.StrokeThickness
+                                StrokeThickness = line.StrokeThickness,
+                                RotationAngle = 0
                             };
                             dto.Children.Add(childDto);
                         }
@@ -129,25 +137,25 @@ namespace App3
                 switch (childDto.Name.ToLower())
                 {
                     case "rectangle":
-                        child = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "circle":
-                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "triangle":
-                        child = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "righttriangle":
-                        child = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "goldenstar":
-                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "rhombus":
-                        child = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "line":
-                        child = new LineFigure(childDto.Left, childDto.Top, childDto.Left + childDto.Width, childDto.Top + childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness);
+                        child = new LineFigure(childDto.Left, childDto.Top, childDto.Left + childDto.Width, childDto.Top + childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "":
                         if (previousName != "")
@@ -155,7 +163,7 @@ namespace App3
                             previousX = childDto.Left;
                             previousY = childDto.Top;
                         }
-                        child = new LineFigure(previousX, previousY, childDto.Left, childDto.Top, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness + 2);
+                        child = new LineFigure(previousX, previousY, childDto.Left, childDto.Top, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness + 2, 0);
                         previousY = childDto.Top;
                         previousX = childDto.Left;
                         break;
@@ -211,5 +219,6 @@ namespace App3
         public required string FillColor { get; set; }
         public required string StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
+        public double RotationAngle { get; set; }
     }
 }

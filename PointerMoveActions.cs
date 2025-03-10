@@ -43,7 +43,7 @@ namespace App3
         /// <param name="selectedColor">Выбранный цвет</param>
         /// <param name="previewFigure">Нарисованная фигура</param>
         /// <param name="previewLayer">Слой для рисования</param>
-        internal static void DrawFigure(Point currentPoint, Point startPoint, Tool selectedTool, Color defaultCanvasColor, Color selectedColor, ref Figure? previewFigure, ref Canvas? previewLayer)
+        internal static void DrawFigure(Point currentPoint, Point startPoint, Tool selectedTool, Color defaultCanvasColor, Color selectedColor, ref Figure? previewFigure, ref Canvas? previewLayer, double rotationAngle)
         {
             if (previewLayer == null) return; 
 
@@ -54,35 +54,35 @@ namespace App3
 
             if (selectedTool == Tool.Rectangle)
             {
-                previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new RectangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.Circle)
             {
-                previewFigure = new CircleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new CircleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.Line)
             {
-                previewFigure = new LineFigure(startPoint.X, startPoint.Y, currentPoint.X, currentPoint.Y, new SolidColorBrush(selectedColor), 2);
+                previewFigure = new LineFigure(startPoint.X, startPoint.Y, currentPoint.X, currentPoint.Y, new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.Triangle)
             {
-                previewFigure = new TriangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new TriangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.RightTriangle)
             {
-                previewFigure = new RightTriangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new RightTriangleFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.Rhombus)
             {
-                previewFigure = new RhombusFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new RhombusFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.GoldenStar)
             {
-                previewFigure = new GoldenStarFigure(x, y, width / 2, height / 2, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new GoldenStarFigure(x, y, width / 2, height / 2, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
             else if (selectedTool == Tool.Person)
             {
-                previewFigure = new PersonFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2);
+                previewFigure = new PersonFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
 
             previewLayer.Children.Clear();
@@ -99,7 +99,7 @@ namespace App3
         /// <param name="currentLayer">Текущий слой</param>
         /// <param name="previewFigure">Фигура предпросмотра</param>
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
-        internal static void Drag(Point currentPoint, Point startPoint, ref Shape? selectedShape, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Figure? previewFigure, ref Rectangle? selectionRectangle)
+        internal static void Drag(Point currentPoint, Point startPoint, ref Shape? selectedShape, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Figure? previewFigure, ref Rectangle? selectionRectangle, ref Image? rotationHandle)
         {
             if (previewLayer == null || currentLayer == null) return;
 
@@ -137,7 +137,7 @@ namespace App3
 
                 currentLayer.Children.Remove(selectedShape);
 
-                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle);
+                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle, ref rotationHandle);
 
                 startPoint = currentPoint;
 
@@ -160,7 +160,7 @@ namespace App3
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
         /// <param name="previewLayer">Слой предпросмотра</param>
         /// <param name="currentLayer">Текущий слой</param>
-        internal static void Resize(Point currentPoint, Point startPoint, ref Shape? selectedShape, string resizeDirection, Tool selectedTool, ref Figure? previewFigure, ref Rectangle? selectionRectangle, ref Canvas? previewLayer, ref Canvas? currentLayer)
+        internal static void Resize(Point currentPoint, Point startPoint, ref Shape? selectedShape, string resizeDirection, Tool selectedTool, ref Figure? previewFigure, ref Rectangle? selectionRectangle, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Image? rotationHandle, double rotationAngle)
         {
             if (previewLayer == null || currentLayer == null) return;
 
@@ -217,39 +217,39 @@ namespace App3
 
                 if (selectedTool == Tool.Rectangle)
                 {
-                    previewFigure = new RectangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new RectangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (figure is CircleFigure)
                 {
-                    previewFigure = new CircleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new CircleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.Line)
                 {
-                    previewFigure = new LineFigure(startPoint.X, startPoint.Y, currentPoint.X, currentPoint.Y, fillColorBrush, 2);
+                    previewFigure = new LineFigure(startPoint.X, startPoint.Y, currentPoint.X, currentPoint.Y, fillColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.Triangle)
                 {
-                    previewFigure = new TriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new TriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.RightTriangle)
                 {
-                    previewFigure = new RightTriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new RightTriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.Rhombus)
                 {
-                    previewFigure = new RhombusFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new RhombusFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.GoldenStar)
                 {
-                    previewFigure = new GoldenStarFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new GoldenStarFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
                 else if (selectedTool == Tool.Person)
                 {
-                    previewFigure = new PersonFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2);
+                    previewFigure = new PersonFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
 
                 RemoveSelectedShapeFromLayer(selectedShape, ref currentLayer);
-                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle);
+                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle, ref rotationHandle);
 
                 previewLayer.Children.Clear();
 
@@ -259,6 +259,62 @@ namespace App3
                 {
                     selectedShape = previewLayer.Children.Last() as Shape;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Функция, отвечающая за поворот фигуры
+        /// </summary>
+        /// <param name="currentPoint">Текущее положение курсора</param>
+        /// <param name="startPoint">Начальное положение курсора</param>
+        /// <param name="selectedShape">Выбранная фигура</param>
+        /// <param name="previewFigure">Фигура предпросмотра</param>
+        /// <param name="previewLayer">Слой предпросмотра</param>
+        /// <param name="rotationAngle">Угол для поворота</param>
+        internal static void Rotate(ref Point previousPoint, Point currentPoint, Point startPoint, ref Shape? selectedShape, ref Figure? previewFigure, ref Canvas? previewLayer, double rotationAngle, ref Canvas? currentLayer, ref Rectangle? selectionRectangle, ref Image? rotationHandle)
+        {
+            if (previewLayer == null || currentLayer == null) return;
+
+            if (selectedShape != null)
+            {
+                if (previewFigure == null && selectedShape.Tag is Figure figure)
+                {
+                    previewFigure = figure;
+                }
+
+                if (previewFigure == null) return;
+
+                double startMousePoint = 0;
+
+                if (selectedShape.RenderTransform is RotateTransform transform)
+                {
+                    startMousePoint = transform.Angle;
+                }
+
+
+                if (previousPoint.Y < currentPoint.Y)
+                {
+                    rotationAngle = startMousePoint + 1;
+                }
+                else
+                {
+                    rotationAngle = startMousePoint - 1;
+                }
+
+                RemoveSelectedShapeFromLayer(selectedShape, ref currentLayer);
+                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle, ref rotationHandle);
+
+                previewLayer.Children.Clear();
+                
+                previewFigure.RotationAngle = rotationAngle;
+                previewFigure.Draw(previewLayer);
+
+                if (previewLayer.Children.Count > 0)
+                {
+                    selectedShape = previewLayer.Children.Last() as Shape;
+                }
+
+                previousPoint = currentPoint;
             }
         }
     }

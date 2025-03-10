@@ -25,7 +25,9 @@ namespace GraphicsLibrary
         public Brush FillColor { get; set; }
         public Brush StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
-        public Figure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
+        public double RotationAngle { get; set; }
+
+        public Figure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
         {
             X = x;
             Y = y;
@@ -34,9 +36,8 @@ namespace GraphicsLibrary
             FillColor = fillColor;
             StrokeColor = strokeColor;
             StrokeThickness = strokeThickness;
+            RotationAngle = rotationAngle;
         }
-
-
         public abstract void Draw(Canvas? canvas);
     }
 
@@ -45,8 +46,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class RectangleFigure : Figure
     {
-        public RectangleFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
+        public RectangleFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
         public override void Draw(Canvas? canvas)
@@ -61,7 +62,13 @@ namespace GraphicsLibrary
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "Rectangle",
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(rectangle, X);
@@ -76,8 +83,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class CircleFigure : Figure
     {
-        public CircleFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness)
+        public CircleFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
 
@@ -93,7 +100,13 @@ namespace GraphicsLibrary
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "Circle",
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(ellipse, X);
@@ -111,8 +124,8 @@ namespace GraphicsLibrary
         public double X2 { get; set; }
         public double Y2 { get; set; }
 
-        public LineFigure(double x, double y, double x2, double y2, Brush strokeColor, double strokeThickness)
-            : base(x, y, x2 - x, y2 - y, new SolidColorBrush(Colors.Black), strokeColor, strokeThickness)
+        public LineFigure(double x, double y, double x2, double y2, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, x2 - x, y2 - y, new SolidColorBrush(Colors.Black), strokeColor, strokeThickness, rotationAngle)
         {
             X2 = x2;
             Y2 = y2;
@@ -130,7 +143,13 @@ namespace GraphicsLibrary
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "Line",
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(line, X);
@@ -145,8 +164,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class TriangleFigure : Figure
     {
-        public TriangleFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
+        public TriangleFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
 
@@ -168,7 +187,13 @@ namespace GraphicsLibrary
                     new Point(Width / 2, Height)
                 },
                 Name = "Triangle",
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(triangle, X);
@@ -183,8 +208,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class RightTriangleFigure : Figure
     {
-        public RightTriangleFigure(double x, double y, double baseLength, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, baseLength, height, fillColor, strokeColor, strokeThickness)
+        public RightTriangleFigure(double x, double y, double baseLength, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, baseLength, height, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
         public override void Draw(Canvas? canvas)
@@ -205,7 +230,13 @@ namespace GraphicsLibrary
                 Width = Width,
                 Height = Height,
                 Name = "RightTriangle",
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(triangle, X);
@@ -220,8 +251,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class RhombusFigure : Figure
     {
-        public RhombusFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
+        public RhombusFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
         public override void Draw(Canvas? canvas)
@@ -243,7 +274,13 @@ namespace GraphicsLibrary
                 Name = "Rhombus",
                 Width = Width,
                 Height = Height,
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(rhombus, X);
@@ -258,8 +295,8 @@ namespace GraphicsLibrary
     /// </summary>
     public class GoldenStarFigure : Figure
     {
-        public GoldenStarFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness)
+        public GoldenStarFigure(double x, double y, double axisX, double axisY, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, axisX, axisY, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
 
@@ -286,7 +323,13 @@ namespace GraphicsLibrary
                 Name = "GoldenStar",
                 Width = Width,
                 Height = Height,
-                Tag = this
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
             };
 
             Canvas.SetLeft(star, X);
@@ -301,25 +344,25 @@ namespace GraphicsLibrary
     /// </summary>
     public class PersonFigure : Figure
     {
-        public PersonFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness)
-            : base(x, y, width, height, fillColor, strokeColor, strokeThickness)
+        public PersonFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
         {
         }
         public override void Draw(Canvas? canvas)
         {
             if (canvas == null) return;
 
-            var head = new CircleFigure(X, Y, Width / 3, Width / 3, FillColor, StrokeColor, StrokeThickness);
+            var head = new CircleFigure(X, Y, Width / 3, Width / 3, FillColor, StrokeColor, StrokeThickness, 0);
 
-            var body = new LineFigure(X + Width / 2, Y + Width / 3, X + Width / 2, Y + Height / 3 * 2, StrokeColor, StrokeThickness);
+            var body = new LineFigure(X + Width / 2, Y + Width / 3, X + Width / 2, Y + Height / 3 * 2, StrokeColor, StrokeThickness, 0);
 
-            var leftArm = new LineFigure(X, Y + Height / 2, X + Width / 2, Y + Height / 3, StrokeColor, StrokeThickness);
+            var leftArm = new LineFigure(X, Y + Height / 2, X + Width / 2, Y + Height / 3, StrokeColor, StrokeThickness, 0);
 
-            var rightArm = new LineFigure(X + Width, Y + Height / 2, X + Width / 2, Y + Height / 3, StrokeColor, StrokeThickness);
+            var rightArm = new LineFigure(X + Width, Y + Height / 2, X + Width / 2, Y + Height / 3, StrokeColor, StrokeThickness, 0);
 
-            var leftLeg = new LineFigure(X + Width / 2, Y + Height / 3 * 2, X, Y + Height, StrokeColor, StrokeThickness);
+            var leftLeg = new LineFigure(X + Width / 2, Y + Height / 3 * 2, X, Y + Height, StrokeColor, StrokeThickness, 0);
 
-            var rightLeg = new LineFigure(X + Width / 2, Y + Height / 3 * 2, X + Width, Y + Height, StrokeColor, StrokeThickness);
+            var rightLeg = new LineFigure(X + Width / 2, Y + Height / 3 * 2, X + Width, Y + Height, StrokeColor, StrokeThickness, 0);
 
             head.Draw(canvas);
             body.Draw(canvas);

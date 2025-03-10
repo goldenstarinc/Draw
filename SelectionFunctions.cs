@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace App3
 {
@@ -16,16 +19,17 @@ namespace App3
     /// Модуль, содержащий функции для работы с выделением объектов
     /// </summary>
     internal static class SelectionFunctions
-    { 
+    {
         /// <summary>
         /// Метод, выделяющий выбранную фигуру
         /// </summary>
         /// <param name="shape">Фигура</param>
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
         /// <param name="currentLayer">Текущий слой</param>
-        internal static void DrawSelectionRectangle(Shape shape, ref Rectangle? selectionRectangle, ref Canvas? currentLayer)
+        /// <param name="rotationHandle">Ручка поворота фигуры</param>
+        internal static void DrawSelectionRectangle(Shape shape, ref Rectangle? selectionRectangle, ref Canvas? currentLayer, ref Image? rotationHandle, ref double rotationAngle)
         {
-            RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle);
+            RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle, ref rotationHandle);
 
             if (currentLayer == null) return;
 
@@ -36,19 +40,32 @@ namespace App3
                 double width = shape.Width;
                 double height = shape.Height;
 
+                if (shape.RenderTransform is RotateTransform transform)
+                {
+                    rotationAngle = transform.Angle;
+                }
+
                 selectionRectangle = new Rectangle
                 {
                     Width = width + 8,
                     Height = height + 8,
                     Stroke = new SolidColorBrush(Colors.Black),
                     StrokeThickness = 2,
-                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255))
+                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255)),
+                    RenderTransform = new RotateTransform
+                    {
+                        Angle = rotationAngle,
+                        CenterX = width / 2,
+                        CenterY = height / 2
+                    }
                 };
 
                 Canvas.SetLeft(selectionRectangle, left - 4);
                 Canvas.SetTop(selectionRectangle, top - 4);
 
                 currentLayer.Children.Add(selectionRectangle);
+
+                CreateRotationHandle(shape, ref currentLayer, ref rotationHandle);
             }
         }
 
@@ -58,11 +75,12 @@ namespace App3
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
         /// <param name="currentLayer">Текущий слой</param>
         /// <param name="selectedShape">Выбранная фигура</param>
-        internal static void RemoveSelection(ref Rectangle? selectionRectangle, ref Canvas? currentLayer, ref Shape? selectedShape)
+        /// <param name="rotationHandle">Ручка поворота фигуры</param>
+        internal static void RemoveSelection(ref Rectangle? selectionRectangle, ref Canvas? currentLayer, ref Shape? selectedShape, ref Image? rotationHandle)
         {
             if (selectionRectangle != null)
             {
-                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle);
+                RemoveSelectionRectangle(ref currentLayer, ref selectionRectangle, ref rotationHandle);
             }
             SetSelectedElementToNull(ref selectedShape);
         }
@@ -72,8 +90,11 @@ namespace App3
         /// </summary>
         /// <param name="currentLayer">Текущий слой</param>
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
-        internal static void RemoveSelectionRectangle(ref Canvas? currentLayer, ref Rectangle? selectionRectangle)
+        /// <param name="rotationHandle">Ручка поворота фигуры</param>
+        internal static void RemoveSelectionRectangle(ref Canvas? currentLayer, ref Rectangle? selectionRectangle, ref Image? rotationHandle)
         {
+            RemoveRotationHandle(ref currentLayer, ref rotationHandle);
+
             if (currentLayer == null) return;
 
             if (selectionRectangle != null)
@@ -81,6 +102,46 @@ namespace App3
                 currentLayer.Children.Remove(selectionRectangle);
             }
             selectionRectangle = null;
+        }
+
+        /// <summary>
+        /// Функция, создающая ручку для поворота фигуры
+        /// </summary>
+        /// <param name="shape">Фигура</param>
+        /// <param name="currentLayer">Текущий слой</param>
+        /// <param name="rotationHandle">Ручка поворота</param>
+        internal static void CreateRotationHandle(Shape shape, ref Canvas currentLayer, ref Image? rotationHandle)
+        {
+            if (shape == null) return;
+
+            rotationHandle = new Image
+            {
+                Width = 20,
+                Height = 20,
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/rotate-icon.png")),
+                Tag = "RotationHandle"
+            };
+
+            Canvas.SetLeft(rotationHandle, Canvas.GetLeft(shape) + shape.Width / 2 - rotationHandle.Width / 2);
+            Canvas.SetTop(rotationHandle, Canvas.GetTop(shape) + shape.Height / 2 - rotationHandle.Height / 2);
+
+            // Добавляем "ручку" на канвас
+            currentLayer.Children.Add(rotationHandle);
+        }
+
+        /// <summary>
+        /// Функция, удаляющая ручку поворота фигуры
+        /// </summary>
+        /// <param name="currentLayer">Текущий слой</param>
+        /// <param name="rotationHandle">Ручка поворота фигуры</param>
+        internal static void RemoveRotationHandle(ref Canvas? currentLayer, ref Image? rotationHandle)
+        {
+            if (currentLayer == null) return;
+
+            if (rotationHandle != null)
+            {
+                currentLayer.Children.Remove(rotationHandle);
+            }
         }
 
         /// <summary>

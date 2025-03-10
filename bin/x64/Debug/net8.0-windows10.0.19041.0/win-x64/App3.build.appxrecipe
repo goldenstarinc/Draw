@@ -661,6 +661,9 @@
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\rotate-icon.png">
+      <PackagePath>Assets\rotate-icon.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="K:\MyDesktop\GitHub\Photoshop_2\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
     </AppxPackagedFile>

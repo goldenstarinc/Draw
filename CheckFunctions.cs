@@ -65,5 +65,29 @@ namespace App3
         /// <param name="selectedTool">Выбранный инструмент</param>
         /// <returns>True - если выбранный инструмент является фигурой, иначе false</returns>
         internal static bool IsFigure(Tool selectedTool) => availableShapes.Contains(selectedTool);
+
+        /// <summary>
+        /// Функция, проверяющая, что курсор находится в центре фигуры
+        /// </summary>
+        /// <param name="point">Текущее положение курсора</param>
+        /// <param name="shape">Фигура</param>
+        /// <returns>True - если курсор находится в центре фигуры, иначе - false</returns>
+        internal static bool IsInCenter(Point point, Shape shape)
+        {
+            bool result = true;
+
+            double left = Canvas.GetLeft(shape);
+            double top = Canvas.GetTop(shape);
+            double right = left + shape.Width;
+            double bottom = top + shape.Height;
+
+            double centralX = (left + right) / 2;
+            double centralY = (top + bottom) / 2;
+
+            if (Math.Abs(centralX - point.X) > 20) result = false;
+            else if (Math.Abs(centralY - point.Y) > 20) result = false;
+
+            return result;
+        }
     }
 }

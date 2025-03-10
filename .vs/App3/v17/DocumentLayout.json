@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\pointermoveactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:pointermoveactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\layerfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:layerfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\selectionfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:selectionfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -14,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1855,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,15 +42,54 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LayerFunctions.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerFunctions.cs",
+              "RelativeDocumentMoniker": "LayerFunctions.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\LayerFunctions.cs",
+              "RelativeToolTip": "LayerFunctions.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAqwCgAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T20:41:05.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PointerMoveActions.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerMoveActions.cs",
+              "RelativeDocumentMoniker": "PointerMoveActions.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerMoveActions.cs",
+              "RelativeToolTip": "PointerMoveActions.cs",
+              "ViewState": "AgIAAKIAAAAAAAAAAAA2wBkBAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T20:18:55.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SelectionFunctions.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\SelectionFunctions.cs",
+              "RelativeDocumentMoniker": "SelectionFunctions.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\SelectionFunctions.cs",
+              "RelativeToolTip": "SelectionFunctions.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAuwB8AAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T18:44:15.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAwwHsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA0CAAAAAAAAAAD4vyICAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-10T16:59:15.755Z",
+              "WhenOpened": "2025-03-10T18:10:52.326Z",
               "EditorCaption": ""
             }
           ]

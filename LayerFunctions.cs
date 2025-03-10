@@ -50,9 +50,9 @@ namespace App3
         /// <param name="previewLayer">Слой предпросмотра</param>
         /// <param name="defaultCanvasColor">Стандартный цвет слоя</param>
         /// <param name="Canvas_DoubleTapped">Обработчик события двойного нажатия</param>
-        internal static void RemoveLayer(ref LayerManager? _layerManager, ref CustomCanvas? DrawingCanvas, ref int currentLayerIndex, ref Canvas? previewLayer, ref Color defaultCanvasColor, DoubleTappedEventHandler Canvas_DoubleTapped)
+        internal static void RemoveLayer(ref LayerManager? _layerManager, ref CustomCanvas? DrawingCanvas, ref int currentLayerIndex, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Color defaultCanvasColor, DoubleTappedEventHandler Canvas_DoubleTapped)
         {
-            if (_layerManager == null || DrawingCanvas == null) return;
+            if (_layerManager == null || DrawingCanvas == null || currentLayer == null) return;
 
             int lastLayerIndex = _layerManager.GetLayerCount() - 1;
             if (lastLayerIndex >= 0)
@@ -74,6 +74,8 @@ namespace App3
             {
                 AddLayer(ref _layerManager, ref DrawingCanvas, ref previewLayer, defaultCanvasColor, Canvas_DoubleTapped);
             }
+
+            SetActiveLayer(currentLayerIndex, ref _layerManager, ref DrawingCanvas, ref currentLayer);
         }
 
         /// <summary>

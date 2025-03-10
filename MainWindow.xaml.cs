@@ -30,7 +30,6 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.UI.System;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using static System.Net.WebRequestMethods;
-using static System.Net.Mime.MediaTypeNames;
 using Windows.UI.Input.Inking;
 using Windows.ApplicationModel.Store;
 
@@ -83,12 +82,21 @@ namespace App3
         private bool isCreatingFigure = false;
         private bool isDragging = false;
         private bool isResizing = false;
+        private bool isRotating = false;
 
         private string resizeDirection = "";
 
         private TextBox? inputTextBox;
 
         private Button? selectedButton;
+
+        private Image? rotationHandle;
+
+        private double defaultRotationAngle = 0;
+
+        private double currentRotationAngle = 0;
+
+        private Point previousPoint;
 
         internal static HashSet<Tool> availableShapes = [Tool.Rectangle, Tool.Circle, Tool.Triangle, Tool.RightTriangle, Tool.Rhombus, Tool.GoldenStar, Tool.Person, Tool.Line];
         
@@ -272,6 +280,16 @@ namespace App3
                     SetInactive(ref isDrawing);
                     SetInactive(ref isDragging);
                     SetInactive(ref isCreatingFigure);
+                    SetInactive(ref isRotating);
+                    InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
+                }
+                else if (IsInCenter(currentPoint, selectedShape))
+                {
+                    SetActive(ref isRotating);
+                    SetInactive(ref isDragging);
+                    SetInactive(ref isDrawing);
+                    SetInactive(ref isResizing);
+                    SetInactive(ref isCreatingFigure);
                     InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
                 }
                 else if (IsPointInsideElement(currentPoint, selectedShape))
@@ -280,11 +298,12 @@ namespace App3
                     SetInactive(ref isDrawing);
                     SetInactive(ref isResizing);
                     SetInactive(ref isCreatingFigure);
+                    SetInactive(ref isRotating);
                     InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
                 }
                 else
                 {
-                    RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape);
+                    RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape, ref rotationHandle);
                 }
                 return;
             }
@@ -330,17 +349,22 @@ namespace App3
             // draw figure
             else if (IsActive(isCreatingFigure))
             {
-                DrawFigure(currentPoint, startPoint, selectedTool, defaultCanvasColor, selectedColor, ref previewFigure, ref previewLayer);
+                DrawFigure(currentPoint, startPoint, selectedTool, defaultCanvasColor, selectedColor, ref previewFigure, ref previewLayer, defaultRotationAngle);
+            }
+            // rotate
+            else if (IsActive(isRotating))
+            {
+                Rotate(ref previousPoint, currentPoint, startPoint, ref selectedShape, ref previewFigure, ref previewLayer, currentRotationAngle, ref currentLayer, ref selectionRectangle, ref rotationHandle);
             }
             // drag
             else if (IsActive(isDragging))
             {
-                Drag(currentPoint, startPoint, ref selectedShape, ref previewLayer, ref currentLayer, ref previewFigure, ref selectionRectangle);
+                Drag(currentPoint, startPoint, ref selectedShape, ref previewLayer, ref currentLayer, ref previewFigure, ref selectionRectangle, ref rotationHandle);
             }
             // resize
             else if (IsActive(isResizing))
             {
-                Resize(currentPoint, startPoint, ref selectedShape, resizeDirection, selectedTool, ref previewFigure, ref selectionRectangle, ref previewLayer, ref currentLayer);
+                Resize(currentPoint, startPoint, ref selectedShape, resizeDirection, selectedTool, ref previewFigure, ref selectionRectangle, ref previewLayer, ref currentLayer, ref rotationHandle, currentRotationAngle);
             }
         }
 
@@ -379,9 +403,9 @@ namespace App3
         {
             if (currentLayer == null) return;
 
-            if ((isDragging || isResizing) && selectedShape != null)
+            if ((isDragging || isResizing || isRotating) && selectedShape != null)
             {
-                DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer);
+                DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer, ref rotationHandle, ref currentRotationAngle);
             }
 
             SetInactive(ref isDrawing);
@@ -412,11 +436,13 @@ namespace App3
                 SetInactive(ref isDrawing);
                 SetInactive(ref isResizing);
                 SetInactive(ref isCreatingFigure);
+                SetInactive(ref isRotating);
                 SetActive(ref isDragging);
 
+                currentRotationAngle = 0;
                 selectedShape = shape;
                 InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
-                DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer);
+                DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer, ref rotationHandle, ref currentRotationAngle);
 
                 ChangeCursor(CursorStates.Default, ref DrawingCanvas);
             }
@@ -430,7 +456,7 @@ namespace App3
             if (selectionRectangle != null && e.Key == Windows.System.VirtualKey.Delete)
             {
                 RemoveSelectedShapeFromLayer(selectedShape, ref currentLayer);
-                RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape);
+                RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape, ref rotationHandle);
                 SetInactive(ref isDragging);
             }
         }
@@ -446,7 +472,7 @@ namespace App3
         private void CustomCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             Canvas_PointerReleased(sender, e);
-            RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape);
+            RemoveSelection(ref selectionRectangle, ref currentLayer, ref selectedShape, ref rotationHandle);
         }
 
         #region LAYERS
@@ -523,7 +549,7 @@ namespace App3
             {
                 SelectedNumber.Text = "";
             }
-            RemoveLayer(ref _layerManager, ref DrawingCanvas, ref currentLayerIndex, ref previewLayer, ref defaultCanvasColor, Canvas_DoubleTapped);
+            RemoveLayer(ref _layerManager, ref DrawingCanvas, ref currentLayerIndex, ref previewLayer, ref currentLayer, ref defaultCanvasColor, Canvas_DoubleTapped);
 
             ButtonContainer.Children.RemoveAt(indexToRemove);
             int startIndex = 1;
