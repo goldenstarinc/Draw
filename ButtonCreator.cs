@@ -14,6 +14,27 @@ namespace App3
     internal static class ButtonCreator
     {
         /// <summary>
+        /// Создание кнопки
+        /// </summary>
+        /// <param name="content">Надпись кнопки</param>
+        /// <param name="ButtonContainer">Панель, содержащая кнопки</param>
+        /// <param name="NumberButton_Click">Обработчик события нажатия на кнопку</param>
+        internal static void CreateButton(string content, ref StackPanel? ButtonContainer, RoutedEventHandler NumberButton_Click)
+        {
+            if (ButtonContainer == null) return;
+
+            Button newButton = new Button
+            {
+                Content = content,
+                Width = 32,
+                Height = 32,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+            newButton.Click += NumberButton_Click;
+            ButtonContainer.Children.Add(newButton);
+        }
+
+        /// <summary>
         /// Создание кнопки "+"
         /// </summary>
         /// <param name="ButtonContainer">Панель, содержащая кнопки</param>

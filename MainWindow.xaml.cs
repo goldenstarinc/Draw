@@ -98,7 +98,7 @@ namespace App3
 
         private Point previousPoint;
 
-        internal static HashSet<Tool> availableShapes = [Tool.Rectangle, Tool.Circle, Tool.Triangle, Tool.RightTriangle, Tool.Rhombus, Tool.GoldenStar, Tool.Person, Tool.Line];
+        internal static HashSet<Tool> availableShapes = [Tool.Rectangle, Tool.Circle, Tool.Triangle, Tool.RightTriangle, Tool.Rhombus, Tool.GoldenStar, Tool.Person, Tool.Line, Tool.Square, Tool.Octagon];
         
         internal enum Tool
         {
@@ -114,6 +114,8 @@ namespace App3
             GoldenStar,
             Person,
             Line,
+            Square,
+            Octagon,
             Text
         }
 
@@ -241,6 +243,24 @@ namespace App3
         }
 
         /// <summary>
+        /// Метод, позволяющий выбрать квадрат
+        /// </summary>
+        private void SelectSquare(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Square;
+            SetSelectedButton(Square);
+        }
+
+        /// <summary>
+        /// Метод, позволяющий выбрать восьмиугольник
+        /// </summary>
+        private void SelectOctagon(object sender, RoutedEventArgs e)
+        {
+            selectedTool = Tool.Octagon;
+            SetSelectedButton(Octagon);
+        }
+
+        /// <summary>
         /// Метод, позволяющий выбрать текст
         /// </summary>
         private void SelectText(object sender, RoutedEventArgs e)
@@ -328,7 +348,7 @@ namespace App3
             // color picker
             else if (selectedTool == Tool.SelectColorPicker)
             {
-                PickColor(ref e, ref colorPicker);
+                PickColor(ref e, ref colorPicker, ref selectedColor);
             }
         }
 
@@ -485,6 +505,7 @@ namespace App3
             if (sender is Button button)
             {
                 ResetLayerOrder(ref _layerManager, ref DrawingCanvas);
+                myNumberButton.Content = button.Content.ToString();
                 SelectedNumber.Text = button.Content.ToString();
 
                 if (_layerManager == null) return;
@@ -646,6 +667,20 @@ namespace App3
             if (DrawingCanvas == null || _layerManager == null) return;
             DrawingCanvas.Children.Clear();
             _layerManager.ClearAllLayers();
+
+            ButtonContainer.Children.Clear();
+
+            myNumberButton.Content = "1";
+            CreateButton("1", ref ButtonContainer, NumberButton_Click);
+            CreatePlusLayerButton(ref ButtonContainer, PlusButton_Click);
+            CreateMinusLayerButton(ref ButtonContainer, MinusButton_Click);
+
+            DrawingCanvas.SizeChanged += OnDrawingCanvasSizeChanged;
+            InitializeLayers(ref currentLayerIndex, ref _layerManager, ref DrawingCanvas, defaultCanvasColor, Canvas_DoubleTapped);
+            UpdateCanvasSizes(ref _layerManager, ref DrawingCanvas);
+            SetActiveLayer(currentLayerIndex, ref _layerManager, ref DrawingCanvas, ref currentLayer);
+
+            ChangeCursor(CursorStates.Default, ref DrawingCanvas);
         }
 
         /// <summary>
@@ -667,7 +702,11 @@ namespace App3
             StorageFile file = await picker.PickSingleFileAsync();
             if (file == null) return;
 
+            ButtonContainer.Children.Clear();
+
             currentLayerIndex = 0;
+
+            myNumberButton.Content = "1";
 
             _layerManager.ClearAllLayers();
             List<CustomCanvas> canvasList = new List<CustomCanvas>();
@@ -680,6 +719,18 @@ namespace App3
             }
             ResetLayerOrder(ref _layerManager, ref DrawingCanvas);
             SetActiveLayer(currentLayerIndex, ref _layerManager, ref DrawingCanvas, ref currentLayer);
+
+            if (_layerManager == null) return;
+
+            for (int i = 1; i <= _layerManager.GetLayerCount(); i++)
+            {
+                CreateButton($"{i}", ref ButtonContainer, NumberButton_Click);
+            }
+
+            CreatePlusLayerButton(ref ButtonContainer, PlusButton_Click);
+            CreateMinusLayerButton(ref ButtonContainer, MinusButton_Click);
+
+            UpdateCanvasSizes(ref _layerManager, ref DrawingCanvas);
         }
 
         /// <summary>

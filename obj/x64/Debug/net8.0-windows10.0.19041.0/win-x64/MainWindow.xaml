@@ -23,17 +23,17 @@
         <!-- Меню -->
         <MenuBar Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Transparent">
             <MenuBarItem Title="Файл">
-                <MenuFlyoutItem x:ConnectionId='38' Text="Новый"                      >
+                <MenuFlyoutItem x:ConnectionId='40' Text="Новый"                      >
                     <MenuFlyoutItem.Icon>
                         <SymbolIcon Symbol="Document"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:ConnectionId='39' Text="Открыть"                       >
+                <MenuFlyoutItem x:ConnectionId='41' Text="Открыть"                       >
                     <MenuFlyoutItem.Icon>
                         <SymbolIcon Symbol="OpenFile"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:ConnectionId='40' Text="Сохранить"                       >
+                <MenuFlyoutItem x:ConnectionId='42' Text="Сохранить"                       >
                     <MenuFlyoutItem.Icon>
                         <SymbolIcon Symbol="Save"/>
                     </MenuFlyoutItem.Icon>
@@ -64,41 +64,41 @@
                     </Grid.RowDefinitions>
 
                     <!-- Кисть -->
-                    <Button x:ConnectionId='32' x:Name="Brush" Grid.Row="0" Grid.Column="0"                     ToolTipService.ToolTip="Кисть">
+                    <Button x:ConnectionId='34' x:Name="Brush" Grid.Row="0" Grid.Column="0"                     ToolTipService.ToolTip="Кисть">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE771;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Заливка -->
-                    <Button x:ConnectionId='33' x:Name="Fill" Grid.Row="0" Grid.Column="2"                    ToolTipService.ToolTip="Заливка">
+                    <Button x:ConnectionId='35' x:Name="Fill" Grid.Row="0" Grid.Column="2"                    ToolTipService.ToolTip="Заливка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE88F;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Пипетка -->
-                    <Button x:ConnectionId='34' x:Name="ColorPicker" Grid.Row="0" Grid.Column="1"                           ToolTipService.ToolTip="Пипетка">
+                    <Button x:ConnectionId='36' x:Name="ColorPicker" Grid.Row="0" Grid.Column="1"                           ToolTipService.ToolTip="Пипетка">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xEF3C;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Текст -->
-                    <Button x:ConnectionId='35' x:Name="Text" Grid.Row="1" Grid.Column="0"                    ToolTipService.ToolTip="Текст">
+                    <Button x:ConnectionId='37' x:Name="Text" Grid.Row="1" Grid.Column="0"                    ToolTipService.ToolTip="Текст">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE8D2;" FontSize="20"/>
                         </StackPanel>
                     </Button>
                     <!-- Очистка слоя -->
-                    <Button x:ConnectionId='36' x:Name="Clear" Grid.Row="1" Grid.Column="2"                     ToolTipService.ToolTip="Очистить слой">
+                    <Button x:ConnectionId='38' x:Name="Clear" Grid.Row="1" Grid.Column="2"                     ToolTipService.ToolTip="Очистить слой">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xED62;" FontSize="20"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Ластик  -->
-                    <Button x:ConnectionId='37' x:Name="Eraser" Grid.Row="1" Grid.Column="1"                      ToolTipService.ToolTip="Ластик">
+                    <Button x:ConnectionId='39' x:Name="Eraser" Grid.Row="1" Grid.Column="1"                      ToolTipService.ToolTip="Ластик">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE75C;" FontSize="20"/>
                         </StackPanel>
@@ -108,21 +108,22 @@
                 <TextBlock Text="Размер кисти" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
                 <!-- Слайдер -->
-                <Slider x:ConnectionId='6' x:Name="slider"                                        Width="180" HorizontalAlignment="Center"/>
+                <Slider x:ConnectionId='6' x:Name="slider"                                        Width="180" HorizontalAlignment="Center" Minimum="1"/>
 
                 <TextBlock Text="Фигуры" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
-                <Grid Width="150" Height="120">
+                <Grid Width="150" Height="160">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Button x:ConnectionId='24' x:Name="Line" Grid.Row="0" Grid.Column="0"                    ToolTipService.ToolTip="Линия">
@@ -152,7 +153,9 @@
                     </Button>
                     <Button x:ConnectionId='29' x:Name="Rhomb" Grid.Row="1" Grid.Column="2"                       ToolTipService.ToolTip="Ромб">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
+                            <Viewbox Width="20" Height="20">
+                                <Path Data="M10,0 L20,10 L10,20 L0,10 Z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                            </Viewbox>
                         </StackPanel>
                     </Button>
                     <Button x:ConnectionId='30' x:Name="GoldenStar" Grid.Row="2" Grid.Column="0"                          ToolTipService.ToolTip="Звезда">
@@ -163,6 +166,18 @@
                     <Button x:ConnectionId='31' x:Name="Person" Grid.Row="2" Grid.Column="1"                      ToolTipService.ToolTip="Человечек">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE805;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='32' x:Name="Square" Grid.Row="2" Grid.Column="2"                      ToolTipService.ToolTip="Квадрат">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE71A;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='33' x:Name="Octagon" Grid.Row="3" Grid.Column="0"                       ToolTipService.ToolTip="Восьмиугольник">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Path Data="M10,0 L15,5 L15,15 L10,20 L5,20 L0,15 L0,5 L5,0 Z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                            </Viewbox>
                         </StackPanel>
                     </Button>
                 </Grid>

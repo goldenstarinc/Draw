@@ -108,21 +108,22 @@
                 <TextBlock Text="Размер кисти" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
                 <!-- Слайдер -->
-                <Slider x:Name="slider" ValueChanged="StrokeThickness_Changed" Width="180" HorizontalAlignment="Center"/>
+                <Slider x:Name="slider" ValueChanged="StrokeThickness_Changed" Width="180" HorizontalAlignment="Center" Minimum="1"/>
 
                 <TextBlock Text="Фигуры" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
 
-                <Grid Width="150" Height="120">
+                <Grid Width="150" Height="160">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Button x:Name="Line" Grid.Row="0" Grid.Column="0" Click="SelectLine" ToolTipService.ToolTip="Линия">
@@ -152,7 +153,9 @@
                     </Button>
                     <Button x:Name="Rhomb" Grid.Row="1" Grid.Column="2" Click="SelectRhombus" ToolTipService.ToolTip="Ромб">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xEC8F;" FontSize="20"/>
+                            <Viewbox Width="20" Height="20">
+                                <Path Data="M10,0 L20,10 L10,20 L0,10 Z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                            </Viewbox>
                         </StackPanel>
                     </Button>
                     <Button x:Name="GoldenStar" Grid.Row="2" Grid.Column="0" Click="SelectGoldenStar" ToolTipService.ToolTip="Звезда">
@@ -163,6 +166,18 @@
                     <Button x:Name="Person" Grid.Row="2" Grid.Column="1" Click="SelectPerson" ToolTipService.ToolTip="Человечек">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE805;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Square" Grid.Row="2" Grid.Column="2" Click="SelectSquare" ToolTipService.ToolTip="Квадрат">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE71A;" FontSize="20"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Octagon" Grid.Row="3" Grid.Column="0" Click="SelectOctagon" ToolTipService.ToolTip="Восьмиугольник">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Path Data="M10,0 L15,5 L15,15 L10,20 L5,20 L0,15 L0,5 L5,0 Z" Fill="White" Stroke="Black" StrokeThickness="1"/>
+                            </Viewbox>
                         </StackPanel>
                     </Button>
                 </Grid>

@@ -84,6 +84,14 @@ namespace App3
             {
                 previewFigure = new PersonFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
             }
+            else if (selectedTool == Tool.Square)
+            {
+                previewFigure = new SquareFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
+            }
+            else if (selectedTool == Tool.Octagon)
+            {
+                previewFigure = new OctagonFigure(x, y, width, height, new SolidColorBrush(defaultCanvasColor), new SolidColorBrush(selectedColor), 2, rotationAngle);
+            }
 
             previewLayer.Children.Clear();
             if (previewFigure != null) previewFigure.Draw(previewLayer);
@@ -259,6 +267,14 @@ namespace App3
                 else if (selectedShape.Tag is PersonFigure)
                 {
                     previewFigure = new PersonFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
+                }
+                else if (selectedShape.Tag is SquareFigure)
+                {
+                    previewFigure = new SquareFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
+                }
+                else if (selectedShape.Tag is OctagonFigure)
+                {
+                    previewFigure = new OctagonFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
 
                 RemoveSelectedShapeFromLayer(selectedShape, ref currentLayer);

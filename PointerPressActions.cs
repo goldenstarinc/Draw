@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using static App3.MainWindow;
 using Windows.UI;
 using Windows.Foundation;
+using GraphicsLibrary;
 
 namespace App3
 {
@@ -26,14 +27,14 @@ namespace App3
         /// <param name="selectedColor">Выбранный цвет</param>
         internal static void FillObject(ref PointerRoutedEventArgs e, SolidColorBrush selectedColor)
         {
-            if (e.OriginalSource is Shape selectedShape)
+            if (e.OriginalSource is Shape selectedShape && selectedShape.Tag is Figure figure)
             {
                 selectedShape.Fill = selectedColor;
+                figure.FillColor = selectedColor;
             }
             else if (e.OriginalSource is Canvas selectedCanvas)
             {
                 selectedCanvas.Background = selectedColor;
-                //UpdateCanvasSizes();
             }
         }
 
@@ -42,16 +43,24 @@ namespace App3
         /// </summary>
         /// <param name="e">Аргументы, переданные курсорам</param>
         /// <param name="colorPicker">Палитра</param>
-        internal static void PickColor(ref PointerRoutedEventArgs e, ref ColorPicker colorPicker)
+        internal static void PickColor(ref PointerRoutedEventArgs e, ref ColorPicker colorPicker, ref Color selectedColor)
         {
             if (e.OriginalSource is Shape selectedShape)
             {
-                Color selectedColor = ((SolidColorBrush)selectedShape.Fill).Color;
-                colorPicker.Color = selectedColor;
+                if (selectedShape is Polyline line)
+                {
+                    selectedColor = ((SolidColorBrush)line.Stroke).Color;
+                    colorPicker.Color = selectedColor;
+                }
+                else
+                {
+                    selectedColor = ((SolidColorBrush)selectedShape.Fill).Color;
+                    colorPicker.Color = selectedColor;
+                }
             }
             else if (e.OriginalSource is Canvas selectedCanvas)
             {
-                Color selectedColor = ((SolidColorBrush)selectedCanvas.Background).Color;
+                selectedColor = ((SolidColorBrush)selectedCanvas.Background).Color;
                 colorPicker.Color = selectedColor;
             }
         }

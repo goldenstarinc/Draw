@@ -125,6 +125,11 @@ namespace App3
             foreach (CustomCanvas canvas in layerManager.GetAllLayers())
             {
                 CanvasDto dto = SerializeCanvas(canvas);
+
+                SolidColorBrush? fillColorBrush = canvas.Background as SolidColorBrush;
+                fillColorBrush = fillColorBrush ?? new SolidColorBrush(Colors.Transparent);
+                json += fillColorBrush.Color.ToString();
+
                 json += JsonConvert.SerializeObject(dto, Formatting.Indented);
                 json += ";";
             }
@@ -187,6 +192,12 @@ namespace App3
                     case "line":
                         figure = new LineFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
+                    case "square":
+                        figure = new SquareFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        break;
+                    case "octagon":
+                        figure = new OctagonFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        break;
                     case "":
                         figure = new LineFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, 0);
                         break;
@@ -209,9 +220,21 @@ namespace App3
 
             string[] jsons = File.ReadAllText(filePath).Split(';');
 
+            string fillColorCanvas = "";
+
             foreach (string json in jsons)
             {
-                canvasList.Add(DeserializeCanvas(json));
+                fillColorCanvas = json.Substring(0, 9);
+
+                CustomCanvas? deserializedCanvas = DeserializeCanvas(json.Substring(9));
+                if (deserializedCanvas != null)
+                {
+                    canvasList.Add(deserializedCanvas);
+                    canvasList[canvasList.Count - 1].Background = new SolidColorBrush(Color.FromArgb(Convert.ToByte(fillColorCanvas.Substring(1, 2), 16),
+                                                                                  Convert.ToByte(fillColorCanvas.Substring(3, 2), 16),
+                                                                                  Convert.ToByte(fillColorCanvas.Substring(5, 2), 16),
+                                                                                  Convert.ToByte(fillColorCanvas.Substring(7, 2), 16)));
+                }
             }
 
             return canvasList;

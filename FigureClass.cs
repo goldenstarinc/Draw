@@ -181,9 +181,9 @@ namespace GraphicsLibrary
                 Height = Height,
                 Points = new PointCollection
                 {
-                    new Point(1, 1),
-                    new Point(Width, 1),
-                    new Point(Width / 2, Height)
+                    new Point(1, Height - 1),
+                    new Point(Width, Height - 1),
+                    new Point(Width / 2, 1)
                 },
                 Name = "Triangle",
                 Tag = this,
@@ -220,8 +220,8 @@ namespace GraphicsLibrary
                 Points = new PointCollection
                 {
                     new Point(1, 1),
-                    new Point(Width, 1),
-                    new Point(1, Height)
+                    new Point(1, Height - 1),
+                    new Point(Width, Height - 1)
                 },
                 Fill = FillColor,
                 Stroke = StrokeColor,
@@ -307,10 +307,10 @@ namespace GraphicsLibrary
             double angle = Math.PI / 5;
             for (int i = 0; i < 10; i++)
             {
-                double r = i % 2 == 0 ? Width / 2 : Width / 4; //                                            
+                double r = i % 2 == 0 ? Math.Max(Width, Height) / 2 : Math.Max(Width, Height) / 4; //                                            
                 double xOffset = Math.Cos(-Math.PI / 2 + i * angle) * r;
                 double yOffset = Math.Sin(-Math.PI / 2 + i * angle) * r;
-                points.Add(new Point(xOffset + Width / 2, yOffset + Height / 2));
+                points.Add(new Point(xOffset + Math.Max(Width, Height) / 2, yOffset + Math.Max(Width, Height) / 2));
             }
 
             var star = new Polygon
@@ -320,14 +320,14 @@ namespace GraphicsLibrary
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "GoldenStar",
-                Width = Width,
-                Height = Height,
+                Width = Math.Max(Width, Height),
+                Height = Math.Max(Width, Height),
                 Tag = this,
                 RenderTransform = new RotateTransform
                 {
                     Angle = RotationAngle,
-                    CenterX = Width / 2,
-                    CenterY = Height / 2
+                    CenterX = Math.Max(Width, Height) / 2,
+                    CenterY = Math.Max(Width, Height) / 2
                 }
             };
 
@@ -351,7 +351,7 @@ namespace GraphicsLibrary
         {
             if (canvas == null) return;
 
-            var head = new CircleFigure(X, Y, Width / 3, Width / 3, FillColor, StrokeColor, StrokeThickness, 0);
+            var head = new CircleFigure(X + Width / 3, Y, Width / 3, Width / 3, FillColor, StrokeColor, StrokeThickness, 0);
 
             var body = new LineFigure(X + Width / 2, Y + Width / 3, X + Width / 2, Y + Height / 3 * 2, StrokeColor, StrokeThickness, 0);
 
@@ -369,6 +369,88 @@ namespace GraphicsLibrary
             rightArm.Draw(canvas);
             leftLeg.Draw(canvas);
             rightLeg.Draw(canvas);
+        }
+    }
+
+    /// <summary>
+    /// Класс, представляющий квадрат на канвасе
+    /// </summary>
+    public class SquareFigure : RectangleFigure
+    {
+        public SquareFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
+        {
+        }
+        public override void Draw(Canvas? canvas)
+        {
+            if (canvas == null) return;
+
+            var square = new Rectangle
+            {
+                Width = Math.Max(Width, Height),
+                Height = Math.Max(Width, Height),
+                Fill = FillColor,
+                Stroke = StrokeColor,
+                StrokeThickness = StrokeThickness,
+                Name = "Square",
+                Tag = this
+            };
+
+            Canvas.SetLeft(square, X);
+            Canvas.SetTop(square, Y);
+
+            canvas.Children.Add(square);
+        }
+    }
+
+    /// <summary>
+    /// Класс, представляющий восьмиугольник на канвасе
+    /// </summary>
+    public class OctagonFigure : Figure
+    {
+        public OctagonFigure(double x, double y, double width, double height, Brush fillColor, Brush strokeColor, double strokeThickness, double rotationAngle)
+            : base(x, y, width, height, fillColor, strokeColor, strokeThickness, rotationAngle)
+        {
+        }
+        public override void Draw(Canvas? canvas)
+        {
+            if (canvas == null) return;
+
+            var points = new PointCollection
+            {
+                new Point(Width / 4, 1),
+                new Point(Width * 3 / 4, 1),
+                new Point(Width - 1, Height / 4),
+                new Point(Width - 1, Height * 3 / 4),
+                new Point(Width * 3 / 4, Height - 1),
+                new Point(Width / 4, Height - 1),
+                new Point(1, Height * 3 / 4),
+                new Point(1, Height / 4)
+            };
+
+            // Создаем многоугольник
+            var octagon = new Polygon
+            {
+                Width = Width,
+                Height = Height,
+                Points = points,
+                Fill = FillColor,
+                Stroke = StrokeColor,
+                StrokeThickness = StrokeThickness,
+                Name = "Octagon",
+                Tag = this,
+                RenderTransform = new RotateTransform
+                {
+                    Angle = RotationAngle,
+                    CenterX = Width / 2,
+                    CenterY = Height / 2
+                }
+            };
+
+            Canvas.SetLeft(octagon, X);
+            Canvas.SetTop(octagon, Y);
+
+            canvas.Children.Add(octagon);
         }
     }
 }
