@@ -5,9 +5,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -136,10 +138,10 @@ namespace GraphicsLibrary
 
             var line = new Line
             {
-                Width = Math.Abs(X2 - X),
-                Height = Math.Abs(Y2 - Y),
-                X2 = X2 - X,
-                Y2 = Y2 - Y,
+                X1 = X,
+                Y1 = Y,
+                X2 = X2,
+                Y2 = Y2,
                 Stroke = StrokeColor,
                 StrokeThickness = StrokeThickness,
                 Name = "Line",
@@ -147,13 +149,10 @@ namespace GraphicsLibrary
                 RenderTransform = new RotateTransform
                 {
                     Angle = RotationAngle,
-                    CenterX = Width / 2,
-                    CenterY = Height / 2
+                    CenterX = (X + X2) / 2,
+                    CenterY = (Y + Y2) / 2
                 }
             };
-
-            Canvas.SetLeft(line, X);
-            Canvas.SetTop(line, Y);
 
             canvas.Children.Add(line);
         }

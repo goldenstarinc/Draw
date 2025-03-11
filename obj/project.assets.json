@@ -1371,23 +1371,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\notso\\.nuget\\packages\\": {},
+    "C:\\Users\\mymat\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj",
+      "projectUniqueName": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\App3.csproj",
       "projectName": "App3",
-      "projectPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\App3.csproj",
-      "packagesPath": "C:\\Users\\notso\\.nuget\\packages\\",
-      "outputPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\obj\\",
+      "projectPath": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\App3.csproj",
+      "packagesPath": "C:\\Users\\mymat\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mymat\\OneDrive\\Desktop\\GitHub\\Photoshop_2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\notso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mymat\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1396,7 +1396,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

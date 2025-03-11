@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Microsoft.UI;
 using static App3.MainWindow;
+using GraphicsLibrary;
 
 namespace App3
 {
@@ -46,6 +47,7 @@ namespace App3
         internal static bool IsOnBorder(Point point, Shape shape, out string direction)
         {
             direction = "";
+
             double left = Canvas.GetLeft(shape);
             double top = Canvas.GetTop(shape);
             double right = left + shape.Width;

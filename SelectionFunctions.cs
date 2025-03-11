@@ -11,6 +11,7 @@ using Windows.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using GraphicsLibrary;
 
 namespace App3
 {
@@ -33,38 +34,61 @@ namespace App3
 
             if (currentLayer == null) return;
 
-            if (shape != null)
+            if (shape != null && shape.Tag is Figure figure)
             {
-                double left = Canvas.GetLeft(shape);
-                double top = Canvas.GetTop(shape);
-                double width = shape.Width;
-                double height = shape.Height;
+                double left = figure.X;
+                double top = figure.Y;
+                double right = figure.X + figure.Width;
+                double bottom = figure.Y + figure.Height;
 
-                if (shape.RenderTransform is RotateTransform transform)
-                {
-                    rotationAngle = transform.Angle;
-                }
+                rotationAngle = (shape.RenderTransform is RotateTransform transform) ? transform.Angle : 0;
 
+                double offset = 4;
                 selectionRectangle = new Rectangle
                 {
-                    Width = width + 8,
-                    Height = height + 8,
                     Stroke = new SolidColorBrush(Colors.Black),
                     StrokeThickness = 2,
-                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255)),
-                    RenderTransform = new RotateTransform
-                    {
-                        Angle = rotationAngle,
-                        CenterX = width / 2,
-                        CenterY = height / 2
-                    }
+                    Fill = new SolidColorBrush(Color.FromArgb(50, 57, 97, 255))
                 };
 
-                Canvas.SetLeft(selectionRectangle, left - 4);
-                Canvas.SetTop(selectionRectangle, top - 4);
+                if (figure is LineFigure line)
+                {
+                    double minX = Math.Min(line.X, line.X2);
+                    double minY = Math.Min(line.Y, line.Y2);
+                    double maxX = Math.Max(line.X, line.X2);
+                    double maxY = Math.Max(line.Y, line.Y2);
+
+                    double width = maxX - minX + offset * 2;
+                    double height = maxY - minY + offset * 2;
+
+                    Canvas.SetLeft(selectionRectangle, minX - offset);
+                    Canvas.SetTop(selectionRectangle, minY - offset);
+
+                    selectionRectangle.Width = width;
+                    selectionRectangle.Height = height;
+
+                    selectionRectangle.RenderTransform = new RotateTransform
+                    {
+                        Angle = rotationAngle,
+                        CenterX = (width) / 2,
+                        CenterY = (height) / 2
+                    };
+                }
+                else
+                {
+                    Canvas.SetLeft(selectionRectangle, left - offset);
+                    Canvas.SetTop(selectionRectangle, top - offset);
+                    selectionRectangle.Width = shape.Width + offset * 2;
+                    selectionRectangle.Height = shape.Height + offset * 2;
+                    selectionRectangle.RenderTransform = new RotateTransform
+                    {
+                        Angle = rotationAngle,
+                        CenterX = (shape.Width + offset * 2) / 2,
+                        CenterY = (shape.Height + offset * 2) / 2
+                    };
+                }
 
                 currentLayer.Children.Add(selectionRectangle);
-
                 CreateRotationHandle(shape, ref currentLayer, ref rotationHandle);
             }
         }
@@ -114,6 +138,7 @@ namespace App3
         {
             if (shape == null) return;
 
+            // Создаём новую ручку вращения
             rotationHandle = new Image
             {
                 Width = 20,
@@ -122,10 +147,20 @@ namespace App3
                 Tag = "RotationHandle"
             };
 
-            Canvas.SetLeft(rotationHandle, Canvas.GetLeft(shape) + shape.Width / 2 - rotationHandle.Width / 2);
-            Canvas.SetTop(rotationHandle, Canvas.GetTop(shape) + shape.Height / 2 - rotationHandle.Height / 2);
+            if (shape.Tag is LineFigure line)
+            {
+                double centerX = (line.X + line.X2) / 2;
+                double centerY = (line.Y + line.Y2) / 2;
 
-            // Добавляем "ручку" на канвас
+                Canvas.SetLeft(rotationHandle, centerX - rotationHandle.Width / 2);
+                Canvas.SetTop(rotationHandle, centerY - rotationHandle.Height / 2);
+            }
+            else
+            {
+                Canvas.SetLeft(rotationHandle, Canvas.GetLeft(shape) + shape.Width / 2 - rotationHandle.Width / 2);
+                Canvas.SetTop(rotationHandle, Canvas.GetTop(shape) + shape.Height / 2 - rotationHandle.Height / 2);
+            }
+
             currentLayer.Children.Add(rotationHandle);
         }
 

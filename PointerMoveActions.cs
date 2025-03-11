@@ -16,7 +16,7 @@ using static App3.SelectionFunctions;
 
 namespace App3
 {
-    // <summary>
+    /// <summary>
     /// Модуль, содержащий функции работы с объектами при движении курсора
     /// </summary>
     internal static class PointerMoveActions
@@ -108,8 +108,11 @@ namespace App3
                 // line
                 if (selectedShape.Tag is LineFigure line)
                 {
-                    double dx = currentPoint.X - startPoint.X;
-                    double dy = currentPoint.Y - startPoint.Y;
+                    double centerX = (line.X + line.X2) / 2;
+                    double centerY = (line.Y + line.Y2) / 2;
+
+                    double dx = currentPoint.X - centerX;
+                    double dy = currentPoint.Y - centerY;
 
                     line.X += dx;
                     line.Y += dy;
@@ -120,6 +123,8 @@ namespace App3
                     line.Draw(previewLayer);
 
                     previewFigure = line;
+
+                    startPoint = currentPoint;
                 }
                 // other figures
                 else if (selectedShape.Tag is Figure figure)
@@ -174,6 +179,14 @@ namespace App3
                 SolidColorBrush fillColorBrush = (SolidColorBrush)selectedShape.Fill;
                 SolidColorBrush strokeColorBrush = (SolidColorBrush)selectedShape.Stroke;
 
+                if (previewFigure == null)
+                {
+                    previewFigure = figure;
+                    previewFigure.FillColor = selectedShape.Fill;
+                    previewFigure.StrokeColor = selectedShape.Stroke;
+                    previewFigure.StrokeThickness = selectedShape.StrokeThickness;
+                }
+
                 if (resizeDirection == "right")
                 {
                     double dx = currentPoint.X - (x + width);
@@ -215,35 +228,35 @@ namespace App3
                     }
                 }
 
-                if (selectedTool == Tool.Rectangle)
+                if (selectedShape.Tag is RectangleFigure)
                 {
                     previewFigure = new RectangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (figure is CircleFigure)
+                else if (selectedShape.Tag is CircleFigure)
                 {
                     previewFigure = new CircleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.Line)
+                else if (selectedShape.Tag is LineFigure)
                 {
                     previewFigure = new LineFigure(startPoint.X, startPoint.Y, currentPoint.X, currentPoint.Y, fillColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.Triangle)
+                else if (selectedShape.Tag is TriangleFigure)
                 {
                     previewFigure = new TriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.RightTriangle)
+                else if (selectedShape.Tag is RightTriangleFigure)
                 {
                     previewFigure = new RightTriangleFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.Rhombus)
+                else if (selectedShape.Tag is RhombusFigure)
                 {
                     previewFigure = new RhombusFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.GoldenStar)
+                else if (selectedShape.Tag is GoldenStarFigure)
                 {
                     previewFigure = new GoldenStarFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
-                else if (selectedTool == Tool.Person)
+                else if (selectedShape.Tag is PersonFigure)
                 {
                     previewFigure = new PersonFigure(x, y, width, height, fillColorBrush, strokeColorBrush, 2, rotationAngle);
                 }
@@ -253,7 +266,10 @@ namespace App3
 
                 previewLayer.Children.Clear();
 
-                if (previewFigure != null) previewFigure.Draw(previewLayer);
+                if (previewFigure != null)
+                {
+                    previewFigure.Draw(previewLayer);
+                }
 
                 if (previewLayer.Children.Count > 0)
                 {
@@ -280,6 +296,9 @@ namespace App3
                 if (previewFigure == null && selectedShape.Tag is Figure figure)
                 {
                     previewFigure = figure;
+                    previewFigure.FillColor = selectedShape.Fill;
+                    previewFigure.StrokeColor = selectedShape.Stroke;
+                    previewFigure.StrokeThickness = selectedShape.StrokeThickness;
                 }
 
                 if (previewFigure == null) return;
@@ -290,7 +309,6 @@ namespace App3
                 {
                     startMousePoint = transform.Angle;
                 }
-
 
                 if (previousPoint.Y < currentPoint.Y)
                 {

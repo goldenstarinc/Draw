@@ -1,1 +1,1 @@
-K:\MyDesktop\GitHub\Photoshop_2\App3.csproj;x64
+C:\Users\mymat\OneDrive\Desktop\GitHub\Photoshop_2\App3.csproj;x64

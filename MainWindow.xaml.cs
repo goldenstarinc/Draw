@@ -272,9 +272,9 @@ namespace App3
             startPoint = currentPoint;
             
             // drag / resize / remove selection
-            if (selectedShape != null)
+            if (selectedShape != null && selectionRectangle != null)
             {
-                if (IsOnBorder(currentPoint, selectedShape, out resizeDirection))
+                if (IsOnBorder(currentPoint, selectionRectangle, out resizeDirection) && selectedShape.Tag is not LineFigure)
                 {
                     SetActive(ref isResizing);
                     SetInactive(ref isDrawing);
@@ -283,7 +283,7 @@ namespace App3
                     SetInactive(ref isRotating);
                     InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
                 }
-                else if (IsInCenter(currentPoint, selectedShape))
+                else if (IsInCenter(currentPoint, selectionRectangle))
                 {
                     SetActive(ref isRotating);
                     SetInactive(ref isDragging);
@@ -292,7 +292,7 @@ namespace App3
                     SetInactive(ref isCreatingFigure);
                     InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
                 }
-                else if (IsPointInsideElement(currentPoint, selectedShape))
+                else if (IsPointInsideElement(currentPoint, selectionRectangle))
                 {
                     SetActive(ref isDragging);
                     SetInactive(ref isDrawing);

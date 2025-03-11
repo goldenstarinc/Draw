@@ -28,23 +28,26 @@ namespace App3
         public static CanvasDto SerializeCanvas(CustomCanvas canvas)
         {
             var dto = new CanvasDto();
+            bool newBrush = true;
 
             foreach (UIElement child in canvas.Children)
             {
-                if (child is Shape shape)
+                if (child is Shape shape && shape.Tag is Figure figure)
                 {
-                    var brush = shape.Fill as SolidColorBrush;
-                    var color = brush?.Color.ToString();
-                    var stroke = shape.Stroke as SolidColorBrush;
-                    var strokeColor = stroke?.Color.ToString();
-                    double rotationAngle = 0;
+                    // get fill color
+                    SolidColorBrush? fillColorBrush = figure.FillColor as SolidColorBrush;
+                    fillColorBrush = fillColorBrush ?? new SolidColorBrush(Colors.White);
+                    string fillColor = fillColorBrush.Color.ToString();
 
-                    if (shape.Tag is Figure figure)
-                    {
-                        rotationAngle = figure.RotationAngle;
-                    }
+                    // get stroke color
+                    SolidColorBrush? strokeColorBrush = figure.StrokeColor as SolidColorBrush;
+                    strokeColorBrush = strokeColorBrush ?? new SolidColorBrush(Colors.Black);
+                    string strokeColor = strokeColorBrush.Color.ToString();
 
-                    if (shape.Name != "")
+                    // get rotation angle
+                    double rotationAngle = figure.RotationAngle;
+
+                    if (figure is not LineFigure)
                     {
                         CanvasChildDto childDto = new CanvasChildDto
                         {
@@ -53,31 +56,60 @@ namespace App3
                             Height = shape.Height,
                             Left = CustomCanvas.GetLeft(shape),
                             Top = CustomCanvas.GetTop(shape),
-                            FillColor = color,
+                            FillColor = fillColor,
                             StrokeColor = strokeColor,
                             StrokeThickness = shape.StrokeThickness,
                             RotationAngle = rotationAngle
                         };
+
                         dto.Children.Add(childDto);
                     }
-                    else if (shape is Polyline line)
+                    else if (figure is LineFigure line)
                     {
-                        foreach (var point in line.Points)
+                        CanvasChildDto childDto = new CanvasChildDto
                         {
-                            CanvasChildDto childDto = new CanvasChildDto
-                            {
-                                Name = line.Name,
-                                Left = point.X,
-                                Top = point.Y,
-                                FillColor = Colors.Black.ToString(),
-                                StrokeColor = strokeColor,
-                                StrokeThickness = line.StrokeThickness,
-                                RotationAngle = 0
-                            };
-                            dto.Children.Add(childDto);
-                        }
+                            Name = shape.Name,
+                            Width = line.X2,
+                            Height = line.Y2,
+                            Left = line.X,
+                            Top = line.Y,
+                            FillColor = fillColor,
+                            StrokeColor = strokeColor,
+                            StrokeThickness = shape.StrokeThickness,
+                            RotationAngle = rotationAngle
+                        };
+
+                        dto.Children.Add(childDto);
                     }
                 }
+                else if (child is Shape currentShape && currentShape != null && currentShape is Polyline line)
+                {
+                    // get stroke color
+                    SolidColorBrush? strokeColorBrush = currentShape.Stroke as SolidColorBrush;
+                    strokeColorBrush = strokeColorBrush ?? new SolidColorBrush(Colors.Black);
+                    string strokeColor = strokeColorBrush.Color.ToString();
+
+
+                    foreach (var point in line.Points)
+                    {
+                        CanvasChildDto childDto = new CanvasChildDto
+                        {
+                            Name = line.Name,
+                            Left = point.X,
+                            Top = point.Y,
+                            Width = !newBrush ? dto.Children.Last().Left : point.X,
+                            Height = !newBrush ? dto.Children.Last().Top : point.Y,
+                            FillColor = Colors.Black.ToString(),
+                            StrokeColor = strokeColor,
+                            StrokeThickness = line.StrokeThickness,
+                            RotationAngle = 0
+                        };
+                        if(newBrush)
+                            newBrush = false;
+                        dto.Children.Add(childDto);
+                    }
+                }
+                newBrush = true;
             }
             return dto;
         }
@@ -92,8 +124,8 @@ namespace App3
             string json = "";
             foreach (CustomCanvas canvas in layerManager.GetAllLayers())
             {
-                var dto = SerializeCanvas(canvas);
-                json += Newtonsoft.Json.JsonConvert.SerializeObject(dto, Formatting.Indented);
+                CanvasDto dto = SerializeCanvas(canvas);
+                json += JsonConvert.SerializeObject(dto, Formatting.Indented);
                 json += ";";
             }
             json = json.Remove(json.Length - 1);
@@ -107,18 +139,16 @@ namespace App3
         /// <returns>Десериализованный канвас</returns>
         public static CustomCanvas? DeserializeCanvas(string json)
         {
-            CanvasDto? dto = JsonConvert.DeserializeObject<CanvasDto>(json);
+            CanvasDto? canvasDto = JsonConvert.DeserializeObject<CanvasDto>(json);
 
-            if (dto == null) return null;
+            if (canvasDto == null) return null;
 
-            double previousX = 0;
-            double previousY = 0;
-            string previousName = " ";
+            CustomCanvas canvas = new CustomCanvas();
 
-            var canvas = new CustomCanvas();
-            foreach (CanvasChildDto childDto in dto.Children)
+            foreach (CanvasChildDto childDto in canvasDto.Children)
             {
-                Figure? child = null;
+                Figure? figure = null;
+
                 byte aF = 0, rF = 0, gF = 0, bF = 0;
 
                 if (childDto.Name != "Line" && childDto.Name != "")
@@ -137,43 +167,32 @@ namespace App3
                 switch (childDto.Name.ToLower())
                 {
                     case "rectangle":
-                        child = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new RectangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "circle":
-                        child = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new CircleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "triangle":
-                        child = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new TriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "righttriangle":
-                        child = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new RightTriangleFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "goldenstar":
-                        child = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new GoldenStarFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "rhombus":
-                        child = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new RhombusFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "line":
-                        child = new LineFigure(childDto.Left, childDto.Top, childDto.Left + childDto.Width, childDto.Top + childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
+                        figure = new LineFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
                     case "":
-                        if (previousName != "")
-                        {
-                            previousX = childDto.Left;
-                            previousY = childDto.Top;
-                        }
-                        child = new LineFigure(previousX, previousY, childDto.Left, childDto.Top, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness + 2, 0);
-                        previousY = childDto.Top;
-                        previousX = childDto.Left;
+                        figure = new LineFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, 0);
                         break;
                 }
 
-                if (child != null)
-                {
-                    child.Draw(canvas);
-                }
-                previousName = childDto.Name;
+                if (figure != null) figure.Draw(canvas);
             }
 
             return canvas;
