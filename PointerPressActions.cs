@@ -12,6 +12,7 @@ using static App3.MainWindow;
 using Windows.UI;
 using Windows.Foundation;
 using GraphicsLibrary;
+using Microsoft.UI.Xaml;
 
 namespace App3
 {
@@ -52,11 +53,16 @@ namespace App3
                     selectedColor = ((SolidColorBrush)line.Stroke).Color;
                     colorPicker.Color = selectedColor;
                 }
-                else
+                else if (e.OriginalSource is Shape shape)
                 {
-                    selectedColor = ((SolidColorBrush)selectedShape.Fill).Color;
+                    selectedColor = ((SolidColorBrush)shape.Fill).Color;
                     colorPicker.Color = selectedColor;
                 }
+            }
+            else if (e.OriginalSource is TextBlock textBlock)
+            {
+                selectedColor = ((SolidColorBrush)textBlock.Foreground).Color;
+                colorPicker.Color = selectedColor;
             }
             else if (e.OriginalSource is Canvas selectedCanvas)
             {
@@ -84,7 +90,7 @@ namespace App3
                 StrokeThickness = selectedStrokeThickness
             };
 
-            if (selectedTool == Tool.Eraser) // ?????????????????????
+            if (selectedTool == Tool.Eraser)
             {
                 currentStroke.Stroke = new SolidColorBrush(Colors.White);
             }
@@ -92,6 +98,82 @@ namespace App3
             currentStroke.Points.Add(point);
 
             currentLayer.Children.Add(currentStroke);
+        }
+
+        /// <summary>
+        /// Функция, отвечающая за написание создание текстбокса
+        /// </summary>
+        /// <param name="currentPoint">Текущая позиция курсора</param>
+        /// <param name="textBox">Текстбокс</param>
+        /// <param name="currentLayer">Текущий слой</param>
+        /// <param name="selectedColor">Выбранный цвет</param>
+        internal static void TypeText(Point currentPoint, ref TextBox? textBox, ref Canvas? currentLayer, Color selectedColor)
+        {
+            if (currentLayer == null) return;
+
+            textBox = new TextBox
+            {
+                PlaceholderText = "Введите текст...",
+                Width = 200,
+                Height = 50,
+                FontSize = 25,
+                Margin = new Thickness(5),
+                FontFamily = new FontFamily("Segoe UI"),
+                Foreground = new SolidColorBrush(selectedColor)
+            };
+
+            Canvas.SetLeft(textBox, currentPoint.X - textBox.Height / 2 + 5);
+            Canvas.SetTop(textBox, currentPoint.Y - textBox.Height / 2);
+
+            textBox.LostFocus += TextBox_LostFocus;
+            textBox.KeyDown += TextBox_KeyDown;
+
+            currentLayer.Children.Add(textBox);
+
+            textBox.Focus(FocusState.Programmatic);
+        }
+
+        /// <summary>
+        /// Функция, срабатывающая при потере фокуса текстбоксом
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
+        private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox && textBox.Parent is Canvas canvas)
+            {
+                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    var textBlock = new TextBlock
+                    {
+                        Text = textBox.Text,
+                        FontSize = textBox.FontSize,
+                        FontFamily = textBox.FontFamily,
+                        Foreground = textBox.Foreground,
+                        Margin = textBox.Margin
+                    };
+
+                    Canvas.SetLeft(textBlock, Canvas.GetLeft(textBox));
+                    Canvas.SetTop(textBlock, Canvas.GetTop(textBox));
+
+                    canvas.Children.Add(textBlock);
+                }
+
+                canvas.Children.Remove(textBox);
+            }
+        }
+
+        /// <summary>
+        /// Функция, срабатывающая во время нажатия кнопки при активном текстбоксе
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии клавиши</param>
+        private static void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (sender is TextBox textBox && e.Key == Windows.System.VirtualKey.Enter)
+            {
+                TextBox_LostFocus(sender, e);
+            }
         }
     }
 }

@@ -3,12 +3,34 @@
   "WorkspaceRootPath": "K:\\MyDesktop\\GitHub\\Photoshop_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\figureclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:figureclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\pointerpressactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:pointerpressactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\canvasserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:canvasserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\notso\\Downloads\\1.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\notso\\Downloads\\canvas.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\pointermoveactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:pointermoveactions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|k:\\mydesktop\\github\\photoshop_2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC757B81-9CFC-434D-B5F3-835973EA13E5}|App3.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +40,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1855,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,26 +56,100 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FigureClass.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\FigureClass.cs",
+              "RelativeDocumentMoniker": "FigureClass.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\FigureClass.cs",
+              "RelativeToolTip": "FigureClass.cs",
+              "ViewState": "AgIAAP0AAAAAAAAAAADwvwkBAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T11:50:10.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "1.json",
+              "DocumentMoniker": "C:\\Users\\notso\\Downloads\\1.json",
+              "ToolTip": "C:\\Users\\notso\\Downloads\\1.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-12T11:35:21.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "canvas.json",
+              "DocumentMoniker": "C:\\Users\\notso\\Downloads\\canvas.json",
+              "ToolTip": "C:\\Users\\notso\\Downloads\\canvas.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-12T11:24:13.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CanvasSerializer.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\CanvasSerializer.cs",
+              "RelativeDocumentMoniker": "CanvasSerializer.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\CanvasSerializer.cs",
+              "RelativeToolTip": "CanvasSerializer.cs",
+              "ViewState": "AgIAANcAAAAAAAAAAAAhwPEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T11:20:21.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PointerMoveActions.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerMoveActions.cs",
+              "RelativeDocumentMoniker": "PointerMoveActions.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerMoveActions.cs",
+              "RelativeToolTip": "PointerMoveActions.cs",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAkwKUAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T10:34:10.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "PointerPressActions.cs",
+              "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerPressActions.cs",
+              "RelativeDocumentMoniker": "PointerPressActions.cs",
+              "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\PointerPressActions.cs",
+              "RelativeToolTip": "PointerPressActions.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAEwCYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T09:00:44.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-03-11T17:35:06.727Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "K:\\MyDesktop\\GitHub\\Photoshop_2\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAOsBAAAAAAAAAAAkwPsBAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAAwG0BAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-11T17:33:49.245Z",
               "EditorCaption": ""

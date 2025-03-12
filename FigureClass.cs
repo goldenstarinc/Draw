@@ -262,10 +262,10 @@ namespace GraphicsLibrary
             {
                 Points = new PointCollection
                 {
-                    new Point(1 + Width / 2, 1),
-                    new Point(1 + Width, 1 + Height / 2),
-                    new Point(1 + Width / 2, 1 + Height),
-                    new Point(1, 1 + Height / 2)
+                    new Point(Width / 2, 1),
+                    new Point(Width - 1, Height / 2),
+                    new Point(Width / 2, Height - 1),
+                    new Point(1, Height / 2)
                 },
                 Fill = FillColor,
                 Stroke = StrokeColor,

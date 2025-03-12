@@ -12,6 +12,7 @@ using System.IO;
 using Windows.UI;
 using Newtonsoft;
 using GraphicsLibrary;
+using Microsoft.UI.Xaml.Controls;
 
 namespace App3
 {
@@ -109,6 +110,31 @@ namespace App3
                         dto.Children.Add(childDto);
                     }
                 }
+                else if (child is TextBlock textBlock)
+                {
+                    // get foreground color
+                    SolidColorBrush? foregroundColorBrush = textBlock.Foreground as SolidColorBrush;
+                    foregroundColorBrush = foregroundColorBrush ?? new SolidColorBrush(Colors.Black);
+                    string foregroundColor = foregroundColorBrush.Color.ToString();
+
+                    CanvasChildDto childDto = new CanvasChildDto
+                    {
+                        Name = "textBlock",
+                        Width = textBlock.ActualWidth,
+                        Height = textBlock.ActualHeight,
+                        Left = Canvas.GetLeft(textBlock),
+                        Top = Canvas.GetTop(textBlock),
+                        FillColor = foregroundColor,
+                        StrokeColor = foregroundColor,
+                        StrokeThickness = 5,
+                        RotationAngle = 0,
+                        Content = textBlock.Text,
+                        FontSize = textBlock.FontSize
+                    };
+
+                    dto.Children.Add(childDto);
+                }
+
                 newBrush = true;
             }
             return dto;
@@ -198,6 +224,22 @@ namespace App3
                     case "octagon":
                         figure = new OctagonFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF)), new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, childDto.RotationAngle);
                         break;
+                    case "textblock":
+                        var textBlock = new TextBlock
+                        {
+                            Text = childDto.Content,
+                            FontSize = childDto.FontSize ?? 14,
+                            FontFamily = FontFamily.XamlAutoFontFamily,
+                            Foreground = new SolidColorBrush(Color.FromArgb(aF, rF, gF, bF))
+                        };
+                        double left = childDto.Left;
+                        double top = childDto.Top;
+
+                        Canvas.SetLeft(textBlock, left);
+                        Canvas.SetTop(textBlock, top);
+
+                        canvas.Children.Add(textBlock);
+                        break; 
                     case "":
                         figure = new LineFigure(childDto.Left, childDto.Top, childDto.Width, childDto.Height, new SolidColorBrush(Color.FromArgb(a, r, g, b)), childDto.StrokeThickness, 0);
                         break;
@@ -262,5 +304,7 @@ namespace App3
         public required string StrokeColor { get; set; }
         public double StrokeThickness { get; set; }
         public double RotationAngle { get; set; }
+        public string? Content { get; set; }
+        public double? FontSize { get; set; }
     }
 }

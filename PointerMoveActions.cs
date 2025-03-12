@@ -1,4 +1,5 @@
 ﻿using GraphicsLibrary;
+using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -107,7 +108,7 @@ namespace App3
         /// <param name="currentLayer">Текущий слой</param>
         /// <param name="previewFigure">Фигура предпросмотра</param>
         /// <param name="selectionRectangle">Выделяющий прямоугольник</param>
-        internal static void Drag(Point currentPoint, Point startPoint, ref Shape? selectedShape, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Figure? previewFigure, ref Rectangle? selectionRectangle, ref Image? rotationHandle)
+        internal static void Drag(Point currentPoint, Point startPoint, ref Shape? selectedShape, ref Canvas? previewLayer, ref Canvas? currentLayer, ref Figure? previewFigure, ref Rectangle? selectionRectangle, ref Image? rotationHandle, ref TextBlock? textBlock)
         {
             if (previewLayer == null || currentLayer == null) return;
 
@@ -157,6 +158,41 @@ namespace App3
                 if (previewLayer.Children.Count > 0)
                 {
                     selectedShape = previewLayer.Children.Last() as Shape;
+                }
+            }
+            else if (textBlock != null)
+            {
+                double left = Canvas.GetLeft(textBlock);
+                double top = Canvas.GetTop(textBlock);
+
+                double centerX = left + textBlock.ActualWidth / 2;
+                double centerY = top + textBlock.ActualHeight / 2;
+
+                double dx = currentPoint.X - centerX;
+                double dy = currentPoint.Y - centerY;
+
+                var newTextBlock = new TextBlock
+                {
+                    Text = textBlock.Text,
+                    FontSize = textBlock.FontSize,
+                    FontFamily = textBlock.FontFamily,
+                    Foreground = textBlock.Foreground,
+                    Margin = textBlock.Margin
+                };
+
+                Canvas.SetLeft(newTextBlock, currentPoint.X - newTextBlock.ActualWidth / 2);
+                Canvas.SetTop(newTextBlock, currentPoint.Y - newTextBlock.ActualHeight / 2);
+
+                previewLayer.Children.Clear();
+                previewLayer.Children.Add(newTextBlock);
+
+                startPoint = currentPoint;
+
+                currentLayer.Children.Remove(textBlock);
+
+                if (previewLayer.Children.Count > 0)
+                {
+                    textBlock = previewLayer.Children.Last() as TextBlock;
                 }
             }
         }

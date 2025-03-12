@@ -86,8 +86,6 @@ namespace App3
 
         private string resizeDirection = "";
 
-        private TextBox? inputTextBox;
-
         private Button? selectedButton;
 
         private Image? rotationHandle;
@@ -97,6 +95,10 @@ namespace App3
         private double currentRotationAngle = 0;
 
         private Point previousPoint;
+
+        private TextBox? inputTextBox;
+
+        private TextBlock? textBlock;
 
         internal static HashSet<Tool> availableShapes = [Tool.Rectangle, Tool.Circle, Tool.Triangle, Tool.RightTriangle, Tool.Rhombus, Tool.GoldenStar, Tool.Person, Tool.Line, Tool.Square, Tool.Octagon];
         
@@ -285,6 +287,8 @@ namespace App3
         /// <summary>
         /// Метод, отслеживающий одиночное нажатие курсора
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             Point currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
@@ -327,6 +331,15 @@ namespace App3
                 }
                 return;
             }
+            else if (textBlock != null)
+            {
+                SetActive(ref isDragging);
+                SetInactive(ref isDrawing);
+                SetInactive(ref isResizing);
+                SetInactive(ref isCreatingFigure);
+                SetInactive(ref isRotating);
+                InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
+            }
 
             // brush / eraser
             if (selectedTool == Tool.Brush || selectedTool == Tool.Eraser)
@@ -350,11 +363,17 @@ namespace App3
             {
                 PickColor(ref e, ref colorPicker, ref selectedColor);
             }
+            else if (selectedTool == Tool.Text && e.OriginalSource is not TextBlock)
+            {
+                TypeText(currentPoint, ref inputTextBox, ref currentLayer, selectedColor);
+            }
         }
 
         /// <summary>
         /// Метод, отслеживающий одиночное движение курсора
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             Point currentPoint = e.GetCurrentPoint(DrawingCanvas).Position;
@@ -379,7 +398,7 @@ namespace App3
             // drag
             else if (IsActive(isDragging))
             {
-                Drag(currentPoint, startPoint, ref selectedShape, ref previewLayer, ref currentLayer, ref previewFigure, ref selectionRectangle, ref rotationHandle);
+                Drag(currentPoint, startPoint, ref selectedShape, ref previewLayer, ref currentLayer, ref previewFigure, ref selectionRectangle, ref rotationHandle, ref textBlock);
             }
             // resize
             else if (IsActive(isResizing))
@@ -391,7 +410,7 @@ namespace App3
         /// <summary>
         /// Функция, отвечающая за смену курсора
         /// </summary>
-        /// <param name="e">Аргументы курсора</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         /// <param name="currentPoint">Текущее положение курсора</param>
         private void ChangeCursorState(PointerRoutedEventArgs e, Point currentPoint)
         {
@@ -419,6 +438,8 @@ namespace App3
         /// <summary>
         /// Метод, отслеживающий отжатие курсора
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (currentLayer == null) return;
@@ -443,34 +464,83 @@ namespace App3
                 previewFigure = null;
                 previewLayer?.Children.Clear();
             }
+
+            if (currentLayer != null && (previewFigure != null || textBlock != null))
+            {
+                if (previewFigure != null)
+                {
+                    previewFigure.Draw(currentLayer);
+
+                    // чтобы только что нарисованная фигура не помечалась как выбранная
+                    if (selectedShape != null) selectedShape = currentLayer.Children.Last() as Shape;
+
+                    previewFigure = null;
+                }
+                else if (textBlock != null)
+                {
+                    double left = Canvas.GetLeft(textBlock);
+                    double top = Canvas.GetTop(textBlock);
+
+                    var newTextBlock = new TextBlock
+                    {
+                        Text = textBlock.Text,
+                        FontSize = textBlock.FontSize,
+                        FontFamily = textBlock.FontFamily,
+                        Foreground = textBlock.Foreground,
+                        Margin = textBlock.Margin
+                    };
+
+                    Canvas.SetLeft(newTextBlock, left);
+                    Canvas.SetTop(newTextBlock, top);
+
+                    currentLayer.Children.Add(newTextBlock);
+
+                    if (textBlock != null) textBlock = currentLayer.Children.Last() as TextBlock;
+
+                    textBlock = null;
+                }
+
+                previewLayer?.Children.Clear();
+            }
+
             DestroyPreviewLayer(ref previewLayer, ref DrawingCanvas);
         }
 
         /// <summary>
         /// Метод, отслеживающий двойное нажатие
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void Canvas_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (e.OriginalSource is Shape shape && shape.Tag is Figure figure)
             {
-                SetInactive(ref isDrawing);
-                SetInactive(ref isResizing);
-                SetInactive(ref isCreatingFigure);
-                SetInactive(ref isRotating);
-                SetActive(ref isDragging);
-
-                currentRotationAngle = 0;
                 selectedShape = shape;
-                InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
-                DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer, ref rotationHandle, ref currentRotationAngle);
-
+                SetActive(ref isDragging);
                 ChangeCursor(CursorStates.Default, ref DrawingCanvas);
             }
+            else if (e.OriginalSource is TextBlock currentTextBlock)
+            {
+                textBlock = currentTextBlock;
+                SetActive(ref isDragging);
+            }
+
+            SetInactive(ref isDrawing);
+            SetInactive(ref isResizing);
+            SetInactive(ref isCreatingFigure);
+            SetInactive(ref isRotating);
+
+            currentRotationAngle = 0;
+
+            InitializePreviewLayer(ref previewLayer, ref DrawingCanvas, defaultCanvasColor);
+            DrawSelectionRectangle(selectedShape, ref selectionRectangle, ref currentLayer, ref rotationHandle, ref currentRotationAngle);
         }
 
         /// <summary>
-        /// Метод, отслеживающий нажатие клавиши
+        /// Метод, отслеживающий нажатие клавиши клавиатуры
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии клавиши</param>
         private void Canvas_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (selectionRectangle != null && e.Key == Windows.System.VirtualKey.Delete)
@@ -480,15 +550,19 @@ namespace App3
                 SetInactive(ref isDragging);
             }
         }
-       
+
         /// <summary>
-        /// Если курсор зашел на слой
+        /// Функция, вызывающаяся при попадании курсора на слой
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void CustomCanvas_PointerEntered(object sender, PointerRoutedEventArgs e) => ChangeCursor(CursorStates.Drawing, ref DrawingCanvas);
 
         /// <summary>
-        /// Если курсор покинул слой
+        /// Функция, вызывающаяся при покидании курсором слоя
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события, содержащие информацию о нажатии</param>
         private void CustomCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             Canvas_PointerReleased(sender, e);
@@ -498,8 +572,10 @@ namespace App3
         #region LAYERS
 
         /// <summary>
-        /// Выбор номера слоя
+        /// Функция, ответственная за выбор номера слоя
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -520,8 +596,10 @@ namespace App3
         }
 
         /// <summary>
-        /// Добавление слоя
+        /// Функция, ответственная за кнопку добавления слоя
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private void PlusButton_Click(object sender, RoutedEventArgs e)
         {
             AddLayer(ref _layerManager, ref DrawingCanvas, ref previewLayer, defaultCanvasColor, Canvas_DoubleTapped);
@@ -552,8 +630,10 @@ namespace App3
         }
 
         /// <summary>
-        /// Удаление слоя
+        /// Функция, ответственная за кнопку удаления слоя
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private void MinusButton_Click(object sender, RoutedEventArgs e)
         {
             int indexToRemove = currentLayerIndex;
@@ -581,10 +661,12 @@ namespace App3
                 button.Content = startIndex++;
             }
         }
-        
+
         /// <summary>
         /// Метод, срабатывающий при изменении размера канваса
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private void OnDrawingCanvasSizeChanged(object sender, SizeChangedEventArgs e) => UpdateCanvasSizes(ref _layerManager, ref DrawingCanvas);
 
         #endregion
@@ -660,8 +742,10 @@ namespace App3
         #region FILE-PANEL
 
         /// <summary>
-        /// Создание нового файла
+        /// Функция, ответственная за создание нового файла
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private void NewFile_Click(object sender, RoutedEventArgs e)
         {
             if (DrawingCanvas == null || _layerManager == null) return;
@@ -684,8 +768,10 @@ namespace App3
         }
 
         /// <summary>
-        /// Функция для открытия файла
+        /// Функция, ответственная за открытие файла
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private async void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             NewFile_Click(sender, e);
@@ -734,8 +820,10 @@ namespace App3
         }
 
         /// <summary>
-        /// Функция для сохранения файла
+        /// Функция, ответственная за сохранение файла
         /// </summary>
+        /// <param name="sender">Объект, вызвавший событие</param>
+        /// <param name="e">Аргументы события</param>
         private async void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             if (_layerManager == null) return;
